@@ -26,7 +26,12 @@
     "activitylog": "Activity Log",
     "toggle_language": "Toggle Language",
     "collapse_menu": "Collapse Menu",
-    "support_tickets": "Support Tickets"
+    "support_tickets": "Support Tickets",
+    "properties": "Properties",
+    "floors": "Floors",
+    "units": "Units",
+    "tenants": "Tenants",
+    "properties_section": "Property Management"
   },
   "auth": {
     "login": "Login",
@@ -238,11 +243,26 @@
       "paymentTerms": "Payment Terms",
       "currency": "Currency",
       "notes": "Notes",
+      "creditLimit":"Credit Limit",
       "notesPlaceholder": "Enter notes about this client...",
       "status": "Status"
     }
   },
   "invoices": {
+      "basic_info": "Basic Information",
+      "invoice_number": "Invoice Number",
+      "remaining_credit": "Remaining Credit",
+      "credit_limit_warning": "This invoice exceeds the client's remaining credit limit.",
+      "add_item": "Add Item",
+      "item": "Item",
+      "description_placeholder": "Example: Consulting Service",
+      "unit_price": "Unit Price",
+      "items_hint": "Complete the description and quantity for each item before continuing.",
+      "payment_settings": "Payment & Extras",
+      "tax_rate": "Tax Rate",
+      "stripe_description": "Allow the client to pay this invoice through Stripe Checkout.",
+      "review": "Review",
+    "markAsPaid": "Mark as Paid",
     "fetch_failed": "Failed to fetch invoices",
     "fetch_one_failed": "Failed to fetch invoice data",
     "create_failed": "Failed to create invoice",
@@ -326,6 +346,13 @@
     "status_distribution": "Invoice Status Distribution",
     "total_amount": "Total Amount",
     "quick_create": "Quickly create a new invoice",
+
+  "steps": {
+    "basic": "Basic Info",
+    "items": "Items",
+    "payment": "Payment",
+    "review": "Review"
+  },
     "payment": {
       "paymentOptions": "Payment Options",
       "securePayment": "Secure Payment",
@@ -410,7 +437,12 @@
       "payment_date": "Payment Date",
       "items_count": "Number of items",
       "invoice": "INVOICE",
-      "description_placeholder": "Item description..."
+      "remaining_credit":"Remaining Credit",
+      "description_placeholder": "Item description...",
+      "stripe_checkout":"Stripe Checkout",
+      "description":"Description",
+      "unit_price":"Unit Price",
+      "creditLimitHint":"Credit Limit Hint"
     },
     "messages": {
       "statusUpdated": "Invoice status updated successfully",
@@ -429,6 +461,8 @@
       "reportExported": "Report exported successfully",
       "filtersReset": "Filters reset successfully",
       "reminderSent": "Reminder sent successfully",
+       "created": "Invoice created successfully.",
+      "error": "Failed to create invoice.",
       "invoicePaid": "Invoice marked as paid successfully"
     },
     "table": {
@@ -552,6 +586,7 @@
     "delete_confirm": "Are you sure you want to delete the group \"{name}\"? This action cannot be undone."
   },
   "common": {
+    "enabled": "Enabled",
     "clear": "Clear",
     "step": "Step",
     "itemTotal": "Item Total",
@@ -729,7 +764,9 @@
     "email_invalid": "Invalid email address",
     "subject_required": "Subject is required",
     "message_required": "Message is required",
-    "message_too_long": "Message is too long (1000 characters max)"
+    "message_too_long": "Message is too long (1000 characters max)",
+        "client_required": "Please select a client."
+
   },
   "permissions": {
     "fetch_one_failed": "Failed to fetch permission",
@@ -1287,7 +1324,10 @@
     "contact_legal": "For inquiries regarding the terms and conditions"
   },
   "footer": {
-    "support": "Support"
+    "support": "Support",
+    "privacy":"Privacy",
+    "terms":"Terms",
+    "rights_reserved":"Rights Reserved"
   },
   "recurringInvoices": {
     "title": "Recurring Invoices",
@@ -1325,10 +1365,155 @@
     "delete_confirm_text": "This action cannot be undone."
   },
   "branch": {
-  "select_branch": "Select Branch",
-  "your_branches": "Your Branches",
-  "select_to_filter": "Select a branch to filter data",
-  "manage_branches": "Manage Branches",
-  "branch_changed": "Branch changed to {branch}"
+    "main": "Main",
+    "select_branch": "Select Branch",
+    "your_branches": "Your Branches",
+    "select_to_filter": "Select a branch to filter data",
+    "manage_branches": "Manage Branches",
+    "branch_changed": "Branch changed to {branch}",
+    "add_branch": "Add Branch",
+    "title": "Title",
+    "subtitle": "Subtitle"
+  },
+  "installments": {
+    "offer_hint": "You will be able to set up an installment plan after saving the invoice.",
+    "create_offer_description": "Split the invoice amount into multiple payments.",
+    "not_available_for_draft": "Installment plans are not available for draft invoices.",
+    "will_offer_after_save": "Will be offered after saving the invoice.",
+    "create_and_setup_plan": "Create & Set Up Plan",
+    "interest_amount": "Interest Amount",
+    "original_amount": "Original Amount",
+    "total_amount": "Total Amount",
+    "cancel_plan": "Cancel Plan",
+    "due_date": "Due Date",
+    "title": "Installments",
+    "cancelPlan": "Cancel Plan",
+    "originalAmount": "Original Amount",
+    "interestAmount": "Interest Amount",
+    "totalAmount": "Total Amount",
+    "dueDate": "Due Date",
+    "no_plan": "No Plan",
+    "create_plan": "Create Plan",
+    "amount": "Amount",
+    "mark_paid": "Mark as Paid",
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "paid": "Paid",
+      "overdue": "Overdue"
+    }
+  },
+  "payment_links": {
+    "title": "Title",
+    "generate_new": "Generate New",
+    "amount": "Amount",
+    "expires_in_days": "Expires In Days",
+    "existing_links": "Existing Links",
+    "generate": "Generate",
+    "no_links": "No Links",
+    "expires_at": "Expires At",
+    "status": {
+      "undefined": "undefined"
+    }
+  },
+  "realty": {
+    "common": {
+      "search": "Search...",
+      "all": "All",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving...",
+      "select": "Select...",
+      "none": "— None —",
+      "saved": "Saved successfully",
+      "deleted": "Deleted successfully",
+      "error": "An unexpected error occurred",
+      "confirm_delete": "Are you sure you want to delete?",
+      "prev": "Previous",
+      "next": "Next",
+      "showing": "Showing {from} - {to} of {total}"
+    },
+    "property": {
+      "title": "Properties",
+      "subtitle": "Manage properties and buildings",
+      "add": "Add Property",
+      "edit": "Edit Property",
+      "empty": "No properties yet",
+      "name": "Property Name",
+      "name_en": "Name (English)",
+      "city": "City",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "notes": "Notes",
+      "floors_count": "Floors"
+    },
+    "floor": {
+      "title": "Floors",
+      "subtitle": "Manage property floors",
+      "add": "Add Floor",
+      "edit": "Edit Floor",
+      "empty": "No floors yet",
+      "property": "Property",
+      "name": "Floor Name",
+      "name_en": "Name (English)",
+      "floor_number": "Floor Number",
+      "description": "Description",
+      "units_count": "Units"
+    },
+    "unit": {
+      "title": "Units",
+      "subtitle": "Manage units and shops",
+      "add": "Add Unit",
+      "edit": "Edit Unit",
+      "empty": "No units yet",
+      "floor": "Floor",
+      "name": "Unit Name / Number",
+      "area": "Area (m²)",
+      "monthly_rent": "Monthly Rent",
+      "description": "Description",
+      "tenant": "Tenant"
+    },
+    "tenant": {
+      "title": "Tenants",
+      "subtitle": "Manage tenants and assign them to units",
+      "add": "Add Tenant",
+      "edit": "Edit Tenant",
+      "empty": "No tenants yet",
+      "unit": "Unit",
+      "name": "Tenant Name",
+      "phone": "Phone",
+      "email": "Email",
+      "id_number": "ID Number",
+      "notes": "Notes"
+    }
+  },
+  "currency":{
+    "sar":"SAR"
+  },
+"otp": {
+  "title": "Login with Verification Code",
+  "subtitle": "A 6-digit verification code will be sent to your email",
+  "emailLabel": "Email Address",
+  "emailPlaceholder": "example@company.com",
+  "sending": "Sending...",
+  "sendCode": "Send Verification Code",
+  "or": "Or",
+  "loginWithPassword": "Login with Password",
+  "codeSentTo": "The code was sent to",
+  "codeLabel": "Verification Code",
+  "verifying": "Verifying...",
+  "verifyCode": "Verify Code",
+  "didntReceive": "Didn't receive the code?",
+  "resendAfter": "Resend after {seconds}s",
+  "resend": "Resend",
+  "changeEmail": "Change Email"
 }
+
 }

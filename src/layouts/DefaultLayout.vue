@@ -394,6 +394,51 @@
             ></div>
           </router-link>
 
+          <!-- Property Management -->
+          <template v-if="propertyNavItems.length">
+            <div v-if="sidebarOpen" class="pt-4 mt-2 border-t border-slate-700/50">
+              <p class="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                {{ t('nav.properties_section', 'Property Management') }}
+              </p>
+            </div>
+            <div v-else class="pt-2 mt-2 border-t border-slate-700/50 mx-2"></div>
+
+            <router-link
+              v-for="item in propertyNavItems"
+              :key="item.to"
+              :to="item.to"
+              @click="closeSidebarOnMobile"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative"
+              :class="[
+                !sidebarOpen && !isMobile ? 'justify-center' : '',
+                $route.path === item.to || $route.path.startsWith(item.to + '/')
+                  ? 'bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-sm shadow-teal-500/10'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
+              ]"
+              :title="!sidebarOpen && !isMobile ? t(item.label) : ''"
+            >
+              <svg
+                class="w-5 h-5 flex-shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path :d="item.icon" />
+              </svg>
+              <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
+                {{ t(item.label) }}
+              </span>
+              <div
+                v-if="$route.path === item.to || $route.path.startsWith(item.to + '/')"
+                class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-teal-500"
+                :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"
+              ></div>
+            </router-link>
+          </template>
+
           <!-- Reports -->
           <router-link
             v-if="hasPermission('view_sales_report')"
@@ -945,12 +990,26 @@ export default {
     selectedBranchId() {
       return this.$store.state.branch?.selectedBranchId
     },
+    // ── عناصر قسم العقارات في السايدبار (حسب الصلاحيات) ──
+    propertyNavItems() {
+      const items = [
+        { to: '/properties', label: 'nav.properties', perm: 'view_properties', icon: 'M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21' },
+        { to: '/floors', label: 'nav.floors', perm: 'view_floors', icon: 'M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3' },
+        { to: '/units', label: 'nav.units', perm: 'view_units', icon: 'M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z' },
+        { to: '/tenants', label: 'nav.tenants', perm: 'view_tenants', icon: 'M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z' },
+      ]
+      return items.filter((item) => this.hasPermission(item.perm))
+    },
     pageTitle() {
       const path = this.$route.path
       const routeMap = {
         '/dashboard': 'nav.dashboard',
         '/invoices': 'nav.invoices',
         '/clients': 'nav.clients',
+        '/properties': 'nav.properties',
+        '/floors': 'nav.floors',
+        '/units': 'nav.units',
+        '/tenants': 'nav.tenants',
         '/reports': 'nav.reports',
         '/users': 'nav.users',
         '/permissions': 'nav.permissions',

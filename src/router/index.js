@@ -130,6 +130,31 @@ const routes = [
         component: () => import('@/views/Clients/EditClient.vue'),
         meta: { permission: 'edit_client' },
       },
+      // Property Management
+      {
+        path: 'properties',
+        name: 'Properties',
+        component: () => import('@/views/Properties/PropertiesIndex.vue'),
+        meta: { permission: 'view_properties' },
+      },
+      {
+        path: 'floors',
+        name: 'Floors',
+        component: () => import('@/views/Floors/FloorsIndex.vue'),
+        meta: { permission: 'view_floors' },
+      },
+      {
+        path: 'units',
+        name: 'Units',
+        component: () => import('@/views/Units/UnitsIndex.vue'),
+        meta: { permission: 'view_units' },
+      },
+      {
+        path: 'tenants',
+        name: 'Tenants',
+        component: () => import('@/views/Tenants/TenantsIndex.vue'),
+        meta: { permission: 'view_tenants' },
+      },
       // Reports
       {
         path: 'reports',

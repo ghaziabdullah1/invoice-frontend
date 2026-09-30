@@ -22,6 +22,10 @@ import paymentLinks from './modules/paymentLinks'
 import support from './modules/support'
 import content from './modules/content'
 import branch from './modules/branch'
+import properties from './modules/properties'
+import floors from './modules/floors'
+import units from './modules/units'
+import tenants from './modules/tenants'
 
 
 
@@ -107,6 +111,10 @@ export default createStore({
     paymentLinks: paymentLinks,
     support: support,
     content: content,
-    branch: branch
+    branch: branch,
+    properties,
+    floors,
+    units,
+    tenants,
   }
 })

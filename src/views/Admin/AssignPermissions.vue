@@ -713,11 +713,11 @@ export default {
   methods: {
     ...mapActions('adminGroups', ['getAdminGroups', 'updateGroupPermissions']),
 
-    ...mapActions('permissions', ['getPermissions']),
+    ...mapActions('permissions', ['fetchPermissions']),
 
     async loadData() {
       try {
-        await Promise.all([this.getAdminGroups(), this.getPermissions()])
+        await Promise.all([this.getAdminGroups(), this.fetchPermissions({ per_page: 100 })])
         this.permissions = this.allPermissions
       } catch (error) {
         console.error('❌ خطأ في تحميل البيانات:', error)

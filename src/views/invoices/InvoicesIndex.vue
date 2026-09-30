@@ -3,24 +3,13 @@
     <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
       <!-- Header -->
       <div class="mb-8">
-        <div
-          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
-        >
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
             <div class="flex items-center gap-3 mb-2">
               <div class="p-2 bg-white rounded-xl shadow-sm border border-gray-200">
-                <svg
-                  class="w-6 h-6 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                  />
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
               <div>
@@ -33,23 +22,11 @@
           </div>
 
           <div class="flex gap-3">
-            <button
-              v-if="hasPermission('create_invoice')"
-              @click="$router.push('/invoices/create')"
-              class="px-4 py-2.5 bg-blue-900 hover:bg-blue-800 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group"
-            >
-              <svg
-                class="w-4 h-4 group-hover:rotate-90 transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 4v16m8-8H4"
-                />
+            <button v-if="hasPermission('create_invoice')" @click="$router.push('/invoices/create')"
+              class="px-4 py-2.5 bg-blue-900 hover:bg-blue-800 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group">
+              <svg class="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
               </svg>
               <span class="font-medium">{{ $t('invoices.create_new') }}</span>
             </button>
@@ -61,19 +38,13 @@
       </div>
 
       <!-- Filters -->
-      <InvoiceFilters
-        v-model="filters"
-        @apply="applyFilters"
-        @search="applyFilters"
-        @clear="handleClearFilters"
-      />
+      <InvoiceFilters v-model="filters" @apply="applyFilters" @search="applyFilters" @clear="handleClearFilters" />
 
       <!-- Loading State -->
       <div v-if="loading" class="bg-white rounded-xl border border-gray-200 shadow-sm p-12 mb-6">
         <div class="text-center">
-          <div
-            class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4"
-          ></div>
+          <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4">
+          </div>
           <p class="text-gray-700 font-medium">{{ $t('invoices.loading') }}</p>
           <p class="text-sm text-gray-500 mt-2">{{ $t('invoices.loading_subtitle') }}</p>
         </div>
@@ -84,12 +55,8 @@
         <div class="flex items-start">
           <div class="flex-shrink-0 pt-0.5">
             <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div class="mr-3 flex-1">
@@ -98,12 +65,7 @@
           </div>
           <button @click="clearError" class="p-1.5 text-red-700 hover:text-red-900">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
@@ -128,28 +90,17 @@
                 {{ $t('invoices.total_amount') }}:
                 <span class="font-bold text-gray-900">{{
                   formatCurrency(stats.totalAmount || 0)
-                }}</span>
+                  }}</span>
               </div>
             </div>
           </div>
 
           <!-- Empty State -->
           <div v-if="invoices.length === 0" class="text-center py-12 px-4">
-            <div
-              class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <svg
-                class="w-8 h-8 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                />
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
             <h3 class="text-lg font-semibold text-gray-900 mb-2">
@@ -158,18 +109,10 @@
             <p class="text-gray-600 mb-6 max-w-md mx-auto">
               {{ $t('invoices.start_creating_message') }}
             </p>
-            <button
-              v-if="hasPermission('create_invoice')"
-              @click="$router.push('/invoices/create')"
-              class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 mx-auto"
-            >
+            <button v-if="hasPermission('create_invoice')" @click="$router.push('/invoices/create')"
+              class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 mx-auto">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 4v16m8-8H4"
-                />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
               </svg>
               {{ $t('invoices.start_creating') }}
             </button>
@@ -180,55 +123,36 @@
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
-                  <th
-                    class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                  >
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     {{ $t('invoices.table.invoice_number') }}
                   </th>
-                  <th
-                    class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                  >
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     {{ $t('invoices.table.client') }}
                   </th>
-                  <th
-                    class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                  >
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     {{ $t('invoices.table.date') }}
                   </th>
-                  <th
-                    class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                  >
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     {{ $t('invoices.table.due_date') }}
                   </th>
-                  <th
-                    class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                  >
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     {{ $t('invoices.table.amount') }}
                   </th>
-                  <th
-                    class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                  >
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     {{ $t('invoices.table.status') }}
                   </th>
-                  <th
-                    class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                  >
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     {{ $t('invoices.table.actions') }}
                   </th>
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
-                <tr
-                  v-for="invoice in invoices"
-                  :key="invoice.id"
-                  class="hover:bg-blue-50/30 transition-colors duration-150"
-                >
+                <tr v-for="invoice in invoices" :key="invoice.id"
+                  class="hover:bg-blue-50/30 transition-colors duration-150">
                   <!-- Invoice Number -->
                   <td class="px-6 py-4">
                     <router-link :to="`/invoices/${invoice.id}`" class="block group/link">
-                      <p
-                        class="text-base font-semibold text-gray-900 group-hover/link:text-blue-600 transition-colors"
-                      >
+                      <p class="text-base font-semibold text-gray-900 group-hover/link:text-blue-600 transition-colors">
                         {{
                           invoice.invoice_number ||
                           $t('invoices.invoiceHeading', { number: invoice.id })
@@ -243,11 +167,10 @@
                     <div class="flex items-center">
                       <div class="flex-shrink-0 ml-3">
                         <div
-                          class="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-4"
-                        >
+                          class="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-4">
                           <span class="text-blue-700 font-bold text-sm">{{
                             getInitials(invoice.client?.name)
-                          }}</span>
+                            }}</span>
                         </div>
                       </div>
                       <div class="mr-3">
@@ -271,17 +194,12 @@
 
                   <!-- Due Date -->
                   <td class="px-6 py-4 text-center">
-                    <div
-                      :class="getDaysRemainingClass(invoice.due_date)"
-                      class="flex flex-col items-center"
-                    >
+                    <div :class="getDaysRemainingClass(invoice.due_date)" class="flex flex-col items-center">
                       <span class="text-sm font-medium">
                         {{ formatDate(invoice.due_date) }}
                       </span>
-                      <span
-                        class="text-xs mt-1 px-2 py-0.5 rounded-full bg-opacity-20"
-                        :class="getDaysRemainingBadgeClass(invoice.due_date)"
-                      >
+                      <span class="text-xs mt-1 px-2 py-0.5 rounded-full bg-opacity-20"
+                        :class="getDaysRemainingBadgeClass(invoice.due_date)">
                         {{ getDaysRemaining(invoice.due_date) }}
                       </span>
                     </div>
@@ -302,14 +220,9 @@
                   <!-- Status -->
                   <td class="px-6 py-4 text-center">
                     <div class="flex flex-col items-center">
-                      <span
-                        :class="getStatusBadgeClass(invoice.status)"
-                        class="px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center gap-1"
-                      >
-                        <span
-                          :class="getStatusDotClass(invoice.status)"
-                          class="w-2 h-2 rounded-full"
-                        ></span>
+                      <span :class="getStatusBadgeClass(invoice.status)"
+                        class="px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center gap-1">
+                        <span :class="getStatusDotClass(invoice.status)" class="w-2 h-2 rounded-full"></span>
                         {{ getStatusText(invoice.status) }}
                       </span>
                     </div>
@@ -318,54 +231,30 @@
                   <!-- Actions -->
                   <td class="px-6 py-4 text-center">
                     <div class="flex items-center justify-center gap-1">
-                      <button
-                        @click="$router.push(`/invoices/${invoice.id}`)"
+                      <button @click="$router.push(`/invoices/${invoice.id}`)"
                         class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
-                        :title="$t('buttons.view')"
-                      >
+                        :title="$t('buttons.view')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                          />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                       </button>
-                      <button
-                        v-if="hasPermission('edit_invoice')"
-                        @click="$router.push(`/invoices/${invoice.id}/edit`)"
+                      <button v-if="hasPermission('edit_invoice')" @click="$router.push(`/invoices/${invoice.id}/edit`)"
                         class="p-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors duration-200"
-                        :title="$t('buttons.edit')"
-                      >
+                        :title="$t('buttons.edit')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                          />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                       </button>
-                      <button
-                        v-if="hasPermission('delete_invoice')"
-                        @click="confirmDelete(invoice)"
+                      <button v-if="hasPermission('delete_invoice')" @click="confirmDelete(invoice)"
                         class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
-                        :title="$t('buttons.delete')"
-                      >
+                        :title="$t('buttons.delete')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                       </button>
                     </div>

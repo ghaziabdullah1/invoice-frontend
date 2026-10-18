@@ -5,10 +5,15 @@
 <script>
 import CrudManager from '@/components/realty/CrudManager.vue'
 
+const PROPERTY_TYPES = ['residential', 'commercial', 'mixed', 'industrial']
+
 export default {
   name: 'PropertiesIndex',
   components: { CrudManager },
   data() {
+    const loadTypes = async () =>
+      PROPERTY_TYPES.map((value) => ({ value, label: this.$t(`realty.property.types.${value}`) }))
+
     return {
       config: {
         store: 'properties',
@@ -24,6 +29,11 @@ export default {
         },
         columns: [
           { key: 'name', label: 'realty.property.name', type: 'primary', subKey: 'name_en' },
+          {
+            key: 'type',
+            label: 'realty.property.type',
+            get: (row) => (row.type ? this.$t(`realty.property.types.${row.type}`) : null),
+          },
           { key: 'city', label: 'realty.property.city' },
           { key: 'phone', label: 'realty.property.phone' },
           { key: 'floors_count', label: 'realty.property.floors_count' },
@@ -32,6 +42,7 @@ export default {
         fields: [
           { key: 'name', label: 'realty.property.name', type: 'text', required: true },
           { key: 'name_en', label: 'realty.property.name_en', type: 'text' },
+          { key: 'type', label: 'realty.property.type', type: 'select', required: true, optionsLoader: loadTypes },
           { key: 'city', label: 'realty.property.city', type: 'text' },
           { key: 'phone', label: 'realty.property.phone', type: 'text' },
           { key: 'email', label: 'realty.property.email', type: 'email' },

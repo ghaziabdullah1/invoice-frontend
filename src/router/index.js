@@ -35,7 +35,7 @@ const routes = [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/Dashboard.vue'),
+        component: () => import('@/views/DashboardPage.vue'),
       },
       // Invoices
       {
@@ -205,6 +205,12 @@ const routes = [
         name: 'OTP',
         component: () => import('@/views/Admin/OTP.vue'),
         meta: { requiresAdmin: true },
+      },
+      {
+        path: 'admin/otp-logs',
+        name: 'OtpLogs',
+        component: () => import('@/views/Admin/OtpLogs.vue'),
+        meta: { permission: 'view_otp_logs' },
       },
       {
         path: 'admin/installment-tiers',

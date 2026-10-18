@@ -124,6 +124,24 @@
               </div>
             </div>
 
+                        <!-- Branches -->
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-gray-700">
+                {{ $t('branch.select_branch') }}
+              </label>
+              <div class="max-h-40 overflow-y-auto rounded-xl border border-gray-200/50 bg-white/80 divide-y divide-gray-100">
+                <p v-if="loadingBranches" class="p-3 text-sm text-gray-500">...</p>
+                <label
+                  v-for="branch in branchesList"
+                  :key="branch.id"
+                  class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-blue-50/40"
+                >
+                  <input type="checkbox" :value="branch.id" v-model="form.branch_ids" class="w-4 h-4 rounded border-gray-300" />
+                  <span class="text-sm text-gray-700">{{ branch.name }}</span>
+                </label>
+              </div>
+            </div>
+
             <!-- Password Section -->
             <div :class="!editingUser ? 'bg-gradient-to-r from-blue-50/50 to-blue-100/30 p-5 rounded-xl' : ''">
               <div v-if="!editingUser">
@@ -261,6 +279,7 @@ const emptyForm = () => ({
   password_confirmation: '',
   admin_group_id: '',
   is_active: true,
+  branch_ids: [],
 })
 
 export default {
@@ -294,18 +313,22 @@ export default {
   data() {
     return {
       form: emptyForm(),
+      branchesList: [],
+      loadingBranches: false,
     }
   },
 
   watch: {
     show(isOpen) {
       if (isOpen) {
+        this.loadBranches()
         this.form = this.editingUser
           ? {
               name: this.editingUser.name,
               email: this.editingUser.email,
               admin_group_id: this.editingUser.admin_group_id,
               is_active: this.editingUser.is_active,
+              branch_ids: (this.editingUser.branches || []).map((b) => b.id),
               password: '',
               password_confirmation: '',
             }
@@ -316,7 +339,26 @@ export default {
 
   methods: {
     submit() {
-      this.$emit('submit', { ...this.form })
+      const payload = { ...this.form }
+      // في التعديل: إن لم تصل الفروع مع المستخدم لا نرسل branch_ids حتى لا تُفصل فروعه بالخطأ
+      if (this.editingUser && !Array.isArray(this.editingUser.branches)) {
+        delete payload.branch_ids
+      }
+      this.$emit('submit', payload)
+    },
+
+    async loadBranches() {
+      if (this.branchesList.length) return
+      this.loadingBranches = true
+      try {
+        const res = await this.$store.dispatch('branch/fetchAllBranches')
+        const list = Array.isArray(res) ? res : res?.data || res?.branches || []
+        this.branchesList = Array.isArray(list) ? list : []
+      } catch (e) {
+        console.error('Failed to load branches', e)
+      } finally {
+        this.loadingBranches = false
+      }
     },
   },
 }

@@ -1185,6 +1185,32 @@
     "password_mismatch": "New password and confirmation do not match",
     "password_error": "Failed to change password, please check your inputs"
   },
+  "otpLogs": {
+    "title": "OTP Logs",
+    "subtitle": "Track verification codes sent and their status",
+    "search": "Search",
+    "search_placeholder": "Email or IP address",
+    "status": "Status",
+    "all": "All",
+    "sent": "Sent",
+    "verified": "Verified",
+    "expired": "Expired",
+    "from_date": "From date",
+    "to_date": "To date",
+    "apply": "Apply",
+    "reset": "Reset",
+    "user": "User",
+    "ip_address": "IP address",
+    "created_at": "Sent at",
+    "expires_at": "Expires at",
+    "verified_at": "Verified at",
+    "unknown_user": "Unknown",
+    "no_results": "No records found",
+    "showing": "Showing {from} to {to} of {total}",
+    "previous": "Previous",
+    "next": "Next",
+    "fetch_error": "Failed to load OTP logs"
+  },
   "activity": {
     "fetch_failed": "Failed to fetch activity logs",
     "fetch_error": "An error occurred while fetching activity logs",
@@ -1452,7 +1478,83 @@
       "email": "Email",
       "address": "Address",
       "notes": "Notes",
-      "floors_count": "Floors"
+      "floors_count": "Floors",
+      "type": "Property Type",
+      "types": {
+        "residential": "Residential",
+        "commercial": "Commercial",
+        "mixed": "Mixed use",
+        "industrial": "Industrial",
+        "unspecified": "Unspecified"
+      }
+    },
+    "summary": {
+      "title": "Properties Overview",
+      "subtitle_all": "Status of all properties, floors and units",
+      "subtitle_one": "Details of the selected property",
+      "all_properties": "All properties",
+      "select_property": "Select property",
+      "back_to_all": "All properties",
+      "refresh": "Refresh",
+      "load_error": "Failed to load properties data",
+      "empty": "No properties yet",
+      "inactive": "Inactive",
+      "no_units": "No units yet",
+      "no_floors": "No floors yet",
+      "sqm": "m²",
+      "by_type": "By type",
+      "units_title": "Units by floor",
+      "kpi": {
+        "properties": "Properties",
+        "floors": "Floors",
+        "units": "Units",
+        "occupancy": "Occupancy rate",
+        "active_contracts": "Active contracts",
+        "monthly_rent": "Monthly rent",
+        "vacant_rent": "Vacant units rent",
+        "expiring": "{count} expiring within {days} days"
+      },
+      "status": {
+        "occupied": "Occupied",
+        "reserved": "Reserved",
+        "vacant": "Vacant",
+        "inactive": "Inactive"
+      },
+      "charts": {
+        "unit_status": "Unit status",
+        "unit_status_hint": "Distribution of units by current status",
+        "by_property": "Units by property",
+        "by_floor": "Units by floor",
+        "by_hint": "Occupied, reserved, vacant and inactive units",
+        "portfolio": "Portfolio map",
+        "portfolio_hint": "Size vs occupancy; bubble size is the monthly rent",
+        "expiry": "Contract expiry timeline",
+        "expiry_hint": "Active contracts ending in the next 12 months",
+        "no_expiries": "No active contracts ending in the next 12 months",
+        "contracts": "Expiring contracts",
+        "rent_at_risk": "Monthly rent at risk",
+        "x_units": "Number of units",
+        "y_occupancy": "Occupancy rate"
+      },
+      "info": {
+        "title": "Property details",
+        "type": "Type",
+        "city": "City",
+        "address": "Address",
+        "phone": "Phone",
+        "email": "Email",
+        "floors": "Floors"
+      },
+      "table": {
+        "title": "Properties",
+        "property": "Property",
+        "type": "Type",
+        "floors": "Floors",
+        "units": "Units",
+        "status": "Unit status",
+        "occupancy": "Occupancy",
+        "rent": "Monthly rent"
+      }
     },
     "floor": {
       "title": "Floors",

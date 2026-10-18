@@ -16,6 +16,7 @@ import payments from './modules/payments'
 import groups from './modules/adminGroups'
 import profile from './modules/profile'
 import activity from './modules/activity'
+import otpLogs from './modules/otpLogs'
 import invoiceNotifications from './modules/invoiceNotifications'
 import installments from './modules/installments'
 import paymentLinks from './modules/paymentLinks'
@@ -26,6 +27,7 @@ import properties from './modules/properties'
 import floors from './modules/floors'
 import units from './modules/units'
 import tenants from './modules/tenants'
+import propertyScope from './modules/propertyScope'
 
 
 
@@ -106,6 +108,7 @@ export default createStore({
     groups: groups,
     profile: profile,
     activity: activity,
+    otpLogs: otpLogs,
     invoiceNotifications: invoiceNotifications,
     installments: installments,
     paymentLinks: paymentLinks,
@@ -113,6 +116,7 @@ export default createStore({
     content: content,
     branch: branch,
     properties,
+    propertyScope,
     floors,
     units,
     tenants,

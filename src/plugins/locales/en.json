@@ -31,7 +31,8 @@
     "floors": "Floors",
     "units": "Units",
     "tenants": "Tenants",
-    "properties_section": "Property Management"
+    "properties_section": "Property Management",
+    "my_tickets": "My Tickets"
   },
   "auth": {
     "login": "Login",
@@ -1555,6 +1556,143 @@
         "occupancy": "Occupancy",
         "rent": "Monthly rent"
       }
+    },
+    "contract": {
+      "title": "Contracts",
+      "subtitle": "Manage lease contracts, renewals, terminations and documents",
+      "add": "Add contract",
+      "edit": "Edit contract",
+      "empty": "No contracts yet",
+      "search_placeholder": "Search by contract number, tenant or unit",
+      "expiring_filter": "Expiring within {days} days",
+      "all_properties": "All my properties",
+      "columns": {
+        "number": "Contract no.",
+        "tenant": "Tenant",
+        "unit": "Unit",
+        "property": "Property",
+        "period": "Period",
+        "rent": "Rent",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "draft": "Draft",
+        "active": "Active",
+        "expired": "Expired",
+        "terminated": "Terminated",
+        "renewed": "Renewed"
+      },
+      "frequency": {
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "semi_annual": "Semi-annual",
+        "annual": "Annual"
+      },
+      "fields": {
+        "unit": "Unit",
+        "select_unit": "Select unit",
+        "no_units": "No eligible units: the unit needs an assigned tenant and must belong to the selected property",
+        "locked_hint": "The unit and tenant cannot be changed after creation. To change them, terminate this contract and create a new one",
+        "start_date": "Start date",
+        "end_date": "End date",
+        "rent_amount": "Rent amount",
+        "rent_hint": "Rent per payment cycle, not always monthly",
+        "payment_frequency": "Payment frequency",
+        "payment_day": "Due day of the month",
+        "security_deposit": "Security deposit",
+        "grace_days": "Grace days",
+        "annual_increase": "Annual increase %",
+        "status": "Status",
+        "notes": "Notes"
+      },
+      "actions": {
+        "edit": "Edit",
+        "renew": "Renew",
+        "terminate": "Terminate",
+        "delete": "Delete",
+        "upload": "Upload document",
+        "replace": "Replace document",
+        "download": "Download document"
+      },
+      "renew": {
+        "title": "Renew contract",
+        "start_hint": "Starts on {date} by default",
+        "rent_hint_increase": "If left empty, the rent after the annual increase applies: {amount}",
+        "rent_hint_same": "If left empty, the current rent stays: {amount}"
+      },
+      "terminate": {
+        "title": "Terminate contract",
+        "reason": "Termination reason",
+        "warning": "The contract stays in the history and the termination cannot be undone."
+      },
+      "delete": {
+        "title": "Delete contract?",
+        "text": "Draft contract {number} will be deleted"
+      },
+      "expiry": {
+        "days_left": "{days} days left",
+        "today": "Expires today",
+        "ended_ago": "Ended {days} days ago"
+      },
+      "errors": {
+        "unit_required": "Select a unit",
+        "dates": "The end date must be after the start date",
+        "end_required": "End date is required",
+        "reason_required": "Termination reason is required",
+        "invalid_file": "Choose a PDF file up to 10 MB"
+      },
+      "document_error": "Failed to download the document"
+    },
+    "contract_billing": {
+      "invoices": "Invoices",
+      "title": "Contract billing",
+      "currency": "Currency",
+      "currency_hint": "The currency this contract's invoices are issued in. Pick your real system currency",
+      "period": "Period",
+      "due_date": "Due",
+      "amount": "Amount",
+      "invoice": "Invoice",
+      "not_invoiced": "Not invoiced",
+      "generate": "Create invoice",
+      "missed": "Due date passed without an invoice",
+        "with_grace": "Invoice due {date} (after grace days)",
+      "client_will_be_created": "This tenant has no client account yet. The first invoice creates one from the tenant's details.",
+      "email_required": "The tenant has no email. Add one from the Tenants page to be able to create invoices.",
+      "confirm_title": "Create a rent invoice?",
+      "confirm_text": "A draft invoice will be created for {start} to {end} for {amount} {currency}.",
+      "confirm_client": "A client account will also be created from the tenant's details.",
+      "invoice_status": {
+        "draft": "Draft",
+        "sent": "Sent",
+        "paid": "Paid",
+        "overdue": "Overdue"
+      }
+    },
+    "contract_view": {
+      "action": "View contract",
+      "title": "Contract details",
+      "sections": {
+        "parties": "Parties and unit",
+        "period": "Period and payment",
+        "financial": "Financials",
+        "other": "Other information",
+        "history": "Renewal history",
+        "document": "Contract document"
+      },
+      "phone": "Tenant phone",
+      "email": "Tenant email",
+      "created_by": "Created by",
+      "created_at": "Created on",
+      "terminated_at": "Terminated on",
+      "termination_reason": "Termination reason",
+      "renewed_from": "Renewal of",
+      "renewed_by": "Renewed by",
+      "no_document": "No document has been uploaded for this contract yet",
+      "preview": "Preview document",
+      "hide_preview": "Hide preview",
+      "open_new_tab": "Open in new tab",
+      "download": "Download"
     },
     "floor": {
       "title": "Floors",

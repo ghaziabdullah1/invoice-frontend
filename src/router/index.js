@@ -5,6 +5,7 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 const routes = [
   // ── Redirect ──────────────────────────────────────────────
   { path: '/', redirect: '/dashboard' },
+  { path: '/pay/:token', name: 'PublicPay', component: () => import('@/views/PublicPay.vue') },
 
   // ── Guest Pages ───────────────────────────────────────────
   {
@@ -67,6 +68,12 @@ const routes = [
         name: 'TermsOfService',
         component: () => import('@/views/legal/TermsOfService.vue'),
         meta: { title: 'terms.title' },
+      },
+      {
+        path: '/support/my-tickets',
+        name: 'MySupportTickets',
+        component: () => import('@/views/support/MyTickets.vue'),
+        meta: { requiresAuth: true },
       },
       {
         path: 'support',
@@ -154,6 +161,12 @@ const routes = [
         name: 'Tenants',
         component: () => import('@/views/Tenants/TenantsIndex.vue'),
         meta: { permission: 'view_tenants' },
+      },
+      {
+        path: 'contracts',
+        name: 'Contracts',
+        component: () => import('@/views/Contracts/ContractsIndex.vue'),
+        meta: { permission: 'view_contracts' },
       },
       // Reports
       {

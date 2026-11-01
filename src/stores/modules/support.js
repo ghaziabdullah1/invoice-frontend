@@ -38,6 +38,17 @@ const actions = {
     }
   },
 
+  // تحديث صامت للقائمة (بدون spinner) عند وصول حدث لحظي
+  async refreshTickets({ commit }, params = {}) {
+    try {
+      const { data } = await axios.get('/admin/support/tickets', { params })
+      commit('SET_TICKETS', data.data.items)
+      commit('SET_PAGINATION', data.data.pagination)
+    } catch (e) {
+      // فشل التحديث الصامت لا يجب أن يزعج المستخدم
+    }
+  },
+
   async assignTicket({ commit }, { id, assigned_to }) {
     const { data } = await axios.patch(`/admin/support/tickets/${id}/assign`, { assigned_to })
     commit('SET_TICKET_ASSIGNEE', { id, assignedTo: data.data.assigned_to })
@@ -136,6 +147,33 @@ const mutations = {
   UPDATE_TICKET_IN_LIST(state, { id, status }) {
     const ticket = state.tickets.find((t) => t.id === id)
     if (ticket) ticket.status = status
+  },
+  // رد وارد من البث: يُضاف للتذكرة المفتوحة فقط، ويتجاهل المكرر
+  PUSH_REPLY(state, msg) {
+    if (!state.ticket || state.ticket.id !== msg.ticket_id) return
+    if (!state.ticket.replies) state.ticket.replies = []
+    if (state.ticket.replies.some((r) => r.id === msg.id)) return
+    state.ticket.replies.push({
+      id: msg.id,
+      ticket_id: msg.ticket_id,
+      user_id: msg.user_id,
+      user: { id: msg.user_id, name: msg.sender_name },
+      message: msg.message,
+      is_admin_reply: msg.is_admin_reply,
+      is_internal: msg.is_internal,
+      created_at: msg.created_at,
+    })
+  },
+  // تحديث حالة/أولوية/إسناد من البث
+  PATCH_TICKET(state, data) {
+    const fields = {
+      status: data.status,
+      priority: data.priority,
+      assigned_to: data.assigned_to,
+    }
+    const inList = state.tickets.find((t) => t.id === data.id)
+    if (inList) Object.assign(inList, fields)
+    if (state.ticket && state.ticket.id === data.id) Object.assign(state.ticket, fields)
   },
   SET_LOADING(state, status) { state.loading = status },
   SET_SUBMITTING(state, status) { state.submitting = status },

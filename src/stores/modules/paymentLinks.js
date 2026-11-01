@@ -35,6 +35,28 @@ export default {
         commit("SET_ERROR", msg); throw new Error(msg);
       } finally { NProgress.done(); commit("SET_LOADING", false); }
     },
+    async fetchInvoiceLinks({ commit }, invoiceId) {
+      commit("SET_LOADING", true); commit("CLEAR_ERROR");
+      try {
+        const res = await axios.get(`/admin/invoices/${invoiceId}/payment-links`);
+        commit("SET_LINKS", res.data.data || []);
+      } catch (e) {
+        commit("SET_ERROR", e.response?.data?.message || i18n.global.t("payment_links.create_failed"));
+      } finally { commit("SET_LOADING", false); }
+    },
+    async sendLink({ commit }, { linkId, method = "email" }) {
+      commit("CLEAR_ERROR");
+      try {
+        const res = await axios.post(`/admin/payment-links/${linkId}/send`, { method });
+        if (!res.data.status) throw new Error(res.data.message || "send failed");
+        const d = res.data.data;
+        if (d && d.whatsapp_url) window.open(d.whatsapp_url, "_blank");
+        return res.data;
+      } catch (e) {
+        const msg = e.response?.data?.message || e.message || i18n.global.t("payment_links.create_failed");
+        commit("SET_ERROR", msg); throw new Error(msg);
+      }
+    },
     clearError({ commit }) { commit("CLEAR_ERROR"); },
   },
 };

@@ -375,6 +375,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { listenTicket, listenStaff } from '@/utils/supportRealtime'
 
 export default {
   name: 'SupportTicketDetails',
@@ -394,6 +395,10 @@ export default {
   },
 
   watch: {
+    // الحالة قد تتغير من البث دون استبدال كائن التذكرة كله
+    'ticket.status'(s) {
+      if (s) this.pendingStatus = s
+    },
     ticket: {
       immediate: true,
       handler(newTicket) {
@@ -406,10 +411,32 @@ export default {
 
   mounted() {
     this.fetchTicket(this.ticketId)
+    this.unsubs = [
+      listenTicket(this.ticketId, {
+        onMessage: this.onRealtimeMessage,
+        onTicketUpdated: this.onRealtimeTicket,
+      }),
+      // الملاحظات الداخلية تُبث لقناة الفريق فقط. غير الموظف يُرفض اشتراكه بصمت
+      listenStaff({ onMessage: this.onRealtimeMessage }),
+    ]
+  },
+
+  beforeUnmount() {
+    if (this.unsubs) this.unsubs.forEach((u) => u())
   },
 
   methods: {
     ...mapActions('support', ['fetchTicket', 'replyToTicket', 'closeTicket', 'updateTicketStatus']),
+
+    onRealtimeMessage(msg) {
+      if (msg.ticket_id !== this.ticketId) return
+      this.$store.commit('support/PUSH_REPLY', msg)
+    },
+
+    onRealtimeTicket(data) {
+      if (data.id !== this.ticketId) return
+      this.$store.commit('support/PATCH_TICKET', data)
+    },
 
     async handleReply() {
       if (!this.replyMessage.trim()) return

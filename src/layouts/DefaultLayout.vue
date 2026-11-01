@@ -47,6 +47,8 @@
 
         <!-- Navigation -->
         <nav class="space-y-1 flex-1 overflow-y-auto custom-scrollbar">
+
+          <!-- Collapse Sidebar Button -->
           <div class="mb-2">
             <button @click="toggleSidebar"
               class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800/60 hover:text-white transition-all duration-200 group">
@@ -61,6 +63,7 @@
               </span>
             </button>
           </div>
+
           <!-- Profile -->
           <div v-if="user">
             <router-link v-if="!sidebarOpen && !isMobile" to="/profile" :title="t('nav.profile')"
@@ -141,27 +144,6 @@
               :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
           </router-link>
 
-          <!-- Support Tickets -->
-          <router-link v-if="hasPermission('administration')" to="/support/tickets" @click="closeSidebarOnMobile"
-            class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
-              !sidebarOpen && !isMobile ? 'justify-center' : '',
-              $route.path.includes('/support/tickets')
-                ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-sm shadow-emerald-500/10'
-                : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
-            ]" :title="!sidebarOpen && !isMobile ? t('nav.support_tickets') : ''">
-            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
-            </svg>
-            <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
-              {{ t('nav.support_tickets') }}
-            </span>
-            <div v-if="$route.path.includes('/support/tickets')"
-              class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-emerald-500"
-              :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
-          </router-link>
-
           <!-- Invoices -->
           <router-link v-if="hasPermission('view_invoices')" to="/invoices" @click="closeSidebarOnMobile"
             class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
@@ -183,7 +165,6 @@
             " class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-blue-500"
               :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
           </router-link>
-
           <!-- Recurring Invoices -->
           <router-link v-if="hasPermission('view_invoices')" to="/recurring-invoices" @click="closeSidebarOnMobile"
             class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
@@ -206,56 +187,6 @@
               :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
           </router-link>
 
-          <!-- branches -->
-          <router-link v-if="hasPermission('administration')" to="/admin/branches" @click="closeSidebarOnMobile"
-            class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
-              !sidebarOpen && !isMobile ? 'justify-center' : '',
-              $route.path.includes('/admin/branches')
-                ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20 shadow-sm shadow-purple-500/10'
-                : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
-            ]" :title="!sidebarOpen && !isMobile ? t('nav.branches') : ''">
-            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
-            </svg>
-            <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
-              {{ t('nav.branches') }}
-            </span>
-            <div v-if="$route.path.includes('/admin/branches')"
-              class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-purple-500"
-              :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
-          </router-link>
-
-          <!-- Property Management -->
-          <template v-if="propertyNavItems.length">
-            <div v-if="sidebarOpen" class="pt-4 mt-2 border-t border-slate-700/50">
-              <p class="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                {{ t('nav.properties_section', 'Property Management') }}
-              </p>
-            </div>
-            <div v-else class="pt-2 mt-2 border-t border-slate-700/50 mx-2"></div>
-
-            <router-link v-for="item in propertyNavItems" :key="item.to" :to="item.to" @click="closeSidebarOnMobile"
-              class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
-                !sidebarOpen && !isMobile ? 'justify-center' : '',
-                $route.path === item.to || $route.path.startsWith(item.to + '/')
-                  ? 'bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-sm shadow-teal-500/10'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
-              ]" :title="!sidebarOpen && !isMobile ? t(item.label) : ''">
-              <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path :d="item.icon" />
-              </svg>
-              <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
-                {{ t(item.label) }}
-              </span>
-              <div v-if="$route.path === item.to || $route.path.startsWith(item.to + '/')"
-                class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-teal-500"
-                :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
-            </router-link>
-          </template>
-
           <!-- Reports -->
           <router-link v-if="hasPermission('view_sales_report')" to="/reports" @click="closeSidebarOnMobile"
             class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
@@ -277,6 +208,58 @@
               :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
           </router-link>
 
+          <!-- Property Management -->
+          <template v-if="propertyNavItems.length">
+            <div v-if="sidebarOpen" class="pt-4 mt-2 border-t border-slate-700/50">
+              <p class="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                {{ t('nav.properties_section', 'Property Management') }}
+              </p>
+            </div>
+            <div v-else class="pt-2 mt-2 border-t border-slate-700/50 mx-2"></div>
+
+            <!-- Branches -->
+            <router-link v-if="hasPermission('administration')" to="/admin/branches" @click="closeSidebarOnMobile"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
+                !sidebarOpen && !isMobile ? 'justify-center' : '',
+                $route.path.includes('/admin/branches')
+                  ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20 shadow-sm shadow-purple-500/10'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
+              ]" :title="!sidebarOpen && !isMobile ? t('nav.branches') : ''">
+              <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+              </svg>
+              <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
+                {{ t('nav.branches') }}
+              </span>
+              <div v-if="$route.path.includes('/admin/branches')"
+                class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-purple-500"
+                :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
+            </router-link>
+
+            <!-- Property Navigation Items -->
+            <router-link v-for="item in propertyNavItems" :key="item.to" :to="item.to" @click="closeSidebarOnMobile"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
+                !sidebarOpen && !isMobile ? 'justify-center' : '',
+                $route.path === item.to || $route.path.startsWith(item.to + '/')
+                  ? 'bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-sm shadow-teal-500/10'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
+              ]" :title="!sidebarOpen && !isMobile ? t(item.label) : ''">
+              <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path :d="item.icon" />
+              </svg>
+              <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
+                {{ t(item.label) }}
+              </span>
+              <div v-if="$route.path === item.to || $route.path.startsWith(item.to + '/')"
+                class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-teal-500"
+                :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
+            </router-link>
+
+          </template>
+
           <!-- Admin Section -->
           <template v-if="isAdmin">
             <div v-if="sidebarOpen" class="pt-4 mt-4 border-t border-slate-700/50">
@@ -286,6 +269,7 @@
             </div>
             <div v-else class="pt-2 mt-4 border-t border-slate-700/50 mx-2"></div>
 
+            <!-- Users -->
             <router-link v-if="hasPermission('administration')" to="/admin/users" @click="closeSidebarOnMobile"
               class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
                 !sidebarOpen && !isMobile ? 'justify-center' : '',
@@ -306,6 +290,7 @@
                 :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
             </router-link>
 
+            <!-- Groups -->
             <router-link v-if="hasPermission('administration')" to="/admin/groups" @click="closeSidebarOnMobile"
               class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
                 !sidebarOpen && !isMobile ? 'justify-center' : '',
@@ -326,6 +311,7 @@
                 :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
             </router-link>
 
+            <!-- Permissions -->
             <router-link v-if="hasPermission('administration')" to="/admin/permissions" @click="closeSidebarOnMobile"
               class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
                 !sidebarOpen && !isMobile ? 'justify-center' : '',
@@ -346,6 +332,7 @@
                 :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
             </router-link>
 
+            <!-- Assign Permissions -->
             <router-link v-if="hasPermission('administration')" to="/admin/assign-permissions"
               @click="closeSidebarOnMobile"
               class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
@@ -370,6 +357,7 @@
             <div v-if="sidebarOpen" class="pt-4 mt-4 border-t border-slate-700/50"></div>
             <div v-else class="pt-2 mt-2 border-t border-slate-700/50 mx-2"></div>
 
+            <!-- Activity Log -->
             <router-link v-if="hasPermission('administration')" to="/activitylog" @click="closeSidebarOnMobile"
               class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
                 !sidebarOpen && !isMobile ? 'justify-center' : '',
@@ -389,6 +377,7 @@
                 :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
             </router-link>
 
+            <!-- OTP Logs -->
             <router-link v-if="hasPermission('view_otp_logs')" to="/admin/otp-logs" @click="closeSidebarOnMobile"
               class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
                 !sidebarOpen && !isMobile ? 'justify-center' : '',
@@ -406,6 +395,45 @@
               </span>
               <div v-if="$route.path === '/admin/otp-logs'"
                 class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-orange-500"
+                :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
+            </router-link>
+
+            <!-- My Tickets (كل المستخدمين) -->
+            <router-link to="/support/my-tickets" @click="closeSidebarOnMobile"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
+                !sidebarOpen && !isMobile ? 'justify-center' : '',
+                $route.path.includes('/support/my-tickets')
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-sm shadow-emerald-500/10'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
+              ]" :title="!sidebarOpen && !isMobile ? t('nav.my_tickets') : ''">
+              <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
+              <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
+                {{ t('nav.my_tickets') }}
+              </span>
+              <div v-if="$route.path.includes('/support/my-tickets')"
+                class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-emerald-500"
+                :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
+            </router-link>
+
+            <!-- Support Tickets -->
+            <router-link v-if="hasPermission('administration')" to="/support/tickets" @click="closeSidebarOnMobile"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
+                !sidebarOpen && !isMobile ? 'justify-center' : '',
+                $route.path.includes('/support/tickets')
+                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-sm shadow-emerald-500/10'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
+              ]" :title="!sidebarOpen && !isMobile ? t('nav.support_tickets') : ''">
+              <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
+              </svg>
+              <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
+                {{ t('nav.support_tickets') }}
+              </span>
+              <div v-if="$route.path.includes('/support/tickets')"
+                class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-emerald-500"
                 :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
             </router-link>
           </template>
@@ -543,6 +571,7 @@
                     </div>
                   </div>
                   <div class="py-1.5">
+                    <!-- Profile -->
                     <router-link to="/profile"
                       class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                       @click="userDropdownOpen = false">
@@ -555,6 +584,7 @@
                       </div>
                       <span class="font-medium">{{ $t('nav.profile', 'Profile') }}</span>
                     </router-link>
+                    <!-- Logout -->
                     <button @click="logout"
                       class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
                       <div class="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-500/10 flex items-center justify-center">
@@ -630,6 +660,7 @@ export default {
         { to: '/floors', label: 'nav.floors', perm: 'view_floors', icon: 'M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3' },
         { to: '/units', label: 'nav.units', perm: 'view_units', icon: 'M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z' },
         { to: '/tenants', label: 'nav.tenants', perm: 'view_tenants', icon: 'M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z' },
+        { to: '/contracts', label: 'realty.contract.title', perm: 'view_contracts', icon: 'M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z' },
       ]
       return items.filter((item) => this.hasPermission(item.perm))
     },
@@ -643,6 +674,7 @@ export default {
         '/floors': 'nav.floors',
         '/units': 'nav.units',
         '/tenants': 'nav.tenants',
+        '/contracts': 'realty.contract.title',
         '/reports': 'nav.reports',
         '/users': 'nav.users',
         '/permissions': 'nav.permissions',

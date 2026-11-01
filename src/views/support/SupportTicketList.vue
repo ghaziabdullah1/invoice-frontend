@@ -490,6 +490,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { listenStaff } from '@/utils/supportRealtime'
 
 export default {
   name: 'SupportTicketList',
@@ -515,10 +516,22 @@ export default {
 
   mounted() {
     this.loadTickets()
+    // أي رسالة أو تذكرة جديدة أو تغيّر حالة: نعيد تحميل الصفحة الحالية بصمت
+    this.unlisten = listenStaff({
+      onMessage: this.scheduleRefresh,
+      onTicketCreated: this.scheduleRefresh,
+      onTicketUpdated: this.scheduleRefresh,
+    })
+  },
+
+  beforeUnmount() {
+    clearTimeout(this.refreshTimeout)
+    clearTimeout(this.searchTimeout)
+    if (this.unlisten) this.unlisten()
   },
 
   methods: {
-    ...mapActions('support', ['fetchTickets', 'closeTicket']),
+    ...mapActions('support', ['fetchTickets', 'closeTicket', 'refreshTickets']),
 
     loadTickets(page = 1) {
       this.fetchTickets({
@@ -526,6 +539,18 @@ export default {
         per_page: this.pagination.per_page,
         ...this.filters,
       }).catch(() => {})
+    },
+
+    // تجميع الأحداث المتقاربة في طلب واحد
+    scheduleRefresh() {
+      clearTimeout(this.refreshTimeout)
+      this.refreshTimeout = setTimeout(() => {
+        this.refreshTickets({
+          page: this.pagination.current_page,
+          per_page: this.pagination.per_page,
+          ...this.filters,
+        })
+      }, 400)
     },
 
     async handleCloseTicket(id) {

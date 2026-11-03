@@ -23,9 +23,10 @@ export function listenTicket(ticketId, { onMessage, onTicketUpdated } = {}) {
 }
 
 // قناة المستخدم الشخصية: تذكرة جديدة أو تحديث على أي تذكرة من تذاكره
-export function listenUser(userId, { onTicketCreated, onTicketUpdated } = {}) {
+export function listenUser(userId, { onMessage, onTicketCreated, onTicketUpdated } = {}) {
   const name = `support.user.${userId}`
   const ch = echo.private(name)
+  if (onMessage) ch.listen('.support.message.sent', onMessage)
   if (onTicketCreated) ch.listen('.support.ticket.created', onTicketCreated)
   if (onTicketUpdated) ch.listen('.support.ticket.updated', onTicketUpdated)
   return () => echo.leave(name)

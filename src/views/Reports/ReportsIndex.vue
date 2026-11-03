@@ -35,6 +35,7 @@
           <!-- Export Button -->
           <div class="flex gap-3">
             <button
+              v-if="!realtyKey"
               @click="openExportModal"
               class="px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group"
             >
@@ -55,6 +56,7 @@
             </button>
 
             <button
+              v-if="!realtyKey"
               @click="toggleExportedFiles"
               class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group"
             >
@@ -85,7 +87,7 @@
 
       <!-- Exported Files Section -->
       <div
-        v-if="showExportedFiles"
+        v-if="showExportedFiles && !realtyKey"
         class="bg-white rounded-xl border border-gray-200 shadow-sm p-5 mb-6 animate-fade-in"
       >
         <div class="flex items-center justify-between mb-4">
@@ -270,7 +272,7 @@
       </div>
 
       <!-- Filters -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5 mb-6">
+      <div v-show="!realtyKey" class="bg-white rounded-xl border border-gray-200 shadow-sm p-5 mb-6">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-5">
           <div class="flex items-center gap-2">
             <svg
@@ -460,10 +462,10 @@
           <button
             v-for="tab in tabs"
             :key="tab.id"
-            @click="switchTab(tab.id)"
+            @click="selectTab(tab)"
             :class="{
-              'border-b-2 border-blue-500 text-blue-600 bg-blue-50': activeTab === tab.id,
-              'text-gray-500 hover:text-gray-700 hover:bg-gray-50': activeTab !== tab.id,
+              'border-b-2 border-blue-500 text-blue-600 bg-blue-50': isTabActive(tab),
+              'text-gray-500 hover:text-gray-700 hover:bg-gray-50': !isTabActive(tab),
             }"
             class="flex-1 px-6 py-4 text-sm font-medium text-center whitespace-nowrap transition-colors duration-200 flex items-center justify-center gap-2"
           >
@@ -542,6 +544,7 @@
                 d="M9 7h6m-6 4h6m-6 4h4m-9 5h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"
               />
             </svg>
+            <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
             {{ tab.label }}
             <span
               v-if="tab.id === 'overdue' && overdueCount > 0"
@@ -553,8 +556,14 @@
         </div>
       </div>
 
+      <RealtyReportPanel
+        v-if="realtyKey"
+        :report-key="realtyKey"
+        :properties="realtyProperties"
+      />
+
       <!-- Loading State -->
-      <div v-if="loading" class="bg-white rounded-xl border border-gray-200 shadow-sm p-12 mb-6">
+      <div v-if="!realtyKey && loading" class="bg-white rounded-xl border border-gray-200 shadow-sm p-12 mb-6">
         <div class="text-center">
           <div
             class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4"
@@ -565,7 +574,7 @@
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+      <div v-else-if="!realtyKey && error" class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
         <div class="flex items-start">
           <div class="flex-shrink-0 pt-0.5">
             <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -595,7 +604,7 @@
       </div>
 
       <!-- Reports Content -->
-      <div v-else>
+      <div v-else-if="!realtyKey">
         <!-- Invoices Report -->
         <div v-if="activeTab === 'invoices'">
           <InvoiceReportSection
@@ -668,16 +677,27 @@ import RevenueReportSection from '@/components/reports/RevenueReportSection.vue'
 import OverdueReportSection from '@/components/reports/OverdueReportSection.vue'
 import AgingReportSection from '@/components/reports/AgingReportSection.vue'
 import ExportModal from '@/components/reports/ExportModal.vue'
+import RealtyReportPanel from '@/components/reports/RealtyReportPanel.vue'
+import axios from '@/api/axios'
 
 export default {
   name: 'ReportsIndex',
   components: {
+    RealtyReportPanel,
     InvoiceReportSection,
     ClientReportSection,
     RevenueReportSection,
     OverdueReportSection,
     AgingReportSection,
     ExportModal,
+  },
+
+  data() {
+    return {
+      realtyKeys: [],
+      realtyProperties: [],
+      realtyKey: null,
+    }
   },
 
   computed: {
@@ -693,7 +713,32 @@ export default {
       'showExportedFiles',
     ]),
     ...mapGetters('report', ['overdueCount']),
+    hasRealtyReports() {
+      const has = this.$store.getters['auth/hasPermission']
+      return (
+        has('view_reports') &&
+        [
+          'view_report_occupancy',
+          'view_report_rent_roll',
+          'view_report_expiring_contracts',
+          'view_report_tenant_arrears',
+          'view_report_collection',
+          'view_report_vacant_units',
+          'view_report_property_revenue',
+        ].some(p => has(p))
+      )
+    },
     tabs() {
+      return [...this.financialTabs, ...this.realtyTabs]
+    },
+    realtyTabs() {
+      return this.realtyKeys.map(k => ({
+        id: k,
+        realty: true,
+        label: this.$t('reports.realty.types.' + k),
+      }))
+    },
+    financialTabs() {
       return [
         { id: 'invoices', label: this.$t('reports.types.invoices') },
         { id: 'clients', label: this.$t('reports.types.clients') },
@@ -722,6 +767,30 @@ export default {
   },
 
   methods: {
+    selectTab(tab) {
+      if (tab.realty) {
+        this.realtyKey = tab.id
+        return
+      }
+      this.realtyKey = null
+      this.switchTab(tab.id)
+    },
+
+    isTabActive(tab) {
+      return tab.realty ? this.realtyKey === tab.id : !this.realtyKey && this.activeTab === tab.id
+    },
+
+    async loadRealtyMeta() {
+      try {
+        const res = await axios.get('/admin/reports/realty')
+        const data = res.data?.data || {}
+        this.realtyKeys = data.reports || []
+        this.realtyProperties = data.properties || []
+      } catch (e) {
+        console.error('Failed to load realty reports meta:', e)
+      }
+    },
+
     ...mapActions('report', [
       'init',
       'loadReport',
@@ -810,6 +879,7 @@ export default {
 
   mounted() {
     this.init()
+    if (this.hasRealtyReports) this.loadRealtyMeta()
   },
 }
 </script>

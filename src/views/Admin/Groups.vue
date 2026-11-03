@@ -938,8 +938,8 @@ export default {
         const search = this.filters.search.toLowerCase()
         groups = groups.filter(
           (g) =>
-            g.title_en.toLowerCase().includes(search) ||
-            g.title_ar.includes(search) ||
+            (g.title_en || '').toLowerCase().includes(search) ||
+            (g.title_ar || '').includes(search) ||
             (g.description && g.description.toLowerCase().includes(search)),
         )
       }

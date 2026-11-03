@@ -188,7 +188,7 @@
           </router-link>
 
           <!-- Reports -->
-          <router-link v-if="hasPermission('view_sales_report')" to="/reports" @click="closeSidebarOnMobile"
+          <router-link v-if="hasPermission('view_reports')" to="/reports" @click="closeSidebarOnMobile"
             class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
               !sidebarOpen && !isMobile ? 'justify-center' : '',
               $route.path === '/reports'
@@ -259,6 +259,27 @@
             </router-link>
 
           </template>
+
+          <!-- AI Drafts -->
+          <router-link v-if="hasPermission('view_ai_drafts')" to="/ai-drafts" @click="closeSidebarOnMobile"
+            class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
+              !sidebarOpen && !isMobile ? 'justify-center' : '',
+              $route.path.startsWith('/ai-drafts')
+                ? 'bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-sm shadow-teal-500/10'
+                : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
+            ]" :title="!sidebarOpen && !isMobile ? t('nav.ai_drafts') : ''">
+            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+            </svg>
+            <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
+              {{ t('nav.ai_drafts') }}
+            </span>
+            <div v-if="$route.path.startsWith('/ai-drafts')"
+              class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-teal-500"
+              :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
+          </router-link>
 
           <!-- Admin Section -->
           <template v-if="isAdmin">
@@ -605,6 +626,7 @@
       </nav>
 
       <!-- Page Content -->
+      <FloatingSupportButton />
       <main class="flex-1 p-4 md:p-6 lg:p-8 bg-gray-50/50">
         <router-view v-slot="{ Component }">
           <Transition name="page" mode="out-in">
@@ -620,6 +642,7 @@
 </template>
 
 <script>
+import FloatingSupportButton from '@/components/shared/FloatingSupportButton.vue'
 import InvoiceNotificationBell from '@/components/shared/InvoiceNotificationBell.vue'
 import BranchSelector from '@/views/BranchSelector.vue'
 import PropertySelector from '@/components/shared/PropertySelector.vue'
@@ -628,7 +651,7 @@ import { toggleDarkMode, isDarkMode } from '@/utils/darkMode'
 
 export default {
   name: 'DefaultLayout',
-  components: { InvoiceNotificationBell, BranchSelector, PropertySelector, Footer },
+  components: { FloatingSupportButton, InvoiceNotificationBell, BranchSelector, PropertySelector, Footer },
   props: {
     enableI18n: { type: Boolean, default: true },
   },
@@ -674,6 +697,7 @@ export default {
         '/floors': 'nav.floors',
         '/units': 'nav.units',
         '/tenants': 'nav.tenants',
+        '/ai-drafts': 'nav.ai_drafts',
         '/contracts': 'realty.contract.title',
         '/reports': 'nav.reports',
         '/users': 'nav.users',

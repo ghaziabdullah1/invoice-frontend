@@ -408,6 +408,7 @@
 </template>
 
 <script>
+import { COMPANY } from '@/config/company'
 import { mapActions, mapGetters } from 'vuex'
 import { nextTick } from 'vue'
 import moment from 'moment'
@@ -518,15 +519,8 @@ export default {
       const invoice = this.invoice
       if (!invoice) return
 
-      // ====== بيانات الشركة (عدّلها هنا مرة واحدة، والحقل الفارغ لا يظهر) ======
-      const COMPANY = {
-        name: '',
-        address: '',
-        phone: '',
-        email: '',
-        taxNumber: '',
-        logo: '', // رابط الشعار أو data URI
-      }
+      // بيانات الشركة: عدّلها في src/config/company.js
+      
 
       this.printedOn = moment().format('DD-MM-YYYY hh:mm a')
 

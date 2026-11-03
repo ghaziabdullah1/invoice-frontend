@@ -23,7 +23,10 @@
           >
             <div class="flex items-center justify-between gap-2">
               <span class="font-mono text-xs font-bold text-gray-700 dark:text-slate-300">{{ t.ticket_number }}</span>
-              <span :class="statusClass(t.status)">{{ statusLabel(t.status) }}</span>
+              <span class="flex items-center gap-1.5">
+                <span v-if="t.unread_count > 0" class="min-w-[1.25rem] h-5 px-1 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">{{ t.unread_count }}</span>
+                <span :class="statusClass(t.status)">{{ statusLabel(t.status) }}</span>
+              </span>
             </div>
             <p class="text-sm font-semibold text-gray-900 dark:text-white truncate mt-1">{{ t.subject }}</p>
             <p class="text-xs text-gray-500 dark:text-slate-400 truncate mt-0.5">{{ t.last_message || t.message }}</p>
@@ -159,8 +162,19 @@ export default {
         })
         this.sendError = null
         this.scrollDown()
+        this.markRead(id)
       } catch (e) {
         this.listError = e.response?.data?.message || 'تعذر فتح التذكرة'
+      }
+    },
+
+    async markRead(id) {
+      try {
+        await axios.post(`/support/my-tickets/${id}/read`)
+        const t = this.tickets.find((x) => x.id === id)
+        if (t) t.unread_count = 0
+      } catch (e) {
+        // فشل التعليم كمقروء لا يزعج المستخدم
       }
     },
 
@@ -178,6 +192,7 @@ export default {
         is_admin_reply: msg.is_admin_reply, created_at: msg.created_at,
         user: { id: msg.user_id, name: msg.sender_name },
       })
+      if (msg.is_admin_reply) this.markRead(this.selected.id)
       this.scheduleRefresh()
     },
 

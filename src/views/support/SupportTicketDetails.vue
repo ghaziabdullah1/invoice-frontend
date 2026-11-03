@@ -268,6 +268,7 @@
                     >{{ $t('support.staff') || 'فريق الدعم' }}</span
                   >
                   <span class="text-xs text-gray-400">{{ formatDateTime(reply.created_at) }}</span>
+                  <span v-if="reply.is_internal" class="px-2 py-0.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-semibold rounded-full">ملاحظة داخلية</span>
                 </div>
                 <p
                   class="text-gray-700 dark:text-slate-300 text-sm leading-relaxed whitespace-pre-wrap"
@@ -309,7 +310,13 @@
               class="w-full px-4 py-3.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-white transition-all resize-none"
             ></textarea>
             <div class="flex justify-between items-center mt-4">
-              <span class="text-xs text-gray-400">{{ replyMessage.length }}/2000</span>
+                            <div class="flex items-center gap-4">
+                <label class="flex items-center gap-2 text-sm text-gray-600 dark:text-slate-300 cursor-pointer select-none">
+                  <input type="checkbox" v-model="isInternal" class="rounded border-gray-300 text-amber-500 focus:ring-amber-500/30" />
+                  ملاحظة داخلية (لا تظهر للعميل)
+                </label>
+                <span class="text-xs text-gray-400">{{ replyMessage.length }}/2000</span>
+              </div>
               <button
                 type="submit"
                 :disabled="submitting || !replyMessage.trim()"
@@ -383,6 +390,7 @@ export default {
   data() {
     return {
       replyMessage: '',
+      isInternal: false,
       pendingStatus: '',
     }
   },
@@ -441,7 +449,8 @@ export default {
     async handleReply() {
       if (!this.replyMessage.trim()) return
       try {
-        await this.replyToTicket({ id: this.ticketId, message: this.replyMessage })
+        await this.replyToTicket({ id: this.ticketId, message: this.replyMessage, is_internal: this.isInternal })
+        this.isInternal = false
         this.replyMessage = ''
       } catch (error) {
         if (error.response?.status === 401) {

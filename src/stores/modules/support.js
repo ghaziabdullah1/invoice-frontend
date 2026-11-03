@@ -87,10 +87,10 @@ const actions = {
     }
   },
 
-  async replyToTicket({ commit }, { id, message }) {
+  async replyToTicket({ commit }, { id, message, is_internal = false }) {
     commit('SET_SUBMITTING', true)
     try {
-      const { data } = await axios.post(`/admin/support/tickets/${id}/replies`, { message })
+      const { data } = await axios.post(`/admin/support/tickets/${id}/replies`, { message, is_internal })
       // repository.reply() يرجّع data: { reply, replies, status }
       commit('SET_TICKET_REPLIES', { id, replies: data.data.replies || [] })
       if (data.data.status) commit('SET_TICKET_STATUS', { id, status: data.data.status })

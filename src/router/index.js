@@ -38,6 +38,13 @@ const routes = [
         name: 'Dashboard',
         component: () => import('@/views/DashboardPage.vue'),
       },
+      // AI Drafts
+      {
+        path: 'ai-drafts',
+        name: 'AiDrafts',
+        component: () => import('@/views/AiDrafts/AiDraftsIndex.vue'),
+        meta: { permission: 'view_ai_drafts' },
+      },
       // Invoices
       {
         path: 'invoices',
@@ -132,6 +139,16 @@ const routes = [
         meta: { permission: 'view_clients' },
       },
       {
+        path: 'clients/:id/statement',
+        name: 'ClientStatement',
+        component: () => import('@/views/Clients/ClientStatement.vue'),
+      },
+      {
+        path: 'design-guide',
+        name: 'DesignGuide',
+        component: () => import('@/views/DesignGuide.vue'),
+      },
+      {
         path: 'clients/:id/edit',
         name: 'EditClient',
         component: () => import('@/views/Clients/EditClient.vue'),
@@ -173,6 +190,13 @@ const routes = [
         path: 'reports',
         name: 'Reports',
         component: () => import('@/views/Reports/ReportsIndex.vue'),
+        meta: { permission: 'view_reports' },
+      },
+      {
+        path: 'reports/realty',
+        name: 'RealtyReports',
+        component: () => import('@/views/Reports/RealtyReportsIndex.vue'),
+        meta: { permission: 'view_reports' },
       },
       // Profile
       {

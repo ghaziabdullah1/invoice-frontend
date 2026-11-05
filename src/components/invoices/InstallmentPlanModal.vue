@@ -1,7 +1,7 @@
 ﻿<template>
   <transition name="modal-fade">
     <div v-if="show" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" @click.self="close">
-      <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden">
         <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
           <div class="flex items-center justify-between">
             <h3 class="text-xl font-bold text-white">{{ $t("installments.plan_options") }}</h3>
@@ -10,29 +10,29 @@
         </div>
         <div class="p-6">
           <div class="grid grid-cols-2 gap-4 mb-6">
-            <button @click="selectOption(false)" :class="['p-4 rounded-xl border-2 transition-all', !enabled ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600']">
+            <button @click="selectOption(false)" :class="['p-4 rounded-xl border-2 transition-all', !enabled ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-400']">
               <span class="font-semibold">{{ $t("installments.one_time_payment") }}</span>
             </button>
-            <button @click="selectOption(true)" :class="['p-4 rounded-xl border-2 transition-all', enabled ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600']">
+            <button @click="selectOption(true)" :class="['p-4 rounded-xl border-2 transition-all', enabled ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-400']">
               <span class="font-semibold">{{ $t("installments.installment_plan") }}</span>
             </button>
           </div>
           <div v-if="enabled" class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700">{{ $t("installments.number_of_installments") }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">{{ $t("installments.number_of_installments") }}</label>
               <input v-model.number="form.number_of_installments" type="range" min="2" max="24" class="w-full"/>
               <span class="text-blue-600 font-bold">{{ form.number_of_installments }}</span>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">{{ $t("installments.interest_rate") }} (%)</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">{{ $t("installments.interest_rate") }} (%)</label>
               <input v-model.number="form.interest_rate" type="number" min="0" max="100" step="0.5" class="w-full px-3 py-2 border rounded-lg"/>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">{{ $t("installments.start_date") }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">{{ $t("installments.start_date") }}</label>
               <input v-model="form.start_date" type="date" :min="today" class="w-full px-3 py-2 border rounded-lg"/>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">{{ $t("installments.frequency") }}</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">{{ $t("installments.frequency") }}</label>
               <select v-model="form.frequency" class="w-full px-3 py-2 border rounded-lg">
                 <option value="monthly">{{ $t("installments.monthly") }}</option>
                 <option value="weekly">{{ $t("installments.weekly") }}</option>
@@ -46,8 +46,8 @@
             </div>
           </div>
         </div>
-        <div class="px-6 py-4 bg-gray-50 flex justify-end gap-3">
-          <button @click="close" class="px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-lg">{{ $t("common.cancel") }}</button>
+        <div class="px-6 py-4 bg-gray-50 dark:bg-slate-900 flex justify-end gap-3">
+          <button @click="close" class="px-4 py-2 text-gray-700 dark:text-slate-300 hover:bg-gray-200 rounded-lg">{{ $t("common.cancel") }}</button>
           <button @click="confirm" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">{{ enabled ? $t("installments.create_plan") : $t("common.continue") }}</button>
         </div>
       </div>

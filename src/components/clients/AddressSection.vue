@@ -2,7 +2,7 @@
   <div v-if="address" class="address-section">
     <div class="address-header">
       <svg
-        class="w-4 h-4 text-gray-600 mt-0.5 flex-shrink-0"
+        class="w-4 h-4 text-gray-600 dark:text-slate-400 mt-0.5 flex-shrink-0"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

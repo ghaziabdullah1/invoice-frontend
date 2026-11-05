@@ -5,12 +5,12 @@
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       @click.self="$emit('close')"
     >
-      <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-xl max-w-md w-full p-6">
         <h3 class="text-lg font-bold mb-4">{{ $t('installments.create_plan') }}</h3>
         <form @submit.prevent="submit">
           <!-- عدد الأقساط -->
           <div class="mb-3">
-            <label class="block text-sm font-medium text-gray-700">
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">
               {{ $t('installments.number_of_installments') }}
             </label>
             <input
@@ -18,14 +18,14 @@
               v-model.number="form.number_of_installments"
               min="2"
               max="60"
-              class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
+              class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
               @input="suggestRate"
               required
             />
           </div>
           <!-- نسبة الفائدة -->
           <div class="mb-3">
-            <label class="block text-sm font-medium text-gray-700">
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">
               {{ $t('installments.interest_rate') }} (%)
             </label>
             <input
@@ -34,31 +34,31 @@
               min="0"
               max="100"
               step="0.5"
-              class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
+              class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
             />
             <p class="text-xs text-gray-500 mt-1">{{ $t('installments.interest_rate_hint') }}</p>
           </div>
           <!-- تاريخ البدء -->
           <div class="mb-3">
-            <label class="block text-sm font-medium text-gray-700">
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">
               {{ $t('installments.start_date') }}
             </label>
             <input
               type="date"
               v-model="form.start_date"
               :min="today"
-              class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
+              class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
           <!-- التكرار -->
           <div class="mb-3">
-            <label class="block text-sm font-medium text-gray-700">
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">
               {{ $t('installments.frequency') }}
             </label>
             <select
               v-model="form.frequency"
-              class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
+              class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="monthly">{{ $t('installments.monthly') }}</option>
               <option value="weekly">{{ $t('installments.weekly') }}</option>
@@ -66,13 +66,13 @@
           </div>
           <!-- ملاحظات -->
           <div class="mb-3">
-            <label class="block text-sm font-medium text-gray-700">
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">
               {{ $t('common.notes') }}
             </label>
             <textarea
               v-model="form.notes"
               rows="2"
-              class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
+              class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"
             ></textarea>
           </div>
 
@@ -100,7 +100,7 @@
             <button
               type="button"
               @click="$emit('close')"
-              class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+              class="px-4 py-2 bg-gray-200 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-300"
             >
               {{ $t('common.cancel') }}
             </button>

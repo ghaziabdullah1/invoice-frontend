@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-6 md:py-8 transition-colors duration-300"
+    class="min-h-screen bg-gray-50 dark:bg-slate-900 dark:from-gray-900 dark:to-gray-800 py-6 md:py-8 transition-colors duration-300"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
@@ -282,7 +282,7 @@
               <button
                 v-if="filters.search"
                 @click="clearSearch"
-                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-gray-300"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -524,14 +524,9 @@
               <thead class="bg-gray-50 dark:bg-gray-900/50 transition-colors duration-300">
                 <tr>
                   <th
-                    class="px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider"
+                    class="px-6 py-3 text-start text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider"
                   >
-                    {{ $t('groups.name_en') }}
-                  </th>
-                  <th
-                    class="px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider"
-                  >
-                    {{ $t('groups.name_ar') }}
+                    {{ $t('groups.name') }}
                   </th>
                   <th
                     class="px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider"
@@ -573,10 +568,10 @@
                   :key="group.id"
                   class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors duration-150"
                 >
-                  <!-- Name English -->
+                  <!-- Name (locale-aware) -->
                   <td class="px-6 py-4">
-                    <div class="text-sm font-semibold text-gray-900 dark:text-white">
-                      {{ group.title_en }}
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white text-start" dir="auto">
+                      {{ $i18n.locale === 'ar' ? group.title_ar : group.title_en }}
                     </div>
                     <div
                       class="text-xs text-gray-500 dark:text-gray-400 mt-1"
@@ -586,29 +581,24 @@
                     </div>
                   </td>
 
-                  <!-- Name Arabic -->
-                  <td class="px-6 py-4">
-                    <div class="text-sm text-gray-900 dark:text-gray-100 font-medium">
-                      {{ group.title_ar }}
+                  <!-- Users Count with Icon -->
+                  <td class="px-6 py-4 text-center">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-semibold rounded-full border border-blue-100 dark:border-blue-800">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      {{ group.users_count || 0 }}
                     </div>
                   </td>
 
-                  <!-- Users Count -->
+                  <!-- Permissions Count with Icon -->
                   <td class="px-6 py-4 text-center">
-                    <span
-                      class="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-sm font-medium rounded-full"
-                    >
-                      {{ group.users_count || 0 }}
-                    </span>
-                  </td>
-
-                  <!-- Permissions Count -->
-                  <td class="px-6 py-4 text-center">
-                    <span
-                      class="px-3 py-1 bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 text-sm font-medium rounded-full"
-                    >
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-sm font-semibold rounded-full border border-purple-100 dark:border-purple-800">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
                       {{ group.permissions_count || 0 }}
-                    </span>
+                    </div>
                   </td>
 
                   <!-- Status -->
@@ -657,7 +647,7 @@
                     <div class="flex items-center justify-center gap-2">
                       <button
                         @click="editGroup(group)"
-                        class="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors duration-200"
+                        class="ui-icon-btn"
                         :title="$t('buttons.edit')"
                       >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -713,7 +703,7 @@
                       <button
                         v-if="!group.is_system"
                         @click="confirmDelete(group)"
-                        class="p-2 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors duration-200"
+                        class="ui-icon-btn"
                         :title="$t('buttons.delete')"
                       >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -771,7 +761,7 @@
                 </div>
                 <div>
                   <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                    {{ $t('groups.manage_permissions') }}: {{ selectedGroup?.title_ar }}
+                    {{ $t('groups.manage_permissions') }}: {{ $i18n.locale === 'ar' ? selectedGroup?.title_ar : selectedGroup?.title_en }}
                   </h3>
                   <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     {{ $t('groups.permissions_subtitle') }}
@@ -780,7 +770,7 @@
               </div>
               <button
                 @click="closePermissionsModal"
-                class="p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                class="p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:bg-slate-800 dark:hover:bg-gray-700 rounded-lg transition-colors"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -832,9 +822,9 @@
                       :for="'perm_' + permission.id"
                       class="text-sm text-gray-700 dark:text-gray-200"
                     >
-                      {{ permission.title }}
-                      <span class="text-xs text-gray-500 dark:text-gray-400 block">
-                        {{ permission.description_ar || permission.description_en }}
+                      <span dir="auto" class="text-start inline-block">{{ $i18n.locale === 'ar' ? (permission.description_ar || permission.title) : (permission.description_en || permission.title) }}</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400 block" dir="ltr" style="text-align: left;">
+                        {{ permission.title }}
                       </span>
                     </label>
                   </div>
@@ -1027,7 +1017,7 @@ export default {
     formatDate(date) {
       if (!date) return '-'
       const dateObj = new Date(date)
-      return dateObj.toLocaleDateString('ar-SA', {
+      return dateObj.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -1170,7 +1160,7 @@ export default {
   @apply text-2xl font-bold text-gray-900 dark:text-white;
 }
 .table-header {
-  @apply px-6 py-4 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
+  @apply px-6 py-4 text-start text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
 }
 .table-cell {
   @apply px-6 py-4;

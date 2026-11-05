@@ -3,7 +3,9 @@
     "name": "نظام الفواتير",
     "description": "نظام إدارة الفواتير المتكامل",
     "version": "الإصدار",
-    "edition": "الإصدار الاحترافي"
+    "edition": "الإصدار الاحترافي",
+    "online": "متصل",
+    "status": "الحالة"
   },
   "nav": {
     "dashboard": "لوحة التحكم",
@@ -31,7 +33,10 @@
     "tenants": "المستأجرون",
     "properties_section": "إدارة العقارات",
     "my_tickets": "تذاكري",
-    "ai_drafts": "مسودات الموظف الذكي"
+    "ai_drafts": "مسودات الموظف الذكي",
+    "clients_desc": "إدارة قاعدة بيانات العملاء",
+    "invoices_desc": "إدارة وعرض جميع الفواتير",
+    "reports_desc": "إحصائيات وبيانات شاملة"
   },
   "auth": {
     "login": "تسجيل الدخول",
@@ -73,7 +78,11 @@
     "loginErrorGeneral": "حدث خطأ غير متوقع أثناء تسجيل الدخول. الرجاء المحاولة مرة أخرى.",
     "alreadyHaveAccount": "لديك حساب بالفعل؟",
     "securityInfo": "معلومات أمنية",
-    "securityDescription": "نستخدم أحدث تقنيات التشفير لحماية بياناتك. كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على أحرف وأرقام."
+    "securityDescription": "نستخدم أحدث تقنيات التشفير لحماية بياناتك. كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على أحرف وأرقام.",
+    "admin": "مدير النظام",
+    "logout_confirm": "تأكيد تسجيل الخروج",
+    "logout_confirm_text": "هل أنت متأكد من تسجيل الخروج؟",
+    "logout_desc": "إنهاء الجلسة الحالية"
   },
   "dashboard": {
     "fetch_failed": "فشل في جلب بيانات لوحة التحكم",
@@ -127,7 +136,10 @@
     "period_6m": "6ش",
     "period_1y": "1س",
     "avg_monthly": "متوسط شهري",
-    "growth_rate": "معدل النمو"
+    "growth_rate": "معدل النمو",
+    "preparing_insights": "dashboard.preparing_insights",
+    "revenue_insights": "dashboard.revenue_insights",
+    "status_overview": "dashboard.status_overview"
   },
   "clients": {
     "empty_response": "لم يتم استلام بيانات من الخادم",
@@ -252,8 +264,18 @@
       "currency": "العملة",
       "notes": "ملاحظات",
       "notesPlaceholder": "أدخل ملاحظات عن هذا العميل...",
-      "status": "الحالة"
-    }
+      "status": "الحالة",
+      "creditLimitHint": "clients.form.creditLimitHint",
+      "creditLimitPlaceholder": "clients.form.creditLimitPlaceholder"
+    },
+    "add_first_client": "clients.add_first_client",
+    "client": "clients.client",
+    "empty_subtitle": "clients.empty_subtitle",
+    "empty_title": "clients.empty_title",
+    "loadingClientInfo": "clients.loadingClientInfo",
+    "loading_subtitle": "clients.loading_subtitle",
+    "notFound": "clients.notFound",
+    "notesDescription": "clients.notesDescription"
   },
   "invoices": {
     "fetch_failed": "فشل في جلب الفواتير",
@@ -527,7 +549,9 @@
     "export": "تصدير",
     "collapse_sidebar": "طي القائمة الجانبية",
     "select_all": "تحديد الكل",
-    "deselect_all": "إلغاء تحديد الكل"
+    "deselect_all": "إلغاء تحديد الكل",
+    "collapse": "buttons.collapse",
+    "toggle_language": "buttons.toggle_language"
   },
   "common": {
     "clear": "مسح",
@@ -651,7 +675,22 @@
     "view_all": "عرض الكل",
     "from_last_month": "من الشهر الماضي",
     "user": "مستخدم",
-    "download": "تحميل"
+    "download": "تحميل",
+    "are_you_sure": "هل أنت متأكد؟",
+    "backToList": "العودة إلى القائمة",
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "continue": "متابعة",
+    "dark_mode": "الوضع الداكن",
+    "go_home": "العودة للرئيسية",
+    "light_mode": "الوضع الفاتح",
+    "navigation": "التنقل",
+    "no": "لا",
+    "notProvided": "غير متوفر",
+    "print": "طباعة",
+    "search_permissions": "بحث في الصلاحيات...",
+    "select": "اختر",
+    "view": "عرض"
   },
   "messages": {
     "welcome": "مرحباً {name}!",
@@ -696,7 +735,20 @@
     "contactSupport": "اتصل بالدعم الفني",
     "load_failed": "فشل في التحميل",
     "failed_to_create_permission": "فشل في إنشاء الصلاحية",
-    "failed_to_delete_permission": "فشل في حذف الصلاحية"
+    "failed_to_delete_permission": "فشل في حذف الصلاحية",
+    "error": "خطأ",
+    "failed_to_change_status": "فشل تغيير الحالة",
+    "failed_to_delete_group": "فشل حذف المجموعة",
+    "failed_to_delete_user": "فشل حذف المستخدم",
+    "failed_to_load_data": "فشل تحميل البيانات",
+    "failed_to_load_permissions": "فشل تحميل الصلاحيات",
+    "failed_to_save_group": "فشل حفظ المجموعة",
+    "failed_to_update_permission": "فشل تحديث الصلاحية",
+    "failed_to_update_permissions": "فشل تحديث الصلاحيات",
+    "invalidClientId": "errors.invalidClientId",
+    "password_min_length": "errors.password_min_length",
+    "password_mismatch": "errors.password_mismatch",
+    "validation_error": "خطأ في التحقق"
   },
   "validation": {
     "required": "حقل {field} مطلوب",
@@ -708,7 +760,9 @@
     "email_invalid": "البريد الإلكتروني غير صالح",
     "subject_required": "الموضوع مطلوب",
     "message_required": "الرسالة مطلوبة",
-    "message_too_long": "الرسالة طويلة جداً (الحد الأقصى 1000 حرف)"
+    "message_too_long": "الرسالة طويلة جداً (الحد الأقصى 1000 حرف)",
+    "title_ar_required": "الاسم بالعربية مطلوب",
+    "title_en_required": "الاسم بالإنجليزية مطلوب"
   },
   "permissions": {
     "fetch_one_failed": "فشل في جلب الصلاحية",
@@ -760,10 +814,25 @@
     "description_en": "الوصف (إنجليزي)",
     "permission_name_placeholder": "أدخل اسم الصلاحية",
     "permission_description_placeholder": "أدخل وصف الصلاحية",
-    "child": "فرعي",
+    "child": "فرعية",
     "type": "النوع",
     "manage_for": "إدارة الصلاحيات لـ: {user}",
-    "parent_permission_hint": "اختر صلاحية أصل لإنشاء هيكل هرمي"
+    "parent_permission_hint": "اختر صلاحية أصل لإنشاء هيكل هرمي",
+    "description": "الوصف",
+    "create_subtitle": "إضافة صلاحية جديدة",
+    "edit_subtitle": "تعديل بيانات الصلاحية",
+    "parent": "أصلية",
+    "parent_permission": "الصلاحية الأصلية",
+    "name_placeholder": "أدخل اسم الصلاحية",
+    "description_ar_placeholder": "الوصف بالعربية",
+    "description_en_placeholder": "الوصف بالإنجليزية",
+    "main_menu": "القائمة الرئيسية",
+    "sub_menu": "القائمة الفرعية",
+    "search_subtitle": "بحث في قائمة الصلاحيات",
+    "messages": {
+      "delete_success": "تم حذف الصلاحية بنجاح",
+      "update_success": "تم تحديث الصلاحية بنجاح"
+    }
   },
   "assign_permissions": {
     "title": "تعيين الصلاحيات",
@@ -785,7 +854,12 @@
     "changes_saved": "تم حفظ التغييرات بنجاح",
     "select_group_first": "الرجاء اختيار مجموعة أولاً",
     "selected": "المحدد",
-    "save_failed": "فشل في حفظ التغييرات"
+    "save_failed": "فشل في حفظ التغييرات",
+    "loading_subtitle": "جاري تحميل البيانات...",
+    "messages": {
+      "update_error": "فشل تحديث الصلاحيات",
+      "update_success": "تم تحديث الصلاحيات بنجاح"
+    }
   },
   "admin_permissions": {
     "title": "صلاحيات الإدارة",
@@ -842,7 +916,43 @@
     "status": {
       "active": "نشط",
       "inactive": "غير نشط"
-    }
+    },
+    "activate": "تفعيل",
+    "confirm_new_password": "تأكيد كلمة المرور الجديدة",
+    "confirm_new_password_placeholder": "أعد إدخال كلمة المرور الجديدة",
+    "confirm_password": "تأكيد كلمة المرور",
+    "confirm_password_placeholder": "أعد إدخال كلمة المرور",
+    "confirm_status_change": "تغيير حالة المستخدم {name} إلى {action}؟",
+    "confirm_status_change_title": "تأكيد تغيير الحالة",
+    "create_first": "إنشاء أول مستخدم",
+    "create_subtitle": "إضافة مستخدم جديد",
+    "create_user": "إنشاء مستخدم جديد",
+    "deactivate": "تعطيل",
+    "delete_confirm": "حذف المستخدم {name}؟",
+    "delete_confirm_title": "تأكيد الحذف",
+    "edit_subtitle": "تعديل بيانات المستخدم",
+    "edit_user": "تعديل المستخدم",
+    "email_placeholder": "أدخل البريد الإلكتروني",
+    "full_name": "الاسم الكامل",
+    "loading_subtitle": "جاري تحميل المستخدمين...",
+    "messages": {
+      "create_success": "تم إنشاء المستخدم بنجاح",
+      "delete_success": "تم حذف المستخدم بنجاح",
+      "status_change_success": "تم تغيير الحالة: {action}",
+      "update_success": "تم تحديث المستخدم بنجاح"
+    },
+    "name_placeholder": "أدخل الاسم الكامل",
+    "new_password": "كلمة المرور الجديدة",
+    "new_password_placeholder": "أدخل كلمة المرور الجديدة",
+    "no_group": "لا توجد مجموعة",
+    "no_users": "لا يوجد مستخدمون",
+    "password": "كلمة المرور",
+    "password_min_length": "8 أحرف على الأقل",
+    "password_optional": "اختياري",
+    "password_placeholder": "أدخل كلمة المرور",
+    "primary_email": "البريد الأساسي",
+    "select_group": "اختر المجموعة",
+    "you": "أنت"
   },
   "groups": {
     "title": "مجموعات المستخدمين",
@@ -891,7 +1001,9 @@
     "confirm_status_change_title": "تأكيد تغيير الحالة",
     "confirm_status_change": "هل أنت متأكد من {action} المجموعة \"{name}\"?",
     "delete_confirm_title": "تأكيد الحذف",
-    "delete_confirm": "هل أنت متأكد من حذف المجموعة \"{name}\"؟ لا يمكن التراجع عن هذا الإجراء."
+    "delete_confirm": "هل أنت متأكد من حذف المجموعة \"{name}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+    "loading_subtitle": "جاري تحميل المجموعات...",
+    "name": "الاسم"
   },
   "adminGroups": {
     "fetch_failed": "فشل في تحميل المجموعات",
@@ -1027,7 +1139,8 @@
       "invoices": "تقرير الفواتير",
       "clients": "تقرير العملاء",
       "revenue": "تقرير الإيرادات",
-      "overdue": "الفواتير المتأخرة"
+      "overdue": "الفواتير المتأخرة",
+      "aging": "reports.types.aging"
     },
     "type_descriptions": {
       "invoices": "عرض جميع الفواتير مع التفاصيل",
@@ -1248,7 +1361,27 @@
         "invoiced": "إجمالي المفوتر",
         "overdue": "المتأخر"
       }
-    }
+    },
+    "actions": "reports.actions",
+    "amount": "reports.amount",
+    "average_invoice": "reports.average_invoice",
+    "client": "reports.client",
+    "company": "reports.company",
+    "days_overdue": "reports.days_overdue",
+    "due_date": "reports.due_date",
+    "email": "reports.email",
+    "invoice_number": "reports.invoice_number",
+    "invoices_count": "reports.invoices_count",
+    "issue_date": "reports.issue_date",
+    "month": "reports.month",
+    "noClientsMessage": "reports.noClientsMessage",
+    "noOverdueMessage": "reports.noOverdueMessage",
+    "noRevenueMessage": "reports.noRevenueMessage",
+    "paid": "reports.paid",
+    "phone": "reports.phone",
+    "status": "reports.status",
+    "total_amount": "reports.total_amount",
+    "total_spent": "reports.total_spent"
   },
   "profile": {
     "fetch_failed": "فشل في تحميل الملف الشخصي",
@@ -1283,7 +1416,15 @@
     "update_success": "تم تحديث البيانات بنجاح",
     "password_changed": "تم تغيير كلمة المرور بنجاح",
     "password_mismatch": "كلمة المرور الجديدة وتأكيدها غير متطابقين",
-    "password_error": "فشل تغيير كلمة المرور، يرجى التحقق من المدخلات"
+    "password_error": "فشل تغيير كلمة المرور، يرجى التحقق من المدخلات",
+    "change_image": "profile.change_image",
+    "img_hint": "profile.img_hint",
+    "img_invalid_type": "profile.img_invalid_type",
+    "img_too_large": "profile.img_too_large",
+    "password_fair": "profile.password_fair",
+    "password_good": "profile.password_good",
+    "password_strong": "profile.password_strong",
+    "profile_image": "profile.profile_image"
   },
   "language": {
     "changed": "تم تغيير اللغة إلى {lang}",
@@ -1427,7 +1568,7 @@
     "email": "البريد الإلكتروني",
     "email_placeholder": "example@domain.com",
     "message": "الرسالة",
-    "message_placeholder": "اشرح مشكلتك بالتفصيل...",
+    "message_placeholder": "اكتب رسالتك... (Enter للإرسال، Shift+Enter لسطر جديد)",
     "send": "إرسال الرسالة",
     "contact_info": "معلومات التواصل",
     "email_label": "البريد الإلكتروني",
@@ -1450,7 +1591,21 @@
       "billing": "فوترة ومدفوعات",
       "account": "الحساب والاشتراك",
       "feature": "طلب ميزة جديدة"
-    }
+    },
+    "new_chat": "محادثة جديدة",
+    "no_tickets_yet": "لا توجد تذاكر بعد",
+    "select_ticket_to_view": "اختر تذكرة لعرض المحادثة",
+    "assigned_to": "يتولاها",
+    "send_short": "إرسال",
+    "load_error": "فشل تحميل التذاكر",
+    "open_error": "تعذر فتح التذكرة",
+    "send_message_error": "فشل إرسال الرسالة",
+    "must_login": "يجب تسجيل الدخول أولاً",
+    "internal_note": "ملاحظة داخلية (لا تظهر للعميل)",
+    "internal_note_short": "ملاحظة داخلية",
+    "ticket_load_error": "خطأ في تحميل التذاكر",
+    "ticket_load_error_desc": "خطأ في تحميل التذكرة",
+    "no_ticket_data": "لا توجد بيانات للتذكرة"
   },
   "privacy": {
     "title": "سياسة الخصوصية",
@@ -1470,7 +1625,8 @@
     "contact_legal": "للاستفسارات المتعلقة بالشروط والأحكام"
   },
   "footer": {
-    "support": "الدعم"
+    "support": "الدعم",
+    "links": "روابط"
   },
   "recurringInvoices": {
     "title": "الفواتير المتكررة",
@@ -1862,5 +2018,306 @@
     "rejected_ok": "تم رفض المسودة",
     "resumed_ok": "أُعيدت المحادثة للبوت",
     "error": "حدث خطأ غير متوقع"
+  },
+  "procurement": {
+    "my_approvals": {
+      "title": "موافقاتي",
+      "subtitle": "أوامر الشراء المنتظرة قرارك",
+      "empty": "لا توجد أوامر شراء بانتظار موافقتك",
+      "order": "الأمر",
+      "supplier": "المورد",
+      "requester": "الطالب",
+      "branch": "الفرع",
+      "total": "الإجمالي",
+      "step": "الخطوة",
+      "deadline": "المهلة",
+      "status": "الحالة",
+      "review": "مراجعة",
+      "overdue": "متأخر",
+      "escalated": "مُصعَّد",
+      "pending": "معلّق",
+      "not_your_turn": "هذا الطلب بانتظار موافق آخر",
+      "on_behalf": "أنت توافق نيابة عن الموافق المعيَّن"
+    },
+    "chain": {
+      "title": "سلسلة الموافقات",
+      "none": "لا توجد خطوات موافقة",
+      "deadline": "المهلة",
+      "overdue": "متأخر",
+      "status": {
+        "waiting": "بانتظار الدور",
+        "pending": "معلّق",
+        "approved": "تمت الموافقة",
+        "rejected": "مرفوض",
+        "escalated": "مُصعَّد",
+        "skipped": "متجاوَز"
+      }
+    },
+    "nav": {
+      "departments": "الأقسام",
+      "section": "المشتريات والتوريد",
+      "suppliers": "الموردون",
+      "purchase_orders": "أوامر الشراء"
+    },
+    "supplier": {
+      "title": "الموردون",
+      "subtitle": "إدارة موردي الشركة وبياناتهم",
+      "add": "إضافة مورد",
+      "edit": "تعديل مورد",
+      "empty": "لا يوجد موردون بعد",
+      "code": "رمز المورد",
+      "name": "اسم المورد",
+      "name_en": "الاسم (إنجليزي)",
+      "contact_person": "الشخص المسؤول",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "address": "العنوان",
+      "city": "المدينة",
+      "tax_number": "الرقم الضريبي",
+      "payment_terms_days": "مدة السداد (أيام)",
+      "currency": "العملة",
+      "notes": "ملاحظات",
+      "orders_count": "أوامر الشراء"
+    },
+    "status": {
+      "draft": "مسودة",
+      "pending_approval": "بانتظار الاعتماد",
+      "approved": "معتمد",
+      "rejected": "مرفوض",
+      "sent": "مُرسل للمورد",
+      "partially_received": "مستلم جزئياً",
+      "received": "مستلم بالكامل",
+      "cancelled": "ملغى"
+    },
+    "po": {
+      "title": "أوامر الشراء",
+      "subtitle": "إدارة أوامر الشراء من الإنشاء حتى الاستلام",
+      "add": "إنشاء أمر شراء",
+      "edit": "تعديل أمر شراء",
+      "empty": "لا توجد أوامر شراء",
+      "number": "رقم الأمر",
+      "supplier": "المورد",
+      "branch": "الفرع",
+      "order_date": "تاريخ الأمر",
+      "expected_date": "التسليم المتوقع",
+      "total": "الإجمالي",
+      "status": "الحالة",
+      "currency": "العملة",
+      "payment_terms": "مدة السداد (أيام)",
+      "notes": "ملاحظات",
+      "search_placeholder": "بحث برقم الأمر أو اسم المورد",
+      "all_suppliers": "كل الموردين",
+      "from": "من تاريخ",
+      "to": "إلى تاريخ",
+      "clear": "مسح الفلاتر",
+      "open_value": "قيمة الأوامر المفتوحة",
+      "view": "عرض",
+      "beneficiary_department": "القسم المستفيد",
+      "select_beneficiary": "اختر القسم المستفيد"
+    },
+    "form": {
+      "items": "بنود الأمر",
+      "add_item": "إضافة بند",
+      "remove": "حذف البند",
+      "description": "الوصف",
+      "item_code": "الرمز",
+      "unit": "الوحدة",
+      "quantity": "الكمية",
+      "unit_price": "سعر الوحدة",
+      "tax_rate": "الضريبة %",
+      "line_total": "إجمالي البند",
+      "subtotal": "المجموع قبل الضريبة",
+      "tax": "الضريبة",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "errors": "تعذر الحفظ:",
+      "select_supplier": "اختر المورد",
+      "supplier_required": "اختر المورد أولاً",
+      "items_required": "أضف بنداً واحداً على الأقل بوصف",
+      "draft_hint": "يُحفظ الأمر كمسودة، ثم أرسله للاعتماد من شاشة التفاصيل."
+    },
+    "detail": {
+      "created_by": "أنشأه",
+      "approved_by": "اعتمده",
+      "approved_at": "تاريخ الاعتماد",
+      "sent_at": "تاريخ الإرسال",
+      "rejection_reason": "سبب الرفض",
+      "cancellation_reason": "سبب الإلغاء",
+      "items_title": "البنود",
+      "ordered": "المطلوب",
+      "received": "المستلم",
+      "remaining": "المتبقي",
+      "receipts": "سجل الاستلام",
+      "no_receipts": "لا يوجد استلام بعد"
+    },
+    "actions": {
+      "edit": "تعديل",
+      "submit": "إرسال للاعتماد",
+      "approve": "اعتماد",
+      "reject": "رفض",
+      "send": "إرسال للمورد",
+      "receive": "تسجيل استلام",
+      "cancel": "إلغاء الأمر",
+      "delete": "حذف",
+      "close": "إغلاق",
+      "confirm": "تأكيد"
+    },
+    "confirm": {
+      "submit": "هل تريد إرسال أمر الشراء للاعتماد؟",
+      "approve": "هل تريد اعتماد أمر الشراء؟",
+      "send": "هل تريد تأكيد إرسال الأمر للمورد؟",
+      "delete": "هل أنت متأكد من حذف أمر الشراء؟"
+    },
+    "reason": {
+      "reject_title": "رفض أمر الشراء",
+      "cancel_title": "إلغاء أمر الشراء",
+      "label": "السبب",
+      "placeholder": "اكتب السبب...",
+      "required": "السبب مطلوب",
+      "confirm": "تأكيد"
+    },
+    "receive": {
+      "title": "تسجيل استلام بضاعة",
+      "date": "تاريخ الاستلام",
+      "notes": "ملاحظات الاستلام",
+      "qty": "الكمية المستلمة الآن",
+      "hint": "الكميات معبأة بالمتبقي، عدّلها للاستلام الجزئي.",
+      "nothing": "حدّد كمية واحدة على الأقل",
+      "exceeds": "الكمية أكبر من المتبقي في",
+      "save": "حفظ الاستلام"
+    },
+    "signature": {
+      "approve_title": "توقيع الموافقة",
+      "approve_hint": "ارسم توقيعك في المساحة أدناه للموافقة على أمر الشراء",
+      "reject_title": "توقيع الرفض",
+      "reject_hint": "ارسم توقيعك واذكر سبب الرفض",
+      "draw_hint": "ارسم توقيعك بالماوس أو باللمس",
+      "clear": "مسح",
+      "approve_btn": "توقيع وموافقة",
+      "reject_btn": "توقيع ورفض",
+      "signature_required": "يجب رسم التوقيع أولاً"
+    },
+    "attachments": {
+      "title": "المرفقات",
+      "upload": "رفع ملف",
+      "empty": "لم يتم رفع أي ملف بعد",
+      "download": "تحميل",
+      "delete": "حذف",
+      "delete_confirm": "حذف هذا الملف؟",
+      "invalid_file": "الملف يجب أن يكون PDF أو صورة أو Word بحد أقصى 10 ميجابايت"
+    },
+    "signatures": {
+      "title": "سجل التوقيعات",
+      "none": "لا توجد توقيعات بعد",
+      "action_approve": "وافق على الأمر",
+      "action_reject": "رفض الأمر",
+      "reason": "السبب"
+    },
+    "attachment_uploaded": "تم رفع الملف",
+    "attachment_upload_failed": "فشل رفع الملف",
+    "attachment_deleted": "تم حذف الملف",
+    "attachment_not_found": "الملف غير موجود",
+    "signature_required": "التوقيع مطلوب للمتابعة",
+    "department": {
+      "title": "إدارة الأقسام",
+      "subtitle": "إدارة أقسام الشركة ومدرائها",
+      "add": "إضافة قسم",
+      "edit": "تعديل قسم",
+      "code": "الرمز",
+      "name": "اسم القسم",
+      "name_en": "الاسم (إنجليزي)",
+      "description": "الوصف",
+      "manager": "المدير",
+      "empty": "لا توجد أقسام بعد",
+      "delete_confirm": "حذف هذا القسم؟",
+      "created": "تم إنشاء القسم",
+      "updated": "تم تحديث القسم",
+      "deleted": "تم حذف القسم"
+    },
+    "workflows": {
+      "fields": {
+        "email": "بريد الموافق",
+        "name": "اسم الموافق",
+        "title": "المسمى الوظيفي",
+        "sla_hours": "المهلة (ساعات)"
+      },
+      "title": "سلاسل الموافقات",
+      "subtitle": "بناء مسارات الموافقة حسب العملة والمبلغ والقسم",
+      "add": "سلسلة جديدة",
+      "edit": "تعديل السلسلة",
+      "empty": "لا توجد سلاسل بعد",
+      "all_departments": "كل الأقسام",
+      "steps_count": "خطوة",
+      "context": "السياق",
+      "currency": "العملة",
+      "requester_department": "القسم المرسل",
+      "min_amount": "الحد الأدنى",
+      "max_amount": "الحد الأعلى",
+      "no_limit": "بلا حد",
+      "steps": "الخطوات",
+      "add_step": "إضافة خطوة",
+      "no_steps": "لم تُضف خطوات بعد",
+      "pick_department": "اختر القسم",
+      "pick_user": "اختر المستخدم",
+      "email": "البريد الإلكتروني",
+      "name": "الاسم",
+      "job_title": "المسمى الوظيفي",
+      "sla_hours": "SLA (ساعات)",
+      "sla_hours_hint": "المهلة قبل التصعيد",
+      "builder_hint": "اسحب الخطوات لإعادة ترتيبها",
+      "saved": "تم حفظ السلسلة",
+      "deleted": "تم حذف السلسلة",
+      "delete_confirm": "حذف هذه السلسلة؟",
+      "types": {
+        "requester_dept_manager": "مدير القسم المرسل",
+        "beneficiary_dept_manager": "مدير القسم المستفيد",
+        "specific_dept_manager": "مدير قسم محدد",
+        "specific_user": "مستخدم محدد",
+        "by_email": "موافق بالبريد",
+        "ceo": "المدير التنفيذي"
+      },
+      "hint": {
+        "requester_manager": "سيُستخدم مدير القسم المرسل (يُحدَّد تلقائياً من المستخدم)",
+        "beneficiary_manager": "سيُستخدم مدير القسم المستفيد (يُحدَّد من الطلب)",
+        "ceo_account": "سيُستخدم حساب المدير التنفيذي",
+        "pick_dept": "اختر قسماً للمتابعة",
+        "no_manager": "لا يوجد مدير",
+        "enter_email": "أدخل البريد الإلكتروني"
+      },
+      "preview_title": "معاينة سلسلة الموافقات",
+      "preview_requester": "مقدم الطلب",
+      "preview_approved": "معتمد"
+    }
+  },
+  "admin": {
+    "section_title": "الإدارة"
+  },
+  "branch": {
+    "active": "branch.active",
+    "city": "branch.city",
+    "code": "branch.code",
+    "created": "branch.created",
+    "edit_branch": "branch.edit_branch",
+    "empty": "branch.empty",
+    "inactive": "branch.inactive",
+    "name": "branch.name",
+    "name_en": "branch.name_en",
+    "phone": "branch.phone",
+    "status": "branch.status",
+    "unassigned": "branch.unassigned",
+    "updated": "branch.updated"
+  },
+  "currency": {
+    "sar": "ريال سعودي"
+  },
+  "notifications": {
+    "all_good": "notifications.all_good",
+    "due_soon_invoices": "notifications.due_soon_invoices",
+    "no_items": "notifications.no_items",
+    "open_tickets": "notifications.open_tickets",
+    "overdue_invoices": "notifications.overdue_invoices",
+    "title": "notifications.title",
+    "unpaid_invoices": "notifications.unpaid_invoices",
+    "pending_approvals": "موافقات معلقة"
   }
 }

@@ -7,7 +7,7 @@
         <!-- العلامة + حقوق النشر -->
         <div class="flex items-center gap-2.5 text-sm text-gray-500 dark:text-slate-400">
           <div
-            class="w-6 h-6 rounded-md bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-sm shadow-blue-500/20 flex-shrink-0"
+            class="w-6 h-6 rounded-md bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center shadow-sm shadow-cyan-500/20 flex-shrink-0"
           >
             <svg
               class="w-3.5 h-3.5 text-white"

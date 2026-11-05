@@ -184,7 +184,7 @@ app.config.globalProperties.$isAdmin = function () {
 app.config.globalProperties.$formatCurrency = function (amount) {
   if (!amount && amount !== 0) return this.$t('common.notAvailable')
   try {
-    const formatter = new Intl.NumberFormat(this.$i18n.locale === 'ar' ? 'ar-SA' : 'en-US', {
+    const formatter = new Intl.NumberFormat(this.$i18n.locale === 'ar' ? 'en-US' : 'en-US', {
       style: 'currency',
       currency: this.$i18n.locale === 'ar' ? 'SAR' : 'USD',
       minimumFractionDigits: 2,
@@ -207,7 +207,7 @@ app.config.globalProperties.$formatDate = function (dateString) {
       timeZone: 'UTC',
     }
     return new Date(dateString).toLocaleDateString(
-      this.$i18n.locale === 'ar' ? 'ar-SA' : 'en-US',
+      this.$i18n.locale === 'ar' ? 'en-US' : 'en-US',
       options,
     )
   } catch (error) {

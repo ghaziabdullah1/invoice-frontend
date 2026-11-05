@@ -6,17 +6,17 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
             <div class="flex items-center gap-3 mb-2">
-              <div class="p-2 bg-white rounded-xl shadow-sm border border-gray-200">
+              <div class="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700">
                 <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
               <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">
                   {{ $t('invoices.title') }}
                 </h1>
-                <p class="text-gray-600 text-sm mt-1">{{ $t('invoices.subtitle') }}</p>
+                <p class="text-gray-600 dark:text-slate-400 text-sm mt-1">{{ $t('invoices.subtitle') }}</p>
               </div>
             </div>
           </div>
@@ -41,11 +41,11 @@
       <InvoiceFilters v-model="filters" @apply="applyFilters" @search="applyFilters" @clear="handleClearFilters" />
 
       <!-- Loading State -->
-      <div v-if="loading" class="bg-white rounded-xl border border-gray-200 shadow-sm p-12 mb-6">
+      <div v-if="loading" class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-12 mb-6">
         <div class="text-center">
           <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4">
           </div>
-          <p class="text-gray-700 font-medium">{{ $t('invoices.loading') }}</p>
+          <p class="text-gray-700 dark:text-slate-300 font-medium">{{ $t('invoices.loading') }}</p>
           <p class="text-sm text-gray-500 mt-2">{{ $t('invoices.loading_subtitle') }}</p>
         </div>
       </div>
@@ -73,12 +73,12 @@
 
       <!-- Table -->
       <div v-else>
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
           <!-- Table Header -->
-          <div class="px-6 py-4 border-b border-gray-200 bg-gray-50/50">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900/50">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div class="flex items-center gap-3">
-                <h3 class="text-lg font-semibold text-gray-800">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-slate-200">
                   {{ $t('invoices.table.invoice_list') }}
                 </h3>
                 <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
@@ -86,9 +86,9 @@
                 </span>
               </div>
 
-              <div class="text-sm text-gray-600">
+              <div class="text-sm text-gray-600 dark:text-slate-400">
                 {{ $t('invoices.total_amount') }}:
-                <span class="font-bold text-gray-900">{{
+                <span class="font-bold text-gray-900 dark:text-slate-100">{{
                   formatCurrency(stats.totalAmount || 0)
                   }}</span>
               </div>
@@ -97,16 +97,16 @@
 
           <!-- Empty State -->
           <div v-if="invoices.length === 0" class="text-center py-12 px-4">
-            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div class="w-16 h-16 bg-gray-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
               {{ $t('invoices.no_invoices') }}
             </h3>
-            <p class="text-gray-600 mb-6 max-w-md mx-auto">
+            <p class="text-gray-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
               {{ $t('invoices.start_creating_message') }}
             </p>
             <button v-if="hasPermission('create_invoice')" @click="$router.push('/invoices/create')"
@@ -120,39 +120,39 @@
 
           <!-- Table Content -->
           <div v-else class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+              <thead class="bg-gray-50 dark:bg-slate-900">
                 <tr>
-                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     {{ $t('invoices.table.invoice_number') }}
                   </th>
-                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     {{ $t('invoices.table.client') }}
                   </th>
-                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     {{ $t('invoices.table.date') }}
                   </th>
-                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     {{ $t('invoices.table.due_date') }}
                   </th>
-                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     {{ $t('invoices.table.amount') }}
                   </th>
-                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     {{ $t('invoices.table.status') }}
                   </th>
-                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase tracking-wider">
                     {{ $t('invoices.table.actions') }}
                   </th>
                 </tr>
               </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
+              <tbody class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
                 <tr v-for="invoice in invoices" :key="invoice.id"
                   class="hover:bg-blue-50/30 transition-colors duration-150">
                   <!-- Invoice Number -->
                   <td class="px-6 py-4">
                     <router-link :to="`/invoices/${invoice.id}`" class="block group/link">
-                      <p class="text-base font-semibold text-gray-900 group-hover/link:text-blue-600 transition-colors">
+                      <p class="text-base font-semibold text-gray-900 dark:text-slate-100 group-hover/link:text-blue-600 transition-colors">
                         {{
                           invoice.invoice_number ||
                           $t('invoices.invoiceHeading', { number: invoice.id })
@@ -174,7 +174,7 @@
                         </div>
                       </div>
                       <div class="mr-3">
-                        <div class="text-sm font-medium text-gray-900">
+                        <div class="text-sm font-medium text-gray-900 dark:text-slate-100">
                           {{ invoice.client?.name || $t('common.notAvailable') }}
                         </div>
                         <div class="text-xs text-gray-500 mt-1">
@@ -186,7 +186,7 @@
 
                   <!-- Invoice Date -->
                   <td class="px-6 py-4 text-center">
-                    <div class="text-sm text-gray-900 font-medium">
+                    <div class="text-sm text-gray-900 dark:text-slate-100 font-medium">
                       {{ formatDate(invoice.invoice_date) }}
                     </div>
                     <div class="text-xs text-gray-500 mt-1">Created</div>
@@ -208,7 +208,7 @@
                   <!-- Amount -->
                   <td class="px-6 py-4 text-right">
                     <div class="flex flex-col items-end">
-                      <span class="text-lg font-bold text-gray-900">
+                      <span class="text-lg font-bold text-gray-900 dark:text-slate-100">
                         {{ formatCurrency(invoice.total) }}
                       </span>
                       <div class="text-xs text-gray-500 mt-1">
@@ -232,7 +232,7 @@
                   <td class="px-6 py-4 text-center">
                     <div class="flex items-center justify-center gap-1">
                       <button @click="$router.push(`/invoices/${invoice.id}`)"
-                        class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                        class="ui-icon-btn"
                         :title="$t('buttons.view')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -242,7 +242,7 @@
                         </svg>
                       </button>
                       <button v-if="hasPermission('edit_invoice')" @click="$router.push(`/invoices/${invoice.id}/edit`)"
-                        class="p-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors duration-200"
+                        class="p-2 text-gray-600 dark:text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors duration-200"
                         :title="$t('buttons.edit')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -250,7 +250,7 @@
                         </svg>
                       </button>
                       <button v-if="hasPermission('delete_invoice')" @click="confirmDelete(invoice)"
-                        class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                        class="ui-icon-btn"
                         :title="$t('buttons.delete')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -412,7 +412,7 @@ export default {
     formatDate(dateString) {
       if (!dateString) return '-'
       const date = new Date(dateString)
-      return date.toLocaleDateString('ar-SA', {
+      return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -421,7 +421,7 @@ export default {
 
     formatCurrency(amount) {
       if (!amount && amount !== 0) return '0.00 ' + this.$t('common.currency')
-      const formatter = new Intl.NumberFormat('ar-SA', {
+      const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'SAR',
         minimumFractionDigits: 2,

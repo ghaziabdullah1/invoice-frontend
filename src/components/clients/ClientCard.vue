@@ -49,7 +49,7 @@
         <div class="info-item">
           <div class="info-icon">
             <svg
-              class="w-4 h-4 text-gray-600"
+              class="w-4 h-4 text-gray-600 dark:text-slate-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -72,7 +72,7 @@
         <div class="info-item">
           <div class="info-icon">
             <svg
-              class="w-4 h-4 text-gray-600"
+              class="w-4 h-4 text-gray-600 dark:text-slate-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -95,7 +95,7 @@
         <div class="info-item">
           <div class="info-icon">
             <svg
-              class="w-4 h-4 text-gray-600"
+              class="w-4 h-4 text-gray-600 dark:text-slate-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -118,7 +118,7 @@
         <div class="info-item">
           <div class="info-icon">
             <svg
-              class="w-4 h-4 text-gray-600"
+              class="w-4 h-4 text-gray-600 dark:text-slate-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -198,7 +198,7 @@ export default {
   methods: {
     formatDate(dateString) {
       if (!dateString) return '-'
-      return new Date(dateString).toLocaleDateString('ar-SA', {
+      return new Date(dateString).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',

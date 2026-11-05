@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-slate-100 py-6 md:py-8 dark:bg-slate-900">
+  <div class="min-h-screen bg-gray-50 py-6 md:py-8 dark:bg-slate-900">
     <div class="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
@@ -246,7 +246,7 @@
             <h3 class="text-lg font-bold text-gray-900 dark:text-slate-100">{{ $t('realty.contract_view.title') }}</h3>
             <p class="text-sm text-gray-500 dark:text-slate-400">{{ current?.contract_number }}</p>
           </div>
-          <button type="button" class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-700" :title="$t('realty.common.cancel')" @click="closeModal">
+          <button type="button" class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700" :title="$t('realty.common.cancel')" @click="closeModal">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>

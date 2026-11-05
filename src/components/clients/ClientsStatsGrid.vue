@@ -1,11 +1,11 @@
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
     <div
-      class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
+      class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow duration-300">
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm font-medium text-gray-500 mb-1">{{ $t('clients.stats.total_clients') }}</p>
-          <p class="text-2xl font-bold text-gray-900">{{ stats.total_clients || 0 }}</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-slate-100">{{ stats.total_clients || 0 }}</p>
         </div>
         <div class="p-3 bg-blue-50 rounded-lg">
           <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -18,11 +18,11 @@
     </div>
 
     <div
-      class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
+      class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow duration-300">
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm font-medium text-gray-500 mb-1">{{ $t('common.active') }}</p>
-          <p class="text-2xl font-bold text-gray-900">{{ stats.active_clients || 0 }}</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-slate-100">{{ stats.active_clients || 0 }}</p>
         </div>
         <div class="p-3 bg-green-50 rounded-lg">
           <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,11 +35,11 @@
     </div>
 
     <div
-      class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
+      class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow duration-300">
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm font-medium text-gray-500 mb-1">{{ $t('clients.stats.totalInvoices') }}</p>
-          <p class="text-2xl font-bold text-gray-900">{{ stats.total_invoices || 0 }}</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-slate-100">{{ stats.total_invoices || 0 }}</p>
         </div>
         <div class="p-3 bg-purple-50 rounded-lg">
           <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,11 +52,11 @@
     </div>
 
     <div
-      class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
+      class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow duration-300">
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm font-medium text-gray-500 mb-1">{{ $t('dashboard.total_revenue') }}</p>
-          <p class="text-2xl font-bold text-gray-900">{{ formatCurrencyShort(stats.total_revenue) }}</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-slate-100">{{ formatCurrencyShort(stats.total_revenue) }}</p>
         </div>
         <div class="p-3 bg-orange-50 rounded-lg">
           <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

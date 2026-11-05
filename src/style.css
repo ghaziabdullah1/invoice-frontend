@@ -17,6 +17,8 @@
    على حد سواء، بدون الحاجة لتعديل أي ملف Vue.
    ============================================================ */
 :root {
+  --color-bg-page: 248 250 252;
+  --color-bg-surface: 255 255 255;
   /* ✅ يخبر المتصفح بأن الوضع الافتراضي فاتح، حتى يرسم عناصر
      النماذج الأصلية (input/select/scrollbar...) بالألوان الصحيحة
      بدل تخمين وضع داكن تلقائياً حسب إعدادات نظام التشغيل */
@@ -85,6 +87,8 @@
 
 /* ✅ نفس فكرة color-scheme أعلاه، بس للوضع الداكن بالذات */
 .dark {
+  --color-bg-page: 11 15 25;
+  --color-bg-surface: 30 41 59;
   color-scheme: dark;
 }
 
@@ -136,34 +140,6 @@ body {
 }
 
 /* فصول مخصصة */
-.btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
-}
-
-.btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700;
-}
-
-.btn-secondary {
-  @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
-}
-
-.btn-success {
-  @apply bg-green-600 text-white hover:bg-green-700;
-}
-
-.btn-danger {
-  @apply bg-red-600 text-white hover:bg-red-700;
-}
-
-.btn-warning {
-  @apply bg-yellow-500 text-white hover:bg-yellow-600;
-}
-
-.btn-outline {
-  @apply border border-gray-300 bg-transparent hover:bg-gray-50;
-}
-
 /* كروت */
 .card {
   @apply bg-white rounded-xl shadow-lg border border-gray-200;
@@ -335,158 +311,6 @@ body {
 }
 
 /* ============================================================
-   نظام تعميم الوضع الداكن التلقائي (Automatic Dark Mode overrides)
-   ============================================================ */
-.dark body {
-  background-color: #0b0f19 !important;
-  color: #f1f5f9 !important;
-}
-
-/* تعديل الخلفيات البيضاء والرمادية */
-.dark .bg-white {
-  background-color: #1e293b !important;
-  /* slate-800 */
-}
-
-.dark .bg-white\/80 {
-  background-color: rgba(30, 41, 59, 0.8) !important;
-}
-
-.dark .bg-gray-50 {
-  background-color: #0b0f19 !important;
-  /* slate-950 */
-}
-
-.dark .bg-gray-50\/50 {
-  background-color: rgba(11, 15, 25, 0.5) !important;
-}
-
-.dark .bg-gray-50\/80 {
-  background-color: rgba(11, 15, 25, 0.8) !important;
-}
-
-.dark .bg-gray-100 {
-  background-color: #1e293b !important;
-}
-
-/* تعديل ألوان الحدود */
-.dark .border-gray-100 {
-  border-color: #334155 !important;
-  /* slate-700 */
-}
-
-.dark .border-gray-200 {
-  border-color: #334155 !important;
-}
-
-.dark .border-gray-200\/50 {
-  border-color: rgba(51, 65, 85, 0.5) !important;
-}
-
-.dark .border-gray-300 {
-  border-color: #475569 !important;
-  /* slate-600 */
-}
-
-.dark .border-white\/50 {
-  border-color: rgba(51, 65, 85, 0.3) !important;
-}
-
-/* تعديل ألوان النصوص الرمادية والداكنة */
-.dark .text-gray-900 {
-  color: #f8fafc !important;
-  /* slate-50 */
-}
-
-.dark .text-gray-800 {
-  color: #e2e8f0 !important;
-  /* slate-200 */
-}
-
-.dark .text-gray-700 {
-  color: #cbd5e1 !important;
-  /* slate-300 */
-}
-
-.dark .text-gray-600 {
-  color: #94a3b8 !important;
-  /* slate-400 */
-}
-
-.dark .text-gray-500 {
-  color: #94a3b8 !important;
-}
-
-.dark .text-gray-400 {
-  color: #64748b !important;
-  /* slate-500 */
-}
-
-/* تأثيرات التمرير hover */
-.dark .hover\:bg-gray-50:hover {
-  background-color: rgba(51, 65, 85, 0.4) !important;
-}
-
-.dark .hover\:bg-gray-100:hover {
-  background-color: #334155 !important;
-}
-
-.dark .hover\:text-gray-900:hover {
-  color: #ffffff !important;
-}
-
-/* الجداول والأقسام والتقسيمات */
-.dark .divide-gray-200> :not([hidden])~ :not([hidden]) {
-  border-color: #334155 !important;
-}
-
-.dark .divide-gray-100> :not([hidden])~ :not([hidden]) {
-  border-color: #334155 !important;
-}
-
-/* مدخلات النماذج والأزرار بالوضع الداكن */
-.dark .form-control,
-.dark .form-input {
-  background-color: #1e293b !important;
-  border-color: #475569 !important;
-  color: #f8fafc !important;
-}
-
-.dark .form-control:disabled,
-.dark .form-input:disabled {
-  background-color: #0f172a !important;
-  color: #64748b !important;
-}
-
-.dark .form-label {
-  color: #cbd5e1 !important;
-}
-
-/* كروت الإحصائيات (StatCard/KPI) */
-.dark .stat-card {
-  background-color: #1e293b !important;
-  border-color: #334155 !important;
-}
-
-/* المودال */
-.dark .modal-container {
-  background-color: #1e293b !important;
-  border-color: #334155 !important;
-}
-
-.dark .modal-header,
-.dark .modal-footer {
-  background-color: #0f172a !important;
-  border-color: #334155 !important;
-}
-
-/* القوائم المنسدلة */
-.dark .dropdown-menu {
-  background-color: #1e293b !important;
-  border-color: #334155 !important;
-}
-
-/* ============================================================
    خلفية التدرّج الرمادي لصفحات المحتوى الرئيسية
    ============================================================
    نمط "bg-gradient-to-br from-gray-50 to-gray-100" مستخدم كخلفية
@@ -552,3 +376,492 @@ body {
 }
 
 /* ui-design-system:end */
+
+/* ============================================================
+   استثناء السايدبار: عناصره الداكنة لا تتأثر بحذف !important
+   (السايدبار وحده يبقى على سلوكه الأصلي)
+   ============================================================ */
+aside.bg-slate-900 .bg-white,
+aside.bg-slate-900 .bg-white\/80 {
+  background-color: rgb(var(--color-bg-surface)) !important;
+}
+aside.bg-slate-900 .bg-gray-50,
+aside.bg-slate-900 .bg-gray-50\/80 {
+  background-color: rgb(var(--color-bg-page)) !important;
+}
+aside.bg-slate-900 .bg-gray-100 {
+  background-color: rgb(var(--color-bg-surface)) !important;
+}
+aside.bg-slate-900 .hover\:bg-gray-100:hover,
+aside.bg-slate-900 .hover\:bg-gray-50:hover {
+  background-color: rgba(51, 65, 85, 0.5) !important;
+}
+aside.bg-slate-900 .border-gray-100,
+aside.bg-slate-900 .border-gray-200 {
+  border-color: #334155 !important;
+}
+aside.bg-slate-900 .text-gray-900,
+aside.bg-slate-900 .text-gray-800 {
+  color: #f8fafc !important;
+}
+aside.bg-slate-900 .text-gray-600,
+aside.bg-slate-900 .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* ============================================================
+   GLOBAL TABLE UNIFICATION
+   هذا النمط يطبق تصميماً موحداً على كل الجداول في المشروع
+   تلقائياً، دون الحاجة لتعديل ملفات Vue واحدة تلو الأخرى.
+   ============================================================ */
+
+/* 1. حاوية الجدول (البطاقة البيضاء) */
+.ui-table-wrap, 
+div:has(> table):not(:has(> table > table)) {
+  @apply w-full overflow-x-auto rounded-2xl border border-gray-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800;
+}
+
+/* 2. الجدول نفسه */
+table:not(.no-ui-table) {
+  @apply min-w-full text-sm border-collapse;
+}
+
+/* 3. رأس الجدول (Header) */
+table:not(.no-ui-table) thead {
+  @apply bg-gray-50 dark:bg-slate-700/50;
+}
+
+table:not(.no-ui-table) th {
+  @apply px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-slate-400 border-b border-gray-100 dark:border-slate-700;
+  text-align: start;
+}
+
+/* 4. خلايا الجدول (Body) */
+table:not(.no-ui-table) td {
+  @apply border-b border-gray-100 px-4 py-3 text-gray-800 dark:border-slate-700 dark:text-slate-200;
+}
+
+/* 5. تأثير التمرير (Hover) على الصفوف */
+table:not(.no-ui-table) tbody tr {
+  @apply transition-colors duration-150;
+}
+table:not(.no-ui-table) tbody tr:hover td {
+  @apply bg-gray-50 dark:bg-slate-700/30;
+}
+
+/* 6. الأرقام في الجداول */
+table:not(.no-ui-table) .ui-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   GLOBAL UI UNIFICATION: FILTERS, REPORTS & TABLE ICONS
+   ============================================================ */
+
+/* 1. توحيد حاويات الفلاتر (Filter Bars) */
+.ui-filter-bar,
+div:has(> input[type="text"]):has(> select):has(> input[type="date"]):not(:has(> table)) {
+  @apply flex flex-wrap items-end gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800 mb-6 transition-colors;
+}
+
+/* توحيد حقول الإدخال داخل الفلاتر */
+.ui-filter-bar input,
+.ui-filter-bar select,
+div:has(> input[type="text"]):has(> select) input,
+div:has(> input[type="text"]):has(> select) select {
+  @apply w-full px-3 py-2 text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all;
+}
+
+/* 2. توحيد بطاقات التقارير (Report Cards) */
+.report-card,
+.ui-card {
+  @apply rounded-2xl border border-gray-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 transition-colors;
+}
+
+/* 3. توحيد أزرار الإجراءات داخل الجداول (Action Icons) */
+table:not(.no-ui-table) td button:has(svg),
+table:not(.no-ui-table) td a:has(svg) {
+  @apply inline-flex items-center justify-center rounded-lg p-2 text-gray-400 transition-colors duration-200;
+}
+
+/* تأثيرات التمرير للأزرار */
+table:not(.no-ui-table) td button:has(svg):hover,
+table:not(.no-ui-table) td a:has(svg):hover {
+  @apply bg-gray-100 text-primary-600 dark:hover:bg-slate-700 dark:hover:text-primary-400;
+}
+
+/* توحيد حجم الأيقونات داخل أزرار الجداول */
+table:not(.no-ui-table) td button svg,
+table:not(.no-ui-table) td a svg {
+  @apply w-5 h-5 flex-shrink-0;
+}
+
+/* إزالة أي خلفيات أو حدود قديمة من أزرار الجداول */
+table:not(.no-ui-table) td button {
+  @apply bg-transparent border-none shadow-none focus:ring-0;
+}
+
+/* 4. توحيد حقول النماذج العامة (في حال لم تكن مستخدمة) */
+input.ui-input, select.ui-input, textarea.ui-input {
+  @apply w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:bg-gray-100 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder-slate-400 dark:disabled:bg-slate-900;
+}
+
+/* إكمال نظام التصميم الموحد */
+@layer components {
+  .ui-btn-success { @apply bg-success-600 text-white shadow-sm hover:bg-success-700 focus:ring-success-500/40; }
+}
+
+/* توحيد بطاقات التقارير */
+.stats-card {
+  @apply rounded-xl p-5 border shadow-sm hover:shadow-md transition-shadow duration-300;
+}
+.stats-icon {
+  @apply p-3 rounded-lg w-fit mb-3;
+}
+.stats-label {
+  @apply text-sm font-medium text-gray-500 dark:text-gray-400 mb-1;
+}
+.stats-value {
+  @apply text-2xl font-bold text-gray-900 dark:text-white;
+}
+
+/* ============================================================
+   FORCE UNIFIED REPORT STYLE
+   يفرض تصميم تقرير الفواتير على كل تقارير المشروع
+   ============================================================ */
+
+/* 1. توحيد شكل الجداول (Tables) */
+.reports-table-container,
+div:has(> table.min-w-full):not(:has(> table > table)) {
+  @apply bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden mb-6;
+}
+
+/* 2. توحيد خلايا الجدول ورؤوسه */
+table.min-w-full thead tr th {
+  @apply px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider bg-transparent border-b border-gray-200 dark:border-gray-700;
+}
+table.min-w-full tbody tr td {
+  @apply px-6 py-4 text-center border-b border-gray-200 dark:border-gray-700;
+}
+
+/* 3. توحيد أزرار الترقيم (Pagination) */
+button:contains("Previous"), 
+button:contains("Next"),
+.pagination-button {
+  @apply px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200 !important;
+}
+
+
+
+
+/* ============================================================
+   FORCE UNIFIED REPORT STYLE (Safe CSS - No @apply)
+   ============================================================ */
+
+/* 1. حاويات الجداول */
+.report-table-wrapper, 
+div:has(> table.min-w-full) {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.dark div:has(> table.min-w-full) {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+/* 2. خلايا الجدول */
+table.min-w-full thead tr th {
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e5e7eb;
+}
+.dark table.min-w-full thead tr th {
+  color: #d1d5db;
+  border-bottom-color: #374151;
+}
+table.min-w-full tbody tr td {
+  padding: 1rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+.dark table.min-w-full tbody tr td {
+  border-bottom-color: #374151;
+}
+
+/* 3. إصلاح بطاقات التقارير (مثل Aging & Realty) */
+div.grid > div.bg-white.dark\:bg-gray-800.rounded-xl {
+  background-image: linear-gradient(to bottom right, #f9fafb, #f3f4f6) !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.75rem !important;
+  padding: 1.25rem !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+.dark div.grid > div.bg-white.dark\:bg-gray-800.rounded-xl {
+  background-image: linear-gradient(to bottom right, #1f2937, #111827) !important;
+  border-color: #374151 !important;
+}
+
+/* ============================================================
+   GLOBAL FORM UNIFICATION (Vanilla CSS)
+   ============================================================ */
+
+/* 1. توحيد حقول الإدخال (Inputs, Selects, Textareas) */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="tel"],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  padding: 0.625rem 0.875rem; /* py-2.5 px-3.5 */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  color: #111827; /* text-gray-900 */
+  background-color: #f9fafb; /* bg-gray-50 */
+  border: 1px solid #e5e7eb; /* border-gray-200 */
+  border-radius: 0.5rem; /* rounded-lg */
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+/* الوضع الداكن للحقول */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="number"],
+.dark input[type="date"],
+.dark input[type="tel"],
+.dark select,
+.dark textarea {
+  color: #f8fafc; /* text-slate-50 */
+  background-color: #111827; /* bg-gray-900 */
+  border-color: #4b5563; /* border-gray-600 */
+}
+
+/* 2. تأثير التركيز (Focus) */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3b82f6; /* border-blue-500 */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* ring-blue-500/20 */
+  background-color: #ffffff;
+}
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+  background-color: #1f2937;
+}
+
+/* 3. توحيد التسميات (Labels) */
+label:not(.custom-label) {
+  display: block;
+  margin-bottom: 0.5rem; /* mb-2 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  color: #374151; /* text-gray-700 */
+}
+.dark label:not(.custom-label) {
+  color: #d1d5db; /* text-gray-300 */
+}
+
+/* 4. إزالة التنسيقات القديمة من الحقول */
+input.is-invalid,
+select.is-invalid,
+textarea.is-invalid {
+  border-color: #ef4444 !important;
+}
+
+/* ============================================================
+   INVOICE PAGES UNIFIED STYLE (Create, Edit, Installments, Filters)
+   ============================================================ */
+
+/* 1. توحيد خلفيات الصفحات */
+.invoice-page-container,
+.bg-gradient-to-br.from-gray-50.to-gray-100 {
+  background: #f9fafb !important;
+  background-image: none !important;
+}
+.dark .invoice-page-container,
+.dark .bg-gradient-to-br.from-gray-50.to-gray-100 {
+  background: #0f172a !important;
+}
+
+/* 2. توحيد البطاقات البيضاء (الـ Cards) */
+.invoice-page-container .bg-white,
+.invoice-page-container .bg-white.rounded-2xl,
+.invoice-page-container .bg-white.rounded-xl,
+.installment-section,
+.installment-modal {
+  background-color: #ffffff !important;
+  border-radius: 1rem !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.2s ease !important;
+}
+.dark .invoice-page-container .bg-white,
+.dark .invoice-page-container .bg-white.rounded-2xl,
+.dark .invoice-page-container .bg-white.rounded-xl,
+.dark .installment-section,
+.dark .installment-modal {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+/* 3. توحيد العناوين */
+.invoice-page-container h1,
+.invoice-page-container h2,
+.invoice-page-container h3,
+.installment-section h3 {
+  color: #111827 !important;
+  font-weight: 700 !important;
+}
+.dark .invoice-page-container h1,
+.dark .invoice-page-container h2,
+.dark .invoice-page-container h3,
+.dark .installment-section h3 {
+  color: #f3f4f6 !important;
+}
+
+/* 4. توحيد حقول الإدخال */
+.invoice-page-container input,
+.invoice-page-container select,
+.invoice-page-container textarea,
+.installment-modal input,
+.installment-modal select {
+  width: 100% !important;
+  padding: 0.625rem 0.875rem !important;
+  background-color: #f9fafb !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  color: #111827 !important;
+  font-size: 0.875rem !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.invoice-page-container input:focus,
+.invoice-page-container select:focus,
+.invoice-page-container textarea:focus,
+.installment-modal input:focus,
+.installment-modal select:focus {
+  outline: none !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+  background-color: #ffffff !important;
+}
+
+.dark .invoice-page-container input,
+.dark .invoice-page-container select,
+.dark .invoice-page-container textarea,
+.dark .installment-modal input,
+.dark .installment-modal select {
+  background-color: #111827 !important;
+  border-color: #4b5563 !important;
+  color: #f3f4f6 !important;
+}
+
+/* 5. توحيد الجداول (Installments & Filters) */
+.installment-section table,
+.invoice-page-container table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.installment-section table thead,
+.invoice-page-container table thead {
+  background-color: #f9fafb !important;
+}
+
+.installment-section table th,
+.invoice-page-container table th {
+  padding: 0.75rem 1rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: #6b7280 !important;
+  text-transform: uppercase !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.installment-section table td,
+.invoice-page-container table td {
+  padding: 0.75rem 1rem !important;
+  font-size: 0.875rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.installment-section table tbody tr:hover,
+.invoice-page-container table tbody tr:hover {
+  background-color: #f9fafb !important;
+}
+
+/* 6. الوضع الداكن للجداول */
+.dark .installment-section table,
+.dark .invoice-page-container table {
+  border-color: #374151 !important;
+}
+.dark .installment-section table thead,
+.dark .invoice-page-container table thead {
+  background-color: #111827 !important;
+}
+.dark .installment-section table th,
+.dark .invoice-page-container table th {
+  color: #9ca3af !important;
+  border-bottom-color: #374151 !important;
+}
+.dark .installment-section table td,
+.dark .invoice-page-container table td {
+  border-bottom-color: #374151 !important;
+}
+.dark .installment-section table tbody tr:hover,
+.dark .invoice-page-container table tbody tr:hover {
+  background-color: #111827 !important;
+}
+
+/* 7. توحيد الأزرار */
+.invoice-page-container button,
+.installment-section button {
+  transition: all 0.2s ease !important;
+}
+
+/* 8. توحيد البطاقات الصغيرة (Summary Cards) */
+.bg-gray-50.rounded-lg.p-3 {
+  background-color: #f9fafb !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.5rem !important;
+}
+.dark .bg-gray-50.rounded-lg.p-3 {
+  background-color: #111827 !important;
+  border-color: #374151 !important;
+}
+
+.bg-orange-50.rounded-lg.p-3 {
+  background-color: #fff7ed !important;
+  border: 1px solid #ffedd5 !important;
+}
+.dark .bg-orange-50.rounded-lg.p-3 {
+  background-color: rgba(124, 45, 18, 0.2) !important;
+  border-color: rgba(124, 45, 18, 0.3) !important;
+}
+
+.bg-blue-50.rounded-lg.p-3 {
+  background-color: #eff6ff !important;
+  border: 1px solid #dbeafe !important;
+}
+.dark .bg-blue-50.rounded-lg.p-3 {
+  background-color: rgba(30, 58, 138, 0.2) !important;
+  border-color: rgba(30, 58, 138, 0.3) !important;
+}

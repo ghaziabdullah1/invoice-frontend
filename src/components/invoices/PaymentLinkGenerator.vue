@@ -6,7 +6,7 @@
       @click.self="close"
     >
       <div
-        class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden max-h-[90vh] flex flex-col"
+        class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden max-h-[90vh] flex flex-col"
       >
         <!-- Header -->
         <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 px-6 py-4 flex-shrink-0">
@@ -45,8 +45,8 @@
           </div>
 
           <!-- إنشاء رابط جديد -->
-          <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
-            <p class="text-sm font-semibold text-gray-700 mb-3">
+          <div class="bg-gray-50 dark:bg-slate-900 rounded-xl p-4 border border-gray-200 dark:border-slate-700">
+            <p class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-3">
               {{ $t('payment_links.generate_new') }}
             </p>
 
@@ -58,7 +58,7 @@
                   'flex-1 py-2 rounded-lg text-sm font-medium border-2 transition-all',
                   target === 'invoice'
                     ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                    : 'border-gray-200 text-gray-600',
+                    : 'border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-400',
                 ]"
               >
                 {{ $t('payment_links.full_invoice') }}
@@ -69,7 +69,7 @@
                   'flex-1 py-2 rounded-lg text-sm font-medium border-2 transition-all',
                   target === 'installment'
                     ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                    : 'border-gray-200 text-gray-600',
+                    : 'border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-400',
                 ]"
               >
                 {{ $t('payment_links.specific_installment') }}
@@ -77,12 +77,12 @@
             </div>
 
             <div v-if="target === 'installment' && pendingInstallments.length" class="mb-4">
-              <label class="block text-sm font-medium text-gray-700 mb-1">
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 {{ $t('installments.title') }}
               </label>
               <select
                 v-model.number="selectedInstallmentNumber"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-sm"
               >
                 <option
                   v-for="inst in pendingInstallments"
@@ -98,7 +98,7 @@
 
             <div v-else class="grid grid-cols-2 gap-3 mb-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">{{
+                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{
                   $t('payment_links.amount')
                 }}</label>
                 <input
@@ -106,11 +106,11 @@
                   type="number"
                   min="0"
                   step="0.01"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-sm"
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">{{
+                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{
                   $t('payment_links.expires_in_days')
                 }}</label>
                 <input
@@ -118,7 +118,7 @@
                   type="number"
                   min="1"
                   max="60"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                  class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-sm"
                 />
               </div>
             </div>
@@ -138,7 +138,7 @@
 
           <!-- الروابط الحالية -->
           <div>
-            <p class="text-sm font-semibold text-gray-700 mb-3">
+            <p class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-3">
               {{ $t('payment_links.existing_links') }}
             </p>
 
@@ -150,7 +150,7 @@
 
             <div
               v-else-if="!links.length"
-              class="text-center py-6 bg-gray-50 rounded-xl border border-dashed border-gray-300"
+              class="text-center py-6 bg-gray-50 dark:bg-slate-900 rounded-xl border border-dashed border-gray-300 dark:border-slate-600"
             >
               <p class="text-gray-400 text-sm">{{ $t('payment_links.no_links') }}</p>
             </div>
@@ -159,10 +159,10 @@
               <li
                 v-for="link in links"
                 :key="link.id"
-                class="border border-gray-200 rounded-xl p-3"
+                class="border border-gray-200 dark:border-slate-700 rounded-xl p-3"
               >
                 <div class="flex items-center justify-between mb-2">
-                  <span class="font-semibold text-gray-900 text-sm">{{
+                  <span class="font-semibold text-gray-900 dark:text-slate-100 text-sm">{{
                     formatCurrency(link.amount)
                   }}</span>
                   <span
@@ -178,7 +178,7 @@
                     type="text"
                     readonly
                     :value="link.public_url"
-                    class="flex-1 min-w-0 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-500 truncate"
+                    class="flex-1 min-w-0 px-2 py-1.5 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg text-xs text-gray-500 truncate"
                     @focus="$event.target.select()"
                   />
                   <button
@@ -220,7 +220,7 @@
                 <div v-if="link.status === 'active'" class="flex items-center gap-2">
                   <select
                     v-model="sendMethodByLink[link.id]"
-                    class="flex-1 px-2 py-1.5 border border-gray-300 rounded-lg text-xs"
+                    class="flex-1 px-2 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg text-xs"
                   >
                     <option value="email">{{ $t('payment_links.via.email') }}</option>
                     <option value="sms">{{ $t('payment_links.via.sms') }}</option>
@@ -228,7 +228,7 @@
                   </select>
                   <button
                     @click="send(link)"
-                    class="px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-colors text-xs font-medium"
+                    class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-colors text-xs font-medium"
                   >
                     {{ $t('payment_links.send') }}
                   </button>

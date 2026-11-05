@@ -263,7 +263,7 @@ export default {
   methods: {
     formatCurrency(amount) {
       if (!amount && amount !== 0) return '0.00 ' + this.$t('common.currency')
-      const formatter = new Intl.NumberFormat('ar-SA', {
+      const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'SAR',
         minimumFractionDigits: 2,
@@ -273,7 +273,7 @@ export default {
     formatDate(dateString) {
       if (!dateString) return '-'
       const date = new Date(dateString)
-      return date.toLocaleDateString('ar-SA', {
+      return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -342,7 +342,7 @@ export default {
   @apply text-2xl font-bold text-gray-900 dark:text-white;
 }
 .table-header {
-  @apply px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
+  @apply px-6 py-3 text-start text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
 }
 .table-cell {
   @apply px-6 py-4;

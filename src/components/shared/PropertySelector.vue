@@ -2,7 +2,7 @@
   <div v-if="properties.length" class="relative" ref="dropdownRef">
     <button
       @click="isOpen = !isOpen"
-      class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+      class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:bg-slate-800 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
       :class="{ 'bg-teal-50 dark:bg-teal-500/10 text-teal-600 dark:text-teal-400': isOpen }"
       :title="currentLabel"
     >

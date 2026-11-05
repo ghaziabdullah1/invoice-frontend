@@ -206,7 +206,7 @@ export default {
     formatDate(dateString) {
       if (!dateString) return ''
       const date = new Date(dateString)
-      return new Intl.DateTimeFormat(this.$i18n.locale === 'ar' ? 'ar-SA' : 'en-US', {
+      return new Intl.DateTimeFormat(this.$i18n.locale === 'ar' ? 'en-US' : 'en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',

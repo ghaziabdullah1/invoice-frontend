@@ -2,8 +2,8 @@
   <div class="table-container">
     <div v-if="showHeader" class="table-header">
       <div class="table-title">
-        <h3 v-if="title" class="text-lg font-semibold text-gray-900">{{ title }}</h3>
-        <p v-if="description" class="text-sm text-gray-600 mt-1">{{ description }}</p>
+        <h3 v-if="title" class="text-lg font-semibold text-gray-900 dark:text-slate-100">{{ title }}</h3>
+        <p v-if="description" class="text-sm text-gray-600 dark:text-slate-400 mt-1">{{ description }}</p>
       </div>
 
       <div v-if="$slots.actions" class="table-actions">

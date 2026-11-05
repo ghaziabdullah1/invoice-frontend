@@ -5,7 +5,7 @@ export const formatCurrency = (amount) => {
   if (!amount) return '0.00 ر.س'
   const num = parseFloat(amount)
   if (isNaN(num)) return '0.00 ر.س'
-  return num.toLocaleString('ar-SA', {
+  return num.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   }) + ' ر.س'
@@ -16,7 +16,7 @@ export const formatDate = (dateString) => {
   if (!dateString) return 'غير محدد'
   try {
     const date = new Date(dateString)
-    return date.toLocaleDateString('ar-SA', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',

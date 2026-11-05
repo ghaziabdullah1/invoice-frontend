@@ -17,7 +17,7 @@
             </div>
 
             <div>
-              <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
+              <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">
                 {{ $t('invoices.create.title') }}
               </h1>
 
@@ -28,7 +28,7 @@
           </div>
 
           <button @click="$router.push('/invoices')"
-            class="px-4 py-2.5 bg-white text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 shadow-sm transition-all duration-200 flex items-center gap-2">
+            class="px-4 py-2.5 bg-white text-gray-600 dark:text-slate-400 border border-gray-200 dark:border-slate-700 rounded-xl hover:bg-gray-50 dark:bg-slate-900 hover:border-gray-300 dark:border-slate-600 shadow-sm transition-all duration-200 flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
@@ -41,7 +41,7 @@
       </div>
 
       <!-- ================= Stepper ================= -->
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 mb-6">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm p-5 mb-6">
 
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center gap-2 text-sm">
@@ -55,7 +55,7 @@
           </div>
 
           <div class="text-sm">
-            <span class="font-bold text-gray-900">
+            <span class="font-bold text-gray-900 dark:text-slate-100">
               {{ getStepProgress() }}%
             </span>
 
@@ -66,7 +66,7 @@
         </div>
 
         <!-- Progress bar -->
-        <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden mb-5">
+        <div class="h-1.5 bg-gray-100 dark:bg-slate-800 rounded-full overflow-hidden mb-5">
           <div class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500"
             :style="{ width: getStepProgress() + '%' }"></div>
         </div>
@@ -84,8 +84,8 @@
                   : currentStep > index
                     ? 'bg-green-500 border-green-500 text-white'
                     : index <= furthestReached
-                      ? 'bg-white border-blue-300 text-blue-400 group-hover:border-blue-500'
-                      : 'bg-white border-gray-200 text-gray-300',
+                      ? 'bg-white dark:bg-slate-800 border-blue-300 text-blue-400 group-hover:border-blue-500'
+                      : 'bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 text-gray-300',
               ]">
                 <svg v-if="currentStep > index" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -127,9 +127,9 @@
           <!-- ======== STEP 1: Basic Info ======== -->
           <transition name="fade" mode="out-in">
             <div v-if="currentStep === 0" key="step1"
-              class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+              class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
 
-              <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/60 flex items-center gap-3">
+              <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 dark:bg-slate-900/60 flex items-center gap-3">
 
                 <div class="p-2 bg-blue-100 rounded-lg">
                   <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,7 +138,7 @@
                   </svg>
                 </div>
 
-                <h3 class="font-semibold text-gray-800">
+                <h3 class="font-semibold text-gray-800 dark:text-slate-200">
                   {{ $t('invoices.create.basic_info') }}
                 </h3>
               </div>
@@ -147,13 +147,13 @@
 
                 <!-- Client -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     {{ $t('invoices.create.client') }}
                     <span class="text-red-500">*</span>
                   </label>
 
                   <div v-if="clientsLoading"
-                    class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 flex items-center gap-2 text-sm text-gray-400">
+                    class="w-full px-4 py-3 border border-gray-200 dark:border-slate-700 rounded-xl bg-gray-50 dark:bg-slate-900 flex items-center gap-2 text-sm text-gray-400">
                     <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
@@ -164,8 +164,8 @@
 
                   <div v-else class="relative">
                     <select v-model="invoiceData.client_id"
-                      class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 bg-white appearance-none transition-colors"
-                      :class="errors.client_id ? 'border-red-400 bg-red-50/30' : 'border-gray-200'"
+                      class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 bg-white dark:bg-slate-800 appearance-none transition-colors"
+                      :class="errors.client_id ? 'border-red-400 bg-red-50/30' : 'border-gray-200 dark:border-slate-700'"
                       @change="errors.client_id = null">
                       <option value="">
                         {{ $t('common.select_client') }}
@@ -204,7 +204,7 @@
                         </div>
 
                         <div class="flex-1 min-w-0">
-                          <h4 class="font-semibold text-gray-900 truncate">
+                          <h4 class="font-semibold text-gray-900 dark:text-slate-100 truncate">
                             {{ selectedClient.name }}
                           </h4>
 
@@ -215,7 +215,7 @@
                           <div class="flex flex-wrap gap-1.5 mt-2">
 
                             <span v-if="selectedClient.phone"
-                              class="text-xs bg-white text-gray-600 px-2 py-1 rounded-md border border-gray-100">
+                              class="text-xs bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-400 px-2 py-1 rounded-md border border-gray-100">
                               {{ selectedClient.phone }}
                             </span>
 
@@ -231,9 +231,9 @@
                       <!-- Credit limit -->
                       <div v-if="hasCreditLimit"
                         class="mt-3 pt-3 border-t border-blue-100 flex flex-wrap justify-between gap-2 text-sm">
-                        <span class="text-gray-600">
+                        <span class="text-gray-600 dark:text-slate-400">
                           {{ $t('clients.form.creditLimit') }}:
-                          <b class="text-gray-800">
+                          <b class="text-gray-800 dark:text-slate-200">
                             {{ formatCurrency(selectedClient.credit_limit) }}
                           </b>
                         </span>
@@ -259,16 +259,16 @@
 
                 <!-- Invoice number -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     {{ $t('invoices.create.invoice_number') }}
                   </label>
 
                   <div class="flex gap-2">
                     <input v-model="invoiceData.invoice_number" :placeholder="$t('common.auto_generated')"
-                      class="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors bg-gray-50/50" />
+                      class="flex-1 px-4 py-3 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors bg-gray-50 dark:bg-slate-900/50" />
 
                     <button type="button" @click="generateInvoiceNumber" :title="$t('common.generate')"
-                      class="px-4 py-3 bg-white border border-gray-200 text-gray-500 rounded-xl hover:bg-gray-50 hover:text-blue-600 hover:border-blue-200 transition-all flex items-center gap-2">
+                      class="px-4 py-3 bg-white border border-gray-200 dark:border-slate-700 text-gray-500 rounded-xl hover:bg-gray-50 dark:bg-slate-900 hover:text-blue-600 hover:border-blue-200 transition-all flex items-center gap-2">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -281,29 +281,29 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                       {{ $t('common.fromDate') }}
                       <span class="text-red-500">*</span>
                     </label>
 
                     <input type="date" v-model="invoiceData.invoice_date"
-                      class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
+                      class="w-full px-4 py-3 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                       {{ $t('common.toDate') }}
                       <span class="text-red-500">*</span>
                     </label>
 
                     <input type="date" v-model="invoiceData.due_date"
-                      class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
+                      class="w-full px-4 py-3 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
 
                     <div class="flex gap-1.5 mt-2">
                       <button v-for="d in [7, 15, 30, 60]" :key="d" type="button" @click="setDueDays(d)"
                         class="text-xs px-2.5 py-1 rounded-full border transition-colors" :class="dueDaysPreset === d
                           ? 'bg-blue-600 text-white border-blue-600'
-                          : 'bg-white text-gray-500 border-gray-200 hover:border-blue-300 hover:text-blue-600'">
+                          : 'bg-white dark:bg-slate-800 text-gray-500 border-gray-200 dark:border-slate-700 hover:border-blue-300 hover:text-blue-600'">
                         {{ d }} {{ $t('common.days') }}
                       </button>
                     </div>
@@ -311,10 +311,10 @@
                 </div>
               </div>
 
-              <div class="px-6 py-4 bg-gray-50/60 border-t border-gray-100 flex justify-between items-center">
+              <div class="px-6 py-4 bg-gray-50 dark:bg-slate-900/60 border-t border-gray-100 flex justify-between items-center">
 
                 <button @click="$router.push('/invoices')"
-                  class="px-5 py-2.5 text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors">
+                  class="px-5 py-2.5 text-gray-600 dark:text-slate-400 hover:text-gray-800 dark:text-slate-200 text-sm font-medium transition-colors">
                   {{ $t('common.cancel') }}
                 </button>
 
@@ -334,9 +334,9 @@
           <!-- ======== STEP 2: Items ======== -->
           <transition name="fade" mode="out-in">
             <div v-if="currentStep === 1" key="step2"
-              class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+              class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
 
-              <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/60 flex items-center justify-between">
+              <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 dark:bg-slate-900/60 flex items-center justify-between">
 
                 <div class="flex items-center gap-3">
                   <div class="p-2 bg-blue-100 rounded-lg">
@@ -347,7 +347,7 @@
                   </div>
 
                   <div>
-                    <h3 class="font-semibold text-gray-800">
+                    <h3 class="font-semibold text-gray-800 dark:text-slate-200">
                       {{ $t('invoices.create.items') }}
                     </h3>
 
@@ -373,7 +373,7 @@
                 <!-- Desktop -->
                 <div class="hidden md:block overflow-hidden rounded-xl border border-gray-100">
                   <table class="min-w-full">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-50 dark:bg-slate-900">
                       <tr>
                         <th class="px-4 py-3 text-start text-xs font-semibold text-gray-500 w-1/2">
                           {{ $t('invoices.create.description') }}
@@ -395,31 +395,31 @@
                       </tr>
                     </thead>
 
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
 
-                      <tr v-for="(item, index) in invoiceData.items" :key="index" class="hover:bg-gray-50/50">
+                      <tr v-for="(item, index) in invoiceData.items" :key="index" class="hover:bg-gray-50 dark:bg-slate-900/50">
 
                         <td class="px-4 py-3">
                           <input v-model="item.description" type="text"
                             :placeholder="$t('invoices.create.description_placeholder')"
                             class="w-full px-3 py-2 border rounded-lg text-sm transition-colors" :class="itemErrors[index]?.description
                               ? 'border-red-400 bg-red-50/30'
-                              : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20'" />
+                              : 'border-gray-200 dark:border-slate-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20'" />
                         </td>
 
                         <td class="px-4 py-3">
                           <div class="flex items-center justify-center">
 
                             <button type="button" @click="item.quantity = Math.max(1, item.quantity - 1)"
-                              class="w-8 h-9 border border-gray-200 rounded-r-lg text-gray-500 hover:bg-gray-100 hover:text-blue-600 transition-colors">
+                              class="w-8 h-9 border border-gray-200 dark:border-slate-700 rounded-r-lg text-gray-500 hover:bg-gray-100 dark:bg-slate-800 hover:text-blue-600 transition-colors">
                               −
                             </button>
 
                             <input v-model.number="item.quantity" type="number" min="1" step="1"
-                              class="w-14 h-9 text-center border-y border-gray-200 text-sm focus:outline-none" />
+                              class="w-14 h-9 text-center border-y border-gray-200 dark:border-slate-700 text-sm focus:outline-none" />
 
                             <button type="button" @click="item.quantity++"
-                              class="w-8 h-9 border border-gray-200 rounded-l-lg text-gray-500 hover:bg-gray-100 hover:text-blue-600 transition-colors">
+                              class="w-8 h-9 border border-gray-200 dark:border-slate-700 rounded-l-lg text-gray-500 hover:bg-gray-100 dark:bg-slate-800 hover:text-blue-600 transition-colors">
                               +
                             </button>
                           </div>
@@ -431,7 +431,7 @@
                             <input v-model.number="item.unit_price" type="number" min="0" step="0.01"
                               class="w-full px-3 py-2 ps-9 border rounded-lg text-sm transition-colors" :class="itemErrors[index]?.unit_price
                                 ? 'border-red-400 bg-red-50/30'
-                                : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20'" />
+                                : 'border-gray-200 dark:border-slate-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20'" />
 
                             <span class="absolute start-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">
                               {{ $t('currency.sar') }}
@@ -440,13 +440,13 @@
                           </div>
                         </td>
 
-                        <td class="px-4 py-3 text-start font-semibold text-gray-800 text-sm whitespace-nowrap">
+                        <td class="px-4 py-3 text-start font-semibold text-gray-800 dark:text-slate-200 text-sm whitespace-nowrap">
                           {{ formatCurrency(item.total) }}
                         </td>
 
                         <td class="px-2 py-3 text-center">
                           <button type="button" @click="removeItem(index)" :disabled="invoiceData.items.length === 1"
-                            class="p-2 text-gray-300 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-gray-300"
+                            class="ui-icon-btn"
                             :title="$t('common.delete')">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -464,7 +464,7 @@
                 <div class="md:hidden space-y-3">
 
                   <div v-for="(item, index) in invoiceData.items" :key="index"
-                    class="border border-gray-100 rounded-xl p-4 bg-gray-50/40">
+                    class="border border-gray-100 rounded-xl p-4 bg-gray-50 dark:bg-slate-900/40">
 
                     <div class="flex items-start justify-between gap-2 mb-3">
 
@@ -483,7 +483,7 @@
 
                     <input v-model="item.description" type="text"
                       :placeholder="$t('invoices.create.description_placeholder')"
-                      class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm mb-3 bg-white" />
+                      class="w-full px-3 py-2.5 border border-gray-200 dark:border-slate-700 rounded-lg text-sm mb-3 bg-white dark:bg-slate-800" />
 
                     <div class="grid grid-cols-2 gap-3">
 
@@ -495,15 +495,15 @@
                         <div class="flex">
 
                           <button type="button" @click="item.quantity = Math.max(1, item.quantity - 1)"
-                            class="w-9 h-10 border border-gray-200 rounded-r-lg bg-white text-gray-500">
+                            class="w-9 h-10 border border-gray-200 dark:border-slate-700 rounded-r-lg bg-white dark:bg-slate-800 text-gray-500">
                             −
                           </button>
 
                           <input v-model.number="item.quantity" type="number" min="1"
-                            class="w-full h-10 text-center border-y border-gray-200 text-sm bg-white" />
+                            class="w-full h-10 text-center border-y border-gray-200 dark:border-slate-700 text-sm bg-white dark:bg-slate-800" />
 
                           <button type="button" @click="item.quantity++"
-                            class="w-9 h-10 border border-gray-200 rounded-l-lg bg-white text-gray-500">
+                            class="w-9 h-10 border border-gray-200 dark:border-slate-700 rounded-l-lg bg-white dark:bg-slate-800 text-gray-500">
                             +
                           </button>
 
@@ -518,7 +518,7 @@
                         <div class="relative">
 
                           <input v-model.number="item.unit_price" type="number" min="0" step="0.01"
-                            class="w-full h-10 px-3 ps-9 border border-gray-200 rounded-lg text-sm bg-white" />
+                            class="w-full h-10 px-3 ps-9 border border-gray-200 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-800" />
 
                           <span class="absolute start-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">
                             {{ $t('currency.sar') }}
@@ -553,10 +553,10 @@
                 </div>
               </div>
 
-              <div class="px-6 py-4 bg-gray-50/60 border-t border-gray-100 flex justify-between items-center">
+              <div class="px-6 py-4 bg-gray-50 dark:bg-slate-900/60 border-t border-gray-100 flex justify-between items-center">
 
                 <button @click="prevStep"
-                  class="px-5 py-2.5 text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors flex items-center gap-2">
+                  class="px-5 py-2.5 text-gray-600 dark:text-slate-400 hover:text-gray-800 dark:text-slate-200 text-sm font-medium transition-colors flex items-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -582,9 +582,9 @@
           <!-- ======== STEP 3: Payment & Extras ======== -->
           <transition name="fade" mode="out-in">
             <div v-if="currentStep === 2" key="step3"
-              class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+              class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
 
-              <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/60 flex items-center gap-3">
+              <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 dark:bg-slate-900/60 flex items-center gap-3">
 
                 <div class="p-2 bg-blue-100 rounded-lg">
                   <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -593,7 +593,7 @@
                   </svg>
                 </div>
 
-                <h3 class="font-semibold text-gray-800">
+                <h3 class="font-semibold text-gray-800 dark:text-slate-200">
                   {{ $t('invoices.create.payment_settings') }}
                 </h3>
               </div>
@@ -602,7 +602,7 @@
 
                 <!-- Status -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-3">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-3">
                     {{ $t('invoices.create.status') }}
                     <span class="text-red-500">*</span>
                   </label>
@@ -614,7 +614,7 @@
                         'p-4 rounded-xl border-2 text-center transition-all duration-200',
                         invoiceData.status === status.value
                           ? 'border-blue-500 bg-blue-50 shadow-sm shadow-blue-100'
-                          : 'border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50',
+                          : 'border-gray-100 bg-white hover:border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:bg-slate-900',
                       ]">
 
                       <div
@@ -625,7 +625,7 @@
                       </div>
 
                       <span class="text-sm font-semibold"
-                        :class="invoiceData.status === status.value ? 'text-blue-700' : 'text-gray-600'">
+                        :class="invoiceData.status === status.value ? 'text-blue-700' : 'text-gray-600 dark:text-slate-400'">
                         {{ $t(`invoices.status.${status.value}`) }}
                       </span>
 
@@ -637,14 +637,14 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                       {{ $t('invoices.create.tax_rate') }}
                     </label>
 
                     <div class="relative">
 
                       <input v-model.number="invoiceData.tax_rate" type="number" min="0" max="100" step="0.01"
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
+                        class="w-full px-4 py-3 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
 
                       <span class="absolute end-4 top-1/2 -translate-y-1/2 text-gray-400">
                         %
@@ -654,32 +654,32 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                       {{ $t('invoices.create.discount') }}
                       ({{ $t('currency.sar') }})
                     </label>
 
                     <input v-model.number="invoiceData.discount_amount" type="number" min="0" step="0.01"
-                      class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
+                      class="w-full px-4 py-3 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
                   </div>
 
                 </div>
 
                 <!-- Notes -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     {{ $t('common.notes') }}
                   </label>
 
                   <textarea v-model="invoiceData.notes" rows="3" :placeholder="$t('invoices.notesPlaceholder')"
-                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none"></textarea>
+                    class="w-full px-4 py-3 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none"></textarea>
                 </div>
 
                 <!-- Stripe -->
-                <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50 dark:bg-slate-900/50">
 
                   <div>
-                    <h4 class="font-semibold text-gray-800 text-sm">
+                    <h4 class="font-semibold text-gray-800 dark:text-slate-200 text-sm">
                       {{ $t('invoices.create.stripe_checkout') }}
                     </h4>
 
@@ -694,7 +694,7 @@
                       :disabled="invoiceData.status === 'paid' || wantsInstallmentPlan" />
 
                     <div
-                      class="w-12 h-7 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 peer-disabled:opacity-40 relative after:content-[''] after:absolute after:top-0.5 after:start-0.5 after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all after:shadow peer-checked:after:translate-x-full">
+                      class="w-12 h-7 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 peer-disabled:opacity-40 relative after:content-[''] after:absolute after:top-0.5 after:start-0.5 after:bg-white dark:bg-slate-800 after:rounded-full after:h-6 after:w-6 after:transition-all after:shadow peer-checked:after:translate-x-full">
                     </div>
 
                   </label>
@@ -711,11 +711,11 @@
                 </div>
 
                 <!-- Installments -->
-                <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50 dark:bg-slate-900/50">
 
                   <div>
 
-                    <h4 class="font-semibold text-gray-800 text-sm">
+                    <h4 class="font-semibold text-gray-800 dark:text-slate-200 text-sm">
                       {{ $t('installments.title') }}
                     </h4>
 
@@ -739,17 +739,17 @@
                       :disabled="invoiceData.status === 'paid' || invoiceData.status === 'draft'" />
 
                     <div
-                      class="w-12 h-7 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 peer-disabled:opacity-40 relative after:content-[''] after:absolute after:top-0.5 after:start-0.5 after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all after:shadow peer-checked:after:translate-x-full">
+                      class="w-12 h-7 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 peer-disabled:opacity-40 relative after:content-[''] after:absolute after:top-0.5 after:start-0.5 after:bg-white dark:bg-slate-800 after:rounded-full after:h-6 after:w-6 after:transition-all after:shadow peer-checked:after:translate-x-full">
                     </div>
 
                   </label>
                 </div>
               </div>
 
-              <div class="px-6 py-4 bg-gray-50/60 border-t border-gray-100 flex justify-between items-center">
+              <div class="px-6 py-4 bg-gray-50 dark:bg-slate-900/60 border-t border-gray-100 flex justify-between items-center">
 
                 <button @click="prevStep"
-                  class="px-5 py-2.5 text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors flex items-center gap-2">
+                  class="px-5 py-2.5 text-gray-600 dark:text-slate-400 hover:text-gray-800 dark:text-slate-200 text-sm font-medium transition-colors flex items-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -775,9 +775,9 @@
           <!-- ======== STEP 4: Review ======== -->
           <transition name="fade" mode="out-in">
             <div v-if="currentStep === 3" key="step4"
-              class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+              class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
 
-              <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/60 flex items-center gap-3">
+              <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 dark:bg-slate-900/60 flex items-center gap-3">
 
                 <div class="p-2 bg-green-100 rounded-lg">
                   <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -786,7 +786,7 @@
                   </svg>
                 </div>
 
-                <h3 class="font-semibold text-gray-800">
+                <h3 class="font-semibold text-gray-800 dark:text-slate-200">
                   {{ $t('invoices.create.review') }}
                 </h3>
               </div>
@@ -794,14 +794,14 @@
               <div class="p-6 space-y-4">
 
                 <!-- Review -->
-                <div class="rounded-xl border border-gray-100 divide-y divide-gray-100">
+                <div class="rounded-xl border border-gray-100 divide-y divide-gray-100 dark:divide-slate-800">
 
                   <div class="flex justify-between items-center px-4 py-3 text-sm">
                     <span class="text-gray-500">
                       {{ $t('invoices.create.client') }}
                     </span>
 
-                    <span class="font-semibold text-gray-900">
+                    <span class="font-semibold text-gray-900 dark:text-slate-100">
                       {{ selectedClient?.name || '-' }}
                     </span>
                   </div>
@@ -811,7 +811,7 @@
                       {{ $t('invoices.create.invoice_number') }}
                     </span>
 
-                    <span class="font-semibold text-gray-900 font-mono text-xs">
+                    <span class="font-semibold text-gray-900 dark:text-slate-100 font-mono text-xs">
                       {{ invoiceData.invoice_number || $t('common.auto_generated') }}
                     </span>
                   </div>
@@ -853,7 +853,7 @@
                 <!-- Items -->
                 <div class="rounded-xl border border-gray-100 overflow-hidden">
 
-                  <div class="px-4 py-2.5 bg-gray-50 text-xs font-semibold text-gray-500">
+                  <div class="px-4 py-2.5 bg-gray-50 dark:bg-slate-900 text-xs font-semibold text-gray-500">
                     {{ $t('invoices.create.items') }}
                     ({{ invoiceData.items.length }})
                   </div>
@@ -862,7 +862,7 @@
 
                     <div v-for="(item, idx) in invoiceData.items" :key="idx"
                       class="flex justify-between items-center px-4 py-2.5 text-sm">
-                      <span class="text-gray-700 truncate me-3">
+                      <span class="text-gray-700 dark:text-slate-300 truncate me-3">
                         {{ item.description }}
 
                         <span class="text-gray-400">
@@ -870,7 +870,7 @@
                         </span>
                       </span>
 
-                      <span class="font-medium text-gray-900 whitespace-nowrap">
+                      <span class="font-medium text-gray-900 dark:text-slate-100 whitespace-nowrap">
                         {{ formatCurrency(item.total) }}
                       </span>
                     </div>
@@ -880,10 +880,10 @@
               </div>
 
               <div
-                class="px-6 py-4 bg-gray-50/60 border-t border-gray-100 flex flex-col-reverse sm:flex-row justify-between items-center gap-3">
+                class="px-6 py-4 bg-gray-50 dark:bg-slate-900/60 border-t border-gray-100 flex flex-col-reverse sm:flex-row justify-between items-center gap-3">
 
                 <button @click="prevStep"
-                  class="w-full sm:w-auto px-5 py-2.5 text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                  class="w-full sm:w-auto px-5 py-2.5 text-gray-600 dark:text-slate-400 hover:text-gray-800 dark:text-slate-200 text-sm font-medium transition-colors flex items-center justify-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M10 19l-7-7m0 0l7-7m7 7h18" />
@@ -895,7 +895,7 @@
                 <div class="flex w-full sm:w-auto gap-3">
 
                   <button @click="saveAsDraft" :disabled="loading"
-                    class="flex-1 sm:flex-none px-5 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-all text-sm font-medium disabled:opacity-50">
+                    class="flex-1 sm:flex-none px-5 py-2.5 bg-white border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-400 rounded-xl hover:bg-gray-50 dark:bg-slate-900 transition-all text-sm font-medium disabled:opacity-50">
                     {{ $t('common.save_draft') }}
                   </button>
 
@@ -920,11 +920,11 @@
         <!-- ========== Sidebar Summary ========== -->
         <div class="lg:sticky lg:top-6 space-y-4">
 
-          <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
 
             <div
               class="px-5 py-4 border-b border-gray-100 bg-gradient-to-l from-blue-50/60 to-white flex items-center justify-between">
-              <h3 class="font-bold text-gray-800 text-sm">
+              <h3 class="font-bold text-gray-800 dark:text-slate-200 text-sm">
                 {{ $t('invoices.create.summary') }}
               </h3>
 
@@ -943,7 +943,7 @@
                   {{ $t('invoices.create.subtotal') }}
                 </span>
 
-                <span class="font-medium text-gray-900">
+                <span class="font-medium text-gray-900 dark:text-slate-100">
                   {{ formatCurrency(invoiceData.subtotal) }}
                 </span>
               </div>
@@ -954,7 +954,7 @@
                   ({{ invoiceData.tax_rate }}%)
                 </span>
 
-                <span class="font-medium text-gray-900">
+                <span class="font-medium text-gray-900 dark:text-slate-100">
                   {{ formatCurrency(invoiceData.tax_amount) }}
                 </span>
               </div>
@@ -969,9 +969,9 @@
                 </span>
               </div>
 
-              <div class="flex justify-between items-center pt-3 border-t border-dashed border-gray-200">
+              <div class="flex justify-between items-center pt-3 border-t border-dashed border-gray-200 dark:border-slate-700">
 
-                <span class="font-bold text-gray-900">
+                <span class="font-bold text-gray-900 dark:text-slate-100">
                   {{ $t('invoices.create.total') }}
                 </span>
 
@@ -984,7 +984,7 @@
           </div>
 
           <!-- Status -->
-          <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm p-5">
 
             <div class="flex items-center gap-2 mb-3">
               <span class="w-2 h-2 rounded-full bg-blue-500"></span>

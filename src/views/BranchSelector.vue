@@ -2,7 +2,7 @@
   <div class="relative" ref="branchDropdownRef">
     <button
       @click="toggleDropdown"
-      class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+      class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:bg-slate-800 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
       :class="{ 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400': isOpen }"
       :title="selectedBranch?.name || $t('branch.select_branch')"
     >
@@ -69,7 +69,7 @@
             :class="[
               selectedBranchId == branch.id
                 ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-r-2 border-blue-500'
-                : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700/50',
+                : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-slate-700/50',
             ]"
           >
             <div

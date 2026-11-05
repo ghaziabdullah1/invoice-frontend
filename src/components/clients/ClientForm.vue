@@ -3,14 +3,14 @@
     v-if="show"
     class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
   >
-    <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
       <!-- رأس النموذج -->
-      <div class="p-6 border-b border-gray-200">
+      <div class="p-6 border-b border-gray-200 dark:border-slate-700">
         <div class="flex items-center justify-between">
-          <h3 class="text-xl font-bold text-gray-900">
+          <h3 class="text-xl font-bold text-gray-900 dark:text-slate-100">
             {{ client ? 'تعديل عميل' : 'إضافة عميل جديد' }}
           </h3>
-          <button @click="handleClose" class="text-gray-400 hover:text-gray-600 transition-colors">
+          <button @click="handleClose" class="text-gray-400 hover:text-gray-600 dark:text-slate-400 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -28,67 +28,67 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- الاسم -->
           <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-2"> الاسم الكامل * </label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2"> الاسم الكامل * </label>
             <input
               v-model="form.name"
               type="text"
               required
-              class="w-full px-4 py-3 bg-gray-50/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
               placeholder="أدخل الاسم الكامل للعميل"
             />
           </div>
 
           <!-- البريد الإلكتروني -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"> البريد الإلكتروني </label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2"> البريد الإلكتروني </label>
             <input
               v-model="form.email"
               type="email"
-              class="w-full px-4 py-3 bg-gray-50/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
               placeholder="example@email.com"
             />
           </div>
 
           <!-- الهاتف -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"> الهاتف </label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2"> الهاتف </label>
             <input
               v-model="form.phone"
               type="tel"
-              class="w-full px-4 py-3 bg-gray-50/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
               placeholder="05XXXXXXXX"
             />
           </div>
 
           <!-- اسم الشركة -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"> اسم الشركة </label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2"> اسم الشركة </label>
             <input
               v-model="form.company_name"
               type="text"
-              class="w-full px-4 py-3 bg-gray-50/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
               placeholder="اسم الشركة أو المؤسسة"
             />
           </div>
 
           <!-- الرقم الضريبي -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"> الرقم الضريبي </label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2"> الرقم الضريبي </label>
             <input
               v-model="form.tax_number"
               type="text"
-              class="w-full px-4 py-3 bg-gray-50/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300"
               placeholder="الرقم الضريبي للشركة"
             />
           </div>
 
           <!-- العنوان -->
           <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-2"> العنوان </label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2"> العنوان </label>
             <textarea
               v-model="form.address"
               rows="3"
-              class="w-full px-4 py-3 bg-gray-50/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 resize-none"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-900/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 resize-none"
               placeholder="العنوان التفصيلي للعميل"
             ></textarea>
           </div>
@@ -99,7 +99,7 @@
           <button
             type="button"
             @click="handleClose"
-            class="px-6 py-3 text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200"
+            class="px-6 py-3 text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:text-slate-100 font-medium transition-colors duration-200"
           >
             إلغاء
           </button>

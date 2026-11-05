@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-6 md:py-10">
+  <div class="min-h-screen bg-gray-50 dark:bg-slate-900 py-6 md:py-8">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between mb-5">
-        <h1 class="text-2xl font-extrabold text-gray-900 dark:text-white">تذاكري</h1>
+        <h1 class="text-2xl font-extrabold text-gray-900 dark:text-white">{{ $t('nav.my_tickets') }}</h1>
         <router-link to="/support" class="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl text-sm font-semibold shadow-lg shadow-emerald-500/25">
-          محادثة جديدة
+          {{ $t('support.new_chat') }}
         </router-link>
       </div>
 
@@ -15,10 +15,10 @@
             <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
           </div>
           <p v-else-if="listError" class="p-6 text-center text-sm text-red-500">{{ listError }}</p>
-          <p v-else-if="!tickets.length" class="p-6 text-center text-sm text-gray-500 dark:text-slate-400">لا توجد تذاكر بعد</p>
+          <p v-else-if="!tickets.length" class="p-6 text-center text-sm text-gray-500 dark:text-slate-400">{{ $t('support.no_tickets_yet') }}</p>
           <button
             v-for="t in tickets" :key="t.id" @click="openTicket(t.id)"
-            :class="['w-full text-start px-4 py-3 border-b border-gray-100 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/40 transition-colors',
+            :class="['w-full text-start px-4 py-3 border-b border-gray-100 dark:border-slate-700 hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-slate-700/40 transition-colors',
                      selected && selected.id === t.id ? 'bg-emerald-50 dark:bg-emerald-900/20' : '']"
           >
             <div class="flex items-center justify-between gap-2">
@@ -36,7 +36,7 @@
         <!-- المحادثة -->
         <div :class="['md:col-span-2 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col overflow-hidden', selected ? '' : 'hidden md:flex']">
           <div v-if="!selected" class="flex-1 flex items-center justify-center text-gray-400 dark:text-slate-500 text-sm">
-            اختر تذكرة لعرض المحادثة
+            {{ $t('support.select_ticket_to_view') }}
           </div>
           <template v-else>
             <div class="px-5 py-3 border-b border-gray-100 dark:border-slate-700 flex items-center gap-3">
@@ -44,7 +44,7 @@
               <div class="min-w-0 flex-1">
                 <p class="font-bold text-gray-900 dark:text-white truncate">{{ selected.subject }}</p>
                 <p class="text-xs text-gray-500 dark:text-slate-400">
-                  {{ selected.ticket_number }}<span v-if="selected.assigned_to_name || (selected.assigned_to && selected.assigned_to.name)"> · يتولاها {{ selected.assigned_to_name || selected.assigned_to.name }}</span>
+                  {{ selected.ticket_number }}<span v-if="selected.assigned_to_name || (selected.assigned_to && selected.assigned_to.name)"> · {{ $t('support.assigned_to') }} {{ selected.assigned_to_name || selected.assigned_to.name }}</span>
                 </p>
               </div>
               <span :class="statusClass(selected.status)">{{ statusLabel(selected.status) }}</span>
@@ -57,7 +57,7 @@
               <div v-for="r in selected.replies" :key="r.id" :class="['flex', r.is_admin_reply ? 'justify-start' : 'justify-end']">
                 <div :class="['max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap',
                               r.is_admin_reply ? 'bg-white dark:bg-slate-700 text-gray-800 dark:text-slate-100 border border-gray-100 dark:border-slate-600' : 'bg-emerald-600 text-white']">
-                  <p v-if="r.is_admin_reply" class="text-xs font-bold mb-1 opacity-70">{{ (r.user && r.user.name) || 'الدعم الفني' }}</p>
+                  <p v-if="r.is_admin_reply" class="text-xs font-bold mb-1 opacity-70">{{ (r.user && r.user.name) || $t('support.admin') }}</p>
                   {{ r.message }}
                   <p class="text-[10px] opacity-60 mt-1">{{ formatTime(r.created_at) }}</p>
                 </div>
@@ -68,17 +68,17 @@
               <p v-if="sendError" class="text-xs text-red-500 mb-1">{{ sendError }}</p>
               <div class="flex items-end gap-2">
                 <textarea
-                  v-model="text" rows="2" maxlength="2000" placeholder="اكتب رسالتك... (Enter للإرسال، Shift+Enter لسطر جديد)"
+                  v-model="text" rows="2" maxlength="2000" :placeholder="$t('support.message_placeholder')"
                   @keydown.enter.exact.prevent="send"
                   class="flex-1 px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700 text-gray-900 dark:text-white text-sm resize-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                 ></textarea>
                 <button @click="send" :disabled="sending || !text.trim()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold disabled:opacity-50">
-                  {{ sending ? '...' : 'إرسال' }}
+                  {{ sending ? '...' : $t('support.send_short') }}
                 </button>
               </div>
             </div>
             <div v-else class="p-4 border-t border-gray-100 dark:border-slate-700 text-center text-sm text-gray-500 dark:text-slate-400">
-              هذه التذكرة مغلقة. يمكنك بدء محادثة جديدة إذا احتجت مساعدة.
+              هذه التذكرة مغلقة. يمكنك بدء {{ $t('support.new_chat') }} إذا احتجت مساعدة.
             </div>
           </template>
         </div>
@@ -132,7 +132,7 @@ export default {
         this.tickets = data.data.items
         this.listError = null
       } catch (e) {
-        if (!silent) this.listError = e.response?.data?.message || 'فشل تحميل التذاكر'
+        if (!silent) this.listError = e.response?.data?.message || $t('support.load_error')
       } finally {
         this.loading = false
       }
@@ -164,7 +164,7 @@ export default {
         this.scrollDown()
         this.markRead(id)
       } catch (e) {
-        this.listError = e.response?.data?.message || 'تعذر فتح التذكرة'
+        this.listError = e.response?.data?.message || $t('support.open_error')
       }
     },
 
@@ -215,7 +215,7 @@ export default {
         this.scrollDown()
         this.scheduleRefresh()
       } catch (e) {
-        this.sendError = e.response?.data?.message || 'فشل إرسال الرسالة'
+        this.sendError = e.response?.data?.message || $t('support.send_message_error')
       } finally {
         this.sending = false
       }
@@ -230,12 +230,12 @@ export default {
 
     formatTime(d) {
       if (!d) return ''
-      return new Intl.DateTimeFormat(this.$i18n?.locale === 'ar' ? 'ar-SA' : 'en-US', {
+      return new Intl.DateTimeFormat(this.$i18n?.locale === 'ar' ? 'en-US' : 'en-US', {
         month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
       }).format(new Date(d))
     },
 
-    statusLabel(s) { return { open: 'مفتوحة', in_progress: 'قيد المعالجة', closed: 'مغلقة' }[s] || s },
+    statusLabel(s) { return this.$t('support.' + s) || s },
     statusClass(s) {
       const c = {
         open: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',

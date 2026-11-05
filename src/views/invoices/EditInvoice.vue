@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-slate-100 py-6 md:py-8 dark:bg-slate-900">
+  <div class="min-h-screen bg-gray-50 py-6 md:py-8 dark:bg-slate-900">
     <div class="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
       <!-- ============ Top bar ============ -->
       <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
@@ -435,7 +435,7 @@ export default {
 
     formatCurrency(amount) {
       if (!amount && amount !== 0) return '0.00 ر.س'
-      const formatter = new Intl.NumberFormat('ar-SA', {
+      const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'SAR',
         minimumFractionDigits: 2,
@@ -446,7 +446,7 @@ export default {
     formatDate(dateString) {
       if (!dateString) return '-'
       const date = new Date(dateString)
-      return date.toLocaleDateString('ar-SA', {
+      return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',

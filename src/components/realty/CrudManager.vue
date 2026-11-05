@@ -4,8 +4,8 @@
       <!-- Header -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ $t(config.title) }}</h1>
-          <p class="text-gray-600 text-sm mt-1">{{ $t(config.subtitle) }}</p>
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">{{ $t(config.title) }}</h1>
+          <p class="text-gray-600 dark:text-slate-400 text-sm mt-1">{{ $t(config.subtitle) }}</p>
         </div>
         <button
           v-if="canCreate"
@@ -20,19 +20,19 @@
       </div>
 
       <!-- Filters -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 mb-4 flex flex-col md:flex-row gap-3">
+      <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-4 mb-4 flex flex-col md:flex-row gap-3">
         <input
           v-model="search"
           type="search"
           :placeholder="$t('realty.common.search')"
-          class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+          class="flex-1 px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/30"
         />
         <select
           v-for="flt in config.filters || []"
           :key="flt.key"
           v-model="extraFilters[flt.key]"
           @change="onFilterChange"
-          class="px-3 py-2 border border-gray-300 rounded-lg bg-white"
+          class="px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800"
         >
           <option value="">{{ $t(flt.label) }}: {{ $t('realty.common.all') }}</option>
           <option v-for="opt in options[flt.key] || []" :key="opt.value" :value="opt.value">
@@ -42,7 +42,7 @@
         <select
           v-model="activeFilter"
           @change="onFilterChange"
-          class="px-3 py-2 border border-gray-300 rounded-lg bg-white"
+          class="px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800"
         >
           <option value="">{{ $t('realty.common.status') }}: {{ $t('realty.common.all') }}</option>
           <option value="1">{{ $t('realty.common.active') }}</option>
@@ -51,56 +51,56 @@
       </div>
 
       <!-- Loading -->
-      <div v-if="loading" class="bg-white rounded-xl border border-gray-200 shadow-sm p-12 text-center">
+      <div v-if="loading" class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-12 text-center">
         <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600"></div>
       </div>
 
       <!-- Table -->
-      <div v-else class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div v-if="items.length === 0" class="text-center py-12 px-4 text-gray-600">
+      <div v-else class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div v-if="items.length === 0" class="text-center py-12 px-4 text-gray-600 dark:text-slate-400">
           {{ $t(config.emptyLabel) }}
         </div>
         <div v-else class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+            <thead class="bg-gray-50 dark:bg-slate-900">
               <tr>
                 <th
                   v-for="col in config.columns"
                   :key="col.key"
-                  class="px-6 py-3 text-right text-xs font-semibold text-gray-700 uppercase whitespace-nowrap"
+                  class="px-6 py-3 text-start text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase whitespace-nowrap"
                 >
                   {{ $t(col.label) }}
                 </th>
                 <th
                   v-if="canEdit || canDelete"
-                  class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase"
+                  class="px-6 py-3 text-center text-xs font-semibold text-gray-700 dark:text-slate-300 uppercase"
                 >
                   {{ $t('realty.common.actions') }}
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
               <tr v-for="row in items" :key="row.id" class="hover:bg-blue-50/30">
-                <td v-for="col in config.columns" :key="col.key" class="px-6 py-4 text-sm text-gray-700">
+                <td v-for="col in config.columns" :key="col.key" class="px-6 py-4 text-sm text-gray-700 dark:text-slate-300">
                   <template v-if="col.type === 'status'">
                     <button
                       v-if="canEdit"
                       @click="toggleActive(row)"
                       class="px-3 py-1.5 rounded-full text-xs font-semibold"
-                      :class="row.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'"
+                      :class="row.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-400'"
                     >
                       {{ row.is_active ? $t('realty.common.active') : $t('realty.common.inactive') }}
                     </button>
                     <span
                       v-else
                       class="px-3 py-1.5 rounded-full text-xs font-semibold"
-                      :class="row.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'"
+                      :class="row.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-400'"
                     >
                       {{ row.is_active ? $t('realty.common.active') : $t('realty.common.inactive') }}
                     </span>
                   </template>
                   <template v-else-if="col.type === 'primary'">
-                    <div class="font-medium text-gray-900">{{ cell(row, col) }}</div>
+                    <div class="font-medium text-gray-900 dark:text-slate-100">{{ cell(row, col) }}</div>
                     <div v-if="col.subKey && row[col.subKey]" class="text-xs text-gray-500">
                       {{ row[col.subKey] }}
                     </div>
@@ -112,7 +112,7 @@
                     <button
                       v-if="canEdit"
                       @click="openEdit(row)"
-                      class="p-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg"
+                      class="p-2 text-gray-600 dark:text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-lg"
                       :title="$t('realty.common.edit')"
                     >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +122,7 @@
                     <button
                       v-if="canDelete"
                       @click="confirmRemove(row)"
-                      class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                      class="p-2 text-gray-600 dark:text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
                       :title="$t('realty.common.delete')"
                     >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,14 +142,14 @@
         v-if="!loading && pagination.last_page > 1"
         class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4"
       >
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600 dark:text-slate-400">
           {{ $t('realty.common.showing', { from: pagination.from, to: pagination.to, total: pagination.total }) }}
         </p>
         <div class="flex items-center gap-1">
           <button
             :disabled="page <= 1"
             @click="goTo(page - 1)"
-            class="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded-lg disabled:opacity-40"
+            class="px-3 py-1.5 text-sm bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg disabled:opacity-40"
           >
             {{ $t('realty.common.prev') }}
           </button>
@@ -158,14 +158,14 @@
             :key="n"
             @click="goTo(n)"
             class="px-3 py-1.5 text-sm border rounded-lg"
-            :class="n === page ? 'bg-blue-900 text-white border-blue-900' : 'bg-white border-gray-300 text-gray-700'"
+            :class="n === page ? 'bg-blue-900 text-white border-blue-900' : 'bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300'"
           >
             {{ n }}
           </button>
           <button
             :disabled="page >= pagination.last_page"
             @click="goTo(page + 1)"
-            class="px-3 py-1.5 text-sm bg-white border border-gray-300 rounded-lg disabled:opacity-40"
+            class="px-3 py-1.5 text-sm bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg disabled:opacity-40"
           >
             {{ $t('realty.common.next') }}
           </button>
@@ -178,19 +178,19 @@
       v-if="showModal"
       class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
     >
-      <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
-        <h3 class="text-lg font-bold text-gray-900 mb-4">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-slate-100 mb-4">
           {{ editing ? $t(config.editLabel) : $t(config.addLabel) }}
         </h3>
         <form @submit.prevent="submitForm" class="space-y-4">
           <div v-for="f in config.fields" :key="f.key">
-            <label v-if="f.type === 'checkbox'" class="flex items-center gap-2 text-sm text-gray-700">
+            <label v-if="f.type === 'checkbox'" class="flex items-center gap-2 text-sm text-gray-700 dark:text-slate-300">
               <input type="checkbox" v-model="form[f.key]" />
               {{ $t(f.label) }}
             </label>
 
             <template v-else>
-              <label class="block text-sm font-medium text-gray-700 mb-1">
+              <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 {{ $t(f.label) }}<span v-if="f.required"> *</span>
               </label>
 
@@ -198,7 +198,7 @@
                 v-if="f.type === 'textarea'"
                 v-model="form[f.key]"
                 rows="3"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg"
               ></textarea>
 
               <select
@@ -206,7 +206,7 @@
                 v-model="form[f.key]"
                 :required="f.required"
                 :disabled="editing && f.lockOnEdit"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white disabled:bg-gray-100"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 disabled:bg-gray-100 dark:bg-slate-800"
               >
                 <option value="">{{ f.required ? $t('realty.common.select') : $t('realty.common.none') }}</option>
                 <option
@@ -226,7 +226,7 @@
                 :step="f.type === 'number' ? (f.step || 'any') : undefined"
                 :min="f.type === 'number' && f.min !== undefined ? f.min : undefined"
                 :required="f.required"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg"
               />
             </template>
 
@@ -237,7 +237,7 @@
             <button
               type="button"
               @click="closeModal"
-              class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg"
+              class="px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg"
             >
               {{ $t('realty.common.cancel') }}
             </button>
@@ -369,12 +369,34 @@ export default {
         })
 
         const result = await this.$store.dispatch(`${this.config.store}/fetchAll`, params)
-        this.items = result.items
-        this.pagination = result.pagination
+        // Fix: Handle both raw Laravel response and unwrapped store response
+        if (result.items && result.pagination) {
+          this.items = result.items
+          this.pagination = result.pagination
+        } else if (result.data && Array.isArray(result.data)) {
+          // Laravel paginated response format
+          this.items = result.data
+          this.pagination = {
+            current_page: result.current_page,
+            last_page: result.last_page,
+            per_page: result.per_page,
+            total: result.total,
+            from: result.from,
+            to: result.to,
+          }
+        } else if (Array.isArray(result)) {
+          this.items = result
+          this.pagination = {
+            current_page: 1, last_page: 1, per_page: result.length, total: result.length, from: 1, to: result.length
+          }
+        } else {
+          this.items = []
+        }
       } catch (e) {
         toast.error(this.apiError(e))
       } finally {
         this.loading = false
+        this.$emit("data-loaded", { items: this.items, pagination: this.pagination })
       }
     },
 

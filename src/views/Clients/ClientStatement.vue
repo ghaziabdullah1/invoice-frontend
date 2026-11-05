@@ -42,12 +42,12 @@
             <table class="min-w-full text-sm">
               <thead class="bg-gray-50 dark:bg-slate-700/50 text-gray-500 dark:text-slate-400 text-xs">
                 <tr>
-                  <th class="px-4 py-2 text-right">التاريخ</th>
-                  <th class="px-4 py-2 text-right">البيان</th>
-                  <th class="px-4 py-2 text-right">المرجع</th>
-                  <th class="px-4 py-2 text-right">مدين</th>
-                  <th class="px-4 py-2 text-right">دائن</th>
-                  <th class="px-4 py-2 text-right">الرصيد</th>
+                  <th class="px-4 py-2 text-start">التاريخ</th>
+                  <th class="px-4 py-2 text-start">البيان</th>
+                  <th class="px-4 py-2 text-start">المرجع</th>
+                  <th class="px-4 py-2 text-start">مدين</th>
+                  <th class="px-4 py-2 text-start">دائن</th>
+                  <th class="px-4 py-2 text-start">الرصيد</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 dark:divide-slate-700 text-gray-800 dark:text-slate-200">

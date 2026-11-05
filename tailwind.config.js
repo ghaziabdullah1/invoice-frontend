@@ -26,6 +26,8 @@ export default {
   theme: {
     extend: {
       colors: {
+        page:    'rgb(var(--color-bg-page) / <alpha-value>)',
+        surface: 'rgb(var(--color-bg-surface) / <alpha-value>)',
         // أسماء دلالية (يفضّل استخدامها بالكود الجديد)
         primary: themeColor('primary'),
         success: themeColor('success'),

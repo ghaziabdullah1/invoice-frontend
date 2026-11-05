@@ -40,7 +40,7 @@
           </div>
           <button
             @click="$router.push('/recurring-invoices')"
-            class="px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 flex items-center gap-2"
+            class="px-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:bg-slate-900 transition-colors duration-200 flex items-center gap-2"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -298,7 +298,7 @@
                 type="button"
                 @click="$router.push('/recurring-invoices')"
                 :disabled="submitting"
-                class="px-6 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                class="px-6 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:bg-slate-900 transition-colors duration-200"
               >
                 {{ $t('common.cancel') || 'إلغاء' }}
               </button>
@@ -396,7 +396,7 @@ export default {
 
     formatCurrency(amount) {
       if (!amount && amount !== 0) return '0.00 ' + this.$t('common.currency')
-      const formatter = new Intl.NumberFormat('ar-SA', {
+      const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'SAR',
         minimumFractionDigits: 2,

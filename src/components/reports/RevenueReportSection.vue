@@ -122,14 +122,14 @@
       </div>
 
       <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">>
           <thead>
             <tr>
-              <th class="table-header">{{ $t('reports.month') }}</th>
+              <th class="table-header text-center">{{ $t('reports.month') }}</th>
               <th class="table-header text-center">{{ $t('reports.invoicesCount') }}</th>
-              <th class="table-header text-right">{{ $t('reports.totalAmount') }}</th>
-              <th class="table-header text-right">{{ $t('reports.collectedAmount') }}</th>
-              <th class="table-header text-right">{{ $t('reports.outstandingAmount') }}</th>
+              <th class="table-header text-center">{{ $t('reports.totalAmount') }}</th>
+              <th class="table-header text-center">{{ $t('reports.collectedAmount') }}</th>
+              <th class="table-header text-center">{{ $t('reports.outstandingAmount') }}</th>
               <th class="table-header text-center">{{ $t('reports.collectionRate') }}</th>
             </tr>
           </thead>
@@ -151,15 +151,15 @@
                   {{ month.invoice_count || 0 }}
                 </span>
               </td>
-              <td class="table-cell text-right">
+              <td class="table-cell text-center">
                 <div class="amount-cell">{{ formatCurrency(month.total_amount) }}</div>
               </td>
-              <td class="table-cell text-right">
+              <td class="table-cell text-center">
                 <div class="text-base font-semibold text-green-600 dark:text-green-400">
                   {{ formatCurrency(month.paid_amount) }}
                 </div>
               </td>
-              <td class="table-cell text-right">
+              <td class="table-cell text-center">
                 <div class="text-base font-semibold text-yellow-600 dark:text-yellow-400">
                   {{ formatCurrency(month.due_amount) }}
                 </div>
@@ -256,7 +256,7 @@ export default {
   methods: {
     formatCurrency(amount) {
       if (!amount && amount !== 0) return '0.00 ' + this.$t('common.currency')
-      const formatter = new Intl.NumberFormat('ar-SA', {
+      const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'SAR',
         minimumFractionDigits: 2,
@@ -316,7 +316,7 @@ export default {
   @apply text-2xl font-bold text-gray-900 dark:text-white;
 }
 .table-header {
-  @apply px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
+  @apply px-6 py-3 text-start text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
 }
 .table-cell {
   @apply px-6 py-4;

@@ -21,7 +21,7 @@ export function createCrudApi(endpoint) {
   }
 }
 
-// يستخرج القائمة والترقيم من استجابة الـ API (مصفوفة مباشرة أو Paginator)
+// يستخرج القائمة والترقيم من استجابة الـ API (مصفوفة مباشرة، أو Paginator، أو { items, pagination })
 export function unwrapList(response) {
   const payload = response?.data?.data
 
@@ -40,6 +40,25 @@ export function unwrapList(response) {
         from: payload.from || 0,
         to: payload.to || 0,
       },
+    }
+  }
+
+  // الشكل المستخدم في وحدة المشتريات: { items: [...], pagination: {...} }
+  if (payload && Array.isArray(payload.items)) {
+    const p = payload.pagination || {}
+    const items = payload.items
+    return {
+      items,
+      pagination: payload.pagination
+        ? {
+            current_page: p.current_page || 1,
+            last_page: p.last_page || 1,
+            per_page: p.per_page || 10,
+            total: p.total ?? items.length,
+            from: p.from || (items.length ? 1 : 0),
+            to: p.to || items.length,
+          }
+        : null,
     }
   }
 

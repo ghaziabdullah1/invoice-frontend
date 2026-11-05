@@ -181,7 +181,7 @@
               <button
                 v-if="searchQuery"
                 @click="searchQuery = ''"
-                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-gray-300 transition-colors"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -329,22 +329,58 @@
             </div>
           </div>
 
+          <!-- Filter Chips -->
+          <div v-if="permissions.length > 0" class="px-6 py-3 border-b border-gray-200/50 dark:border-gray-700/50 flex items-center gap-2 flex-wrap bg-gray-50/50 dark:bg-gray-900/20">
+            <button
+              @click="filterMode = 'all'"
+              :class="[
+                'px-4 py-1.5 rounded-full text-sm font-semibold transition-all',
+                filterMode === 'all'
+                  ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/30'
+                  : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-600',
+              ]"
+            >
+              {{ $t('common.all') }} · {{ permissions.length }}
+            </button>
+            <button
+              @click="filterMode = 'parents'"
+              :class="[
+                'px-4 py-1.5 rounded-full text-sm font-semibold transition-all',
+                filterMode === 'parents'
+                  ? 'bg-green-600 text-white shadow-sm shadow-green-500/30'
+                  : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-green-300 dark:hover:border-green-600',
+              ]"
+            >
+              {{ $t('permissions.parent') }} · {{ parentPermissionsCount }}
+            </button>
+            <button
+              @click="filterMode = 'children'"
+              :class="[
+                'px-4 py-1.5 rounded-full text-sm font-semibold transition-all',
+                filterMode === 'children'
+                  ? 'bg-blue-500 text-white shadow-sm shadow-blue-400/30'
+                  : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-600',
+              ]"
+            >
+              {{ $t('permissions.child') }} · {{ childPermissionsCount }}
+            </button>
+          </div>
+
           <!-- Table Content -->
-          <div v-else class="overflow-hidden">
+          <div v-if="permissions.length > 0" class="overflow-hidden">
             <div class="overflow-x-auto">
               <table class="min-w-full divide-y divide-gray-200/50 dark:divide-gray-700/50">
                 <thead>
                   <tr class="bg-gradient-to-r from-gray-50 to-gray-100/30 dark:from-gray-900/50 dark:to-gray-800/30 transition-colors duration-300">
-                    <th class="table-header text-right dark:text-gray-300">{{ $t('permissions.permission_name') }}</th>
-                    <th class="table-header text-right dark:text-gray-300">{{ $t('permissions.description_ar') }}</th>
-                    <th class="table-header text-right dark:text-gray-300">{{ $t('permissions.description_en') }}</th>
+                    <th class="table-header text-start dark:text-gray-300">{{ $t('permissions.permission_name') }}</th>
+                    <th class="table-header text-start dark:text-gray-300">{{ $t('permissions.description') }}</th>
                     <th class="table-header text-center dark:text-gray-300">{{ $t('permissions.type') }}</th>
                     <th class="table-header text-center dark:text-gray-300">{{ $t('common.actions') }}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200/30 dark:divide-gray-700/30 bg-white dark:bg-gray-800 transition-colors duration-300">
                   <tr
-                    v-for="permission in permissions"
+                    v-for="permission in displayedPermissions"
                     :key="'perm-' + permission.id"
                     class="hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors"
                   >
@@ -370,10 +406,10 @@
                           </div>
                         </div>
                         <div class="mr-4">
-                          <div class="text-base font-bold text-gray-900 dark:text-white">
+                          <div class="text-base font-bold text-gray-900 dark:text-white text-left" dir="ltr">
                             {{ permission.title }}
                           </div>
-                          <div class="flex items-center gap-2 mt-1">
+                          <div class="flex items-center gap-2 mt-1 text-left" dir="ltr">
                             <span class="text-xs text-gray-500 dark:text-gray-400">ID: {{ permission.id }}</span>
                           </div>
                         </div>
@@ -382,16 +418,10 @@
 
                     <td class="table-cell">
                       <div class="flex flex-col">
-                        <span class="text-sm text-gray-900 dark:text-gray-100 font-medium">{{
-                          permission.description_ar || $t('common.notAvailable')
-                        }}</span>
-                      </div>
-                    </td>
-
-                    <td class="table-cell">
-                      <div class="flex flex-col">
-                        <span class="text-sm text-gray-900 dark:text-gray-100 font-medium">{{
-                          permission.description_en || $t('common.notAvailable')
+                        <span class="text-sm text-gray-900 dark:text-gray-100 font-medium text-start inline-block w-full" dir="auto">{{
+                          $i18n.locale === 'ar'
+                            ? (permission.description_ar || $t('common.notAvailable'))
+                            : (permission.description_en || $t('common.notAvailable'))
                         }}</span>
                       </div>
                     </td>
@@ -440,7 +470,7 @@
                         </button>
                         <button
                           @click="confirmDelete(permission)"
-                          class="p-2.5 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl transition-all duration-200 transform hover:scale-110"
+                          class="ui-icon-btn"
                           :title="$t('buttons.delete')"
                         >
                           <svg
@@ -462,6 +492,12 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+            <div v-if="displayedPermissions.length === 0" class="text-center py-12 px-4">
+              <svg class="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{ $t('common.no_results') }}</p>
             </div>
           </div>
         </div>
@@ -486,7 +522,7 @@
               <button
                 @click="previousPage"
                 :disabled="pagination.current_page === 1"
-                class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 text-gray-700 dark:text-gray-200"
+                class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 text-gray-700 dark:text-gray-200"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -508,7 +544,7 @@
                     'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200',
                     page === pagination.current_page
                       ? 'bg-blue-600 text-white'
-                      : 'border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200',
+                      : 'border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200',
                     page === '...' ? 'cursor-default hover:bg-transparent dark:hover:bg-transparent' : '',
                   ]"
                   :disabled="page === '...'"
@@ -520,7 +556,7 @@
               <button
                 @click="nextPage"
                 :disabled="pagination.current_page === pagination.last_page"
-                class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 text-gray-700 dark:text-gray-200"
+                class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 text-gray-700 dark:text-gray-200"
               >
                 <span class="hidden sm:inline">{{ $t('pagination.next') }}</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -563,6 +599,7 @@ export default {
       showModal: false,
       editingPermission: null,
       searchTimeout: null,
+      filterMode: 'all',
     }
   },
 
@@ -593,6 +630,16 @@ export default {
 
     childPermissionsCount() {
       return this.permissions.filter((p) => !p.is_parent).length
+    },
+
+    displayedPermissions() {
+      if (this.filterMode === 'parents') {
+        return this.permissions.filter((p) => p.is_parent)
+      }
+      if (this.filterMode === 'children') {
+        return this.permissions.filter((p) => !p.is_parent)
+      }
+      return this.permissions
     },
 
     hasPagination() {
@@ -760,7 +807,7 @@ export default {
   @apply text-2xl font-bold text-gray-900 dark:text-white;
 }
 .table-header {
-  @apply px-6 py-4 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
+  @apply px-6 py-4 text-start text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
 }
 .table-cell {
   @apply px-6 py-4;

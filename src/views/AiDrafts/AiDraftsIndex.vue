@@ -24,7 +24,7 @@
           'px-4 py-1.5 rounded-lg text-sm font-medium border transition-colors',
           status === s
             ? 'bg-blue-600 text-white border-blue-600'
-            : 'border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-700',
+            : 'border-gray-300 text-gray-700 hover:bg-gray-50 dark:bg-slate-900 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-700',
         ]"
         @click="setStatus(s)"
       >
@@ -53,7 +53,7 @@
           <tr v-else-if="!items.length">
             <td colspan="6" class="px-4 py-8 text-center text-gray-500">{{ $t('aiDrafts.empty') }}</td>
           </tr>
-          <tr v-else v-for="row in items" :key="row.id" class="hover:bg-gray-50 dark:hover:bg-slate-700/40">
+          <tr v-else v-for="row in items" :key="row.id" class="hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-slate-700/40">
             <td class="px-4 py-3 whitespace-nowrap" dir="ltr">{{ row.conversation?.contact }}</td>
             <td class="px-4 py-3 max-w-md">
               <p class="line-clamp-2">{{ row.body }}</p>
@@ -68,7 +68,7 @@
             <td class="px-4 py-3 whitespace-nowrap">
               <div class="flex items-center gap-2">
                 <BaseButton
-                  v-if="status === 'draft' && canApprove"
+                  v-if="['draft', 'failed'].includes(status) && canApprove"
                   size="sm"
                   type="primary"
                   @click="openReview(row)"

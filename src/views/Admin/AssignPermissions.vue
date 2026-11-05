@@ -255,12 +255,13 @@
                   </div>
                   <div class="mr-3 flex-1">
                     <h3
-                      class="font-bold text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-400"
+                      dir="auto"
+                      class="font-bold text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-400 text-start"
                     >
-                      {{ group.title_ar || group.title_en }}
+                      {{ $i18n.locale === 'ar' ? group.title_ar : group.title_en }}
                     </h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {{ group.title_en }}
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 text-start" dir="auto">
+                      {{ $i18n.locale === 'ar' ? group.title_en : group.title_ar }}
                     </p>
                   </div>
                 </div>
@@ -330,14 +331,14 @@
                     <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
                       {{ $t('permissions.list') }}
                       <span v-if="selectedGroup" class="text-purple-600 dark:text-purple-400">
-                        - {{ selectedGroup.title_ar || selectedGroup.title_en }}
+                        - {{ $i18n.locale === 'ar' ? selectedGroup.title_ar : selectedGroup.title_en }}
                       </span>
                     </h2>
                   </div>
                   <p v-if="selectedGroup" class="text-gray-600 dark:text-gray-400 text-sm mt-1">
                     {{
                       $t('permissions.manage_for', {
-                        group: selectedGroup.title_ar || selectedGroup.title_en,
+                        group: $i18n.locale === 'ar' ? selectedGroup.title_ar : selectedGroup.title_en,
                       })
                     }}
                   </p>
@@ -447,6 +448,49 @@
                   </button>
                 </div>
 
+                <!-- Filter Chips -->
+                <div class="flex items-center gap-2 flex-wrap mb-4">
+                  <button
+                    @click="filterMode = 'all'"
+                    :class="[
+                      'px-4 py-1.5 rounded-full text-sm font-semibold transition-all',
+                      filterMode === 'all'
+                        ? 'bg-purple-600 text-white shadow-sm shadow-purple-500/30'
+                        : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-purple-300 dark:hover:border-purple-600',
+                    ]"
+                  >
+                    {{ $t('common.all') }} · {{ permissions.length }}
+                  </button>
+                  <button
+                    @click="filterMode = 'assigned'"
+                    :class="[
+                      'px-4 py-1.5 rounded-full text-sm font-semibold transition-all flex items-center gap-1.5',
+                      filterMode === 'assigned'
+                        ? 'bg-green-600 text-white shadow-sm shadow-green-500/30'
+                        : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-green-300 dark:hover:border-green-600',
+                    ]"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                    {{ $t('assign_permissions.selected') }} · {{ selectedPermissionIds.length }}
+                  </button>
+                  <button
+                    @click="filterMode = 'unassigned'"
+                    :class="[
+                      'px-4 py-1.5 rounded-full text-sm font-semibold transition-all flex items-center gap-1.5',
+                      filterMode === 'unassigned'
+                        ? 'bg-gray-700 text-white shadow-sm shadow-gray-500/30'
+                        : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-400',
+                    ]"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    {{ $i18n.locale === 'ar' ? 'غير الممنوحة' : 'Unassigned' }} · {{ permissions.length - selectedPermissionIds.length }}
+                  </button>
+                </div>
+
                 <!-- Permissions Loading -->
                 <div v-if="permissionsLoading" class="text-center py-12">
                   <div class="relative inline-block">
@@ -521,13 +565,17 @@
                         <label :for="`perm-${permission.id}`" class="flex-1 cursor-pointer">
                           <div class="flex justify-between items-start">
                             <div class="mr-3 flex-1">
-                              <h4 class="font-semibold text-gray-900 dark:text-white mb-1">
-                                {{ permission.description_ar || permission.title }}
+                              <h4 class="font-semibold text-gray-900 dark:text-white mb-1 text-start" dir="auto">
+                                {{ $i18n.locale === 'ar' 
+                                  ? (permission.description_ar || permission.title) 
+                                  : (permission.description_en || permission.title) }}
                               </h4>
-                              <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
-                                {{ permission.description_en || permission.title }}
+                              <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2 text-start" dir="auto">
+                                {{ $i18n.locale === 'ar' 
+                                  ? (permission.description_en || '') 
+                                  : (permission.description_ar || '') }}
                               </p>
-                              <p class="text-xs text-gray-400 dark:text-gray-500 font-mono mb-3">
+                              <p class="text-xs text-gray-400 dark:text-gray-500 font-mono mb-3 text-left" dir="ltr">
                                 {{ permission.title }}
                               </p>
                               <span
@@ -583,7 +631,11 @@
                         {{ $t('common.no_results') }}
                       </h3>
                       <p class="text-gray-600 dark:text-gray-400 mb-8">
-                        {{ $t('assign_permissions.no_results_message') }}
+                        {{ filterMode === 'assigned'
+                          ? ($i18n.locale === 'ar' ? 'لم يتم منح أي صلاحية لهذه المجموعة بعد' : 'No permissions assigned to this group yet')
+                          : filterMode === 'unassigned'
+                            ? ($i18n.locale === 'ar' ? 'جميع الصلاحيات ممنوحة لهذه المجموعة' : 'All permissions are assigned to this group')
+                            : $t('assign_permissions.no_results_message') }}
                       </p>
                       <button
                         @click="searchQuery = ''"
@@ -677,6 +729,7 @@ export default {
       selectedGroup: null,
       selectedPermissionIds: [],
       permissions: [],
+      filterMode: 'all',
     }
   },
 
@@ -692,17 +745,25 @@ export default {
     }),
 
     filteredPermissions() {
-      if (!this.searchQuery.trim()) {
-        return this.permissions
+      let result = this.permissions
+
+      if (this.searchQuery.trim()) {
+        const search = this.searchQuery.toLowerCase()
+        result = result.filter(
+          (permission) =>
+            (permission.title && permission.title.toLowerCase().includes(search)) ||
+            (permission.description_ar && permission.description_ar.toLowerCase().includes(search)) ||
+            (permission.description_en && permission.description_en.toLowerCase().includes(search)),
+        )
       }
 
-      const search = this.searchQuery.toLowerCase()
-      return this.permissions.filter(
-        (permission) =>
-          (permission.title && permission.title.toLowerCase().includes(search)) ||
-          (permission.description_ar && permission.description_ar.toLowerCase().includes(search)) ||
-          (permission.description_en && permission.description_en.toLowerCase().includes(search)),
-      )
+      if (this.filterMode === 'assigned') {
+        result = result.filter((p) => this.selectedPermissionIds.includes(p.id))
+      } else if (this.filterMode === 'unassigned') {
+        result = result.filter((p) => !this.selectedPermissionIds.includes(p.id))
+      }
+
+      return result
     },
   },
 

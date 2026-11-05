@@ -3,6 +3,12 @@ import store from '@/stores'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const routes = [
+  {
+    path: '/my-approvals',
+    name: "MyApprovals",
+    component: () => import("@/views/Procurement/MyApprovals.vue"),
+    meta: { requiresAuth: true, title: "My Approvals" }
+  },
   // ── Redirect ──────────────────────────────────────────────
   { path: '/', redirect: '/dashboard' },
   { path: '/pay/:token', name: 'PublicPay', component: () => import('@/views/PublicPay.vue') },
@@ -185,6 +191,39 @@ const routes = [
         component: () => import('@/views/Contracts/ContractsIndex.vue'),
         meta: { permission: 'view_contracts' },
       },
+      // Procurement
+      {
+        path: 'suppliers',
+        name: 'Suppliers',
+        component: () => import('@/views/Procurement/SuppliersIndex.vue'),
+        meta: { permission: 'view_suppliers' },
+      },
+      {
+        path: 'purchase-orders',
+        name: 'PurchaseOrders',
+        component: () => import('@/views/Procurement/PurchaseOrdersIndex.vue'),
+        meta: { permission: 'view_purchase_orders' }
+      },
+      {
+        path: 'my-approvals',
+        name: 'MyApprovals',
+        component: () => import('@/views/Procurement/MyApprovals.vue'),
+        meta: { anyPermission: ['view_my_approvals', 'approve_purchase_order'] },
+      },
+
+      {
+        path: 'departments',
+        name: 'DepartmentsManagement',
+        component: () => import('@/views/Procurement/DepartmentsManagement.vue'),
+        meta: { permission: 'manage_departments' },
+      },
+
+      {
+        path: 'approval-workflows',
+        name: 'ApprovalWorkflows',
+        component: () => import('@/views/Procurement/ApprovalWorkflows.vue'),
+        meta: { permission: 'view_approval_rules' },
+      },
       // Reports
       {
         path: 'reports',
@@ -264,6 +303,12 @@ const routes = [
         component: () => import('@/views/Admin/BranchesManagement.vue'),
         meta: { requiresAdmin: true, permission: 'administration' },
       },
+      // {
+      //   path: '/my-approvals',
+      //   name: 'MyApprovals',
+      //   component: () => import('@/views/Procurement/MyApprovals.vue'),
+      //   meta: { requiresAuth: true }
+      // },
     ],
   },
 
@@ -289,6 +334,7 @@ router.beforeEach(async (to, from, next) => {
   const requiresGuest = to.matched.some((r) => r.meta.requiresGuest)
   const requiresAdmin = to.meta.requiresAdmin
   const permission = to.meta.permission
+  const anyPermission = to.meta.anyPermission
 
   if (requiresAuth) {
     if (!token) {
@@ -308,11 +354,15 @@ router.beforeEach(async (to, from, next) => {
         return next({ name: 'Dashboard' })
       }
 
+      // ✅ هذا هو السطر الذي كان مخرباً وتم إصلاحه
+      if (anyPermission && !anyPermission.some((p) => store.getters['auth/hasPermission'](p))) {
+        return next({ name: 'Dashboard' })
+      }
+
       if (requiresAdmin && !store.getters['auth/isAdmin']) {
         return next({ name: 'Dashboard' })
       }
 
-      return next()
     } catch {
       store.commit('auth/CLEAR_AUTH')
       localStorage.removeItem('token')
@@ -326,5 +376,4 @@ router.beforeEach(async (to, from, next) => {
 
   next()
 })
-
 export default router

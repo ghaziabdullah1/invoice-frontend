@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen bg-gray-50/80" :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
+  <div class="flex min-h-screen bg-page" :dir="$i18n.locale === 'ar' ? 'rtl' : 'ltr'"
     :class="{ 'overflow-hidden': sidebarOpen && isMobile }">
     <!-- Mobile Overlay -->
     <Transition enter-active-class="transition-opacity duration-300 ease-out" enter-from-class="opacity-0"
@@ -30,7 +30,7 @@
           <div class="flex items-center gap-3 transition-all duration-300"
             :class="!sidebarOpen && !isMobile ? 'scale-90' : ''">
             <div
-              class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
+              class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 flex-shrink-0">
               <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path
@@ -123,6 +123,30 @@
               :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
           </router-link>
 
+
+          <!-- My Approvals -->
+          <router-link v-if="canSeeApprovals()" to="/my-approvals" @click="closeSidebarOnMobile"
+            class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
+              !sidebarOpen && !isMobile ? 'justify-center' : '',
+              $route.path.startsWith('/my-approvals')
+                ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-sm shadow-blue-500/10'
+                : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
+            ]" :title="!sidebarOpen && !isMobile ? t('procurement.my_approvals.title') : ''">
+            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
+              {{ t('procurement.my_approvals.title') }}
+            </span>
+            <span v-if="pendingApprovals > 0 && sidebarOpen"
+              class="ms-auto min-w-[1.25rem] h-5 px-1.5 rounded-full bg-red-500 text-white text-[11px] font-bold flex items-center justify-center">
+              {{ pendingApprovals > 99 ? '99+' : pendingApprovals }}
+            </span>
+            <span v-else-if="pendingApprovals > 0" class="absolute top-1.5 end-1.5 w-2.5 h-2.5 rounded-full bg-red-500"></span>
+            <div v-if="$route.path.startsWith('/my-approvals')"
+              class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-blue-500"
+              :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
+          </router-link>
           <!-- Clients -->
           <router-link v-if="hasPermission('view_clients')" to="/clients" @click="closeSidebarOnMobile"
             class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
@@ -210,8 +234,9 @@
 
           <!-- Property Management -->
           <template v-if="propertyNavItems.length">
-            <div v-if="sidebarOpen" class="pt-4 mt-2 border-t border-slate-700/50">
-              <p class="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            <div v-if="sidebarOpen" class="pt-5 mt-3 border-t border-slate-700/40">
+              <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.15em] mb-2.5 flex items-center gap-2">
+                <span class="w-1 h-1 rounded-full bg-slate-600"></span>
                 {{ t('nav.properties_section', 'Property Management') }}
               </p>
             </div>
@@ -227,8 +252,8 @@
               ]" :title="!sidebarOpen && !isMobile ? t('nav.branches') : ''">
               <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path
-                  d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+                <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
               </svg>
               <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
                 {{ t('nav.branches') }}
@@ -268,10 +293,9 @@
                 ? 'bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-sm shadow-teal-500/10'
                 : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
             ]" :title="!sidebarOpen && !isMobile ? t('nav.ai_drafts') : ''">
-            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
             </svg>
             <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
               {{ t('nav.ai_drafts') }}
@@ -281,10 +305,41 @@
               :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
           </router-link>
 
+          <!-- Procurement -->
+          <template v-if="procurementNavItems.length">
+            <div v-if="sidebarOpen" class="pt-5 mt-3 border-t border-slate-700/40">
+              <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.15em] mb-2.5 flex items-center gap-2">
+                <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                {{ t('procurement.nav.section', 'Procurement') }}
+              </p>
+            </div>
+            <div v-else class="pt-2 mt-2 border-t border-slate-700/50 mx-2"></div>
+
+            <router-link v-for="item in procurementNavItems" :key="item.to" :to="item.to" @click="closeSidebarOnMobile"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative" :class="[
+                !sidebarOpen && !isMobile ? 'justify-center' : '',
+                $route.path === item.to || $route.path.startsWith(item.to + '/')
+                  ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20 shadow-sm shadow-amber-500/10'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
+              ]" :title="!sidebarOpen && !isMobile ? t(item.label) : ''">
+              <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path :d="item.icon" />
+              </svg>
+              <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
+                {{ t(item.label) }}
+              </span>
+              <div v-if="$route.path === item.to || $route.path.startsWith(item.to + '/')"
+                class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-amber-500"
+                :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
+            </router-link>
+          </template>
+
           <!-- Admin Section -->
           <template v-if="isAdmin">
-            <div v-if="sidebarOpen" class="pt-4 mt-4 border-t border-slate-700/50">
-              <p class="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            <div v-if="sidebarOpen" class="pt-5 mt-4 border-t border-slate-700/40">
+              <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.15em] mb-2.5 flex items-center gap-2">
+                <span class="w-1 h-1 rounded-full bg-slate-600"></span>
                 {{ t('nav.administration', 'Administration') }}
               </p>
             </div>
@@ -310,6 +365,7 @@
                 class="absolute top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-purple-500"
                 :class="$i18n.locale === 'ar' ? 'right-0' : 'left-0'"></div>
             </router-link>
+
 
             <!-- Groups -->
             <router-link v-if="hasPermission('administration')" to="/admin/groups" @click="closeSidebarOnMobile"
@@ -428,7 +484,10 @@
                   : 'text-slate-400 hover:bg-slate-800/60 hover:text-white',
               ]" :title="!sidebarOpen && !isMobile ? t('nav.my_tickets') : ''">
               <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+              </svg>
               <span v-if="sidebarOpen" class="text-sm font-medium transition-colors">
                 {{ t('nav.my_tickets') }}
               </span>
@@ -465,7 +524,7 @@
     <!-- Main Content -->
     <div class="flex-1 flex flex-col min-h-screen overflow-hidden relative">
       <!-- Top Navbar -->
-      <nav class="bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200/80 sticky top-0 z-30">
+      <nav class="bg-white dark:bg-slate-800/80 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-slate-700/80 sticky top-0 z-30">
         <div class="px-4 lg:px-6 py-3 flex items-center justify-between">
           <div class="flex items-center gap-3">
             <button v-if="isMobile" @click="toggleSidebar"
@@ -492,7 +551,7 @@
                   stroke-linejoin="round">
                   <path d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
-                <span class="text-gray-800 font-semibold">{{ pageTitle }}</span>
+                <span class="text-gray-800 dark:text-slate-200 font-semibold">{{ pageTitle }}</span>
               </template>
             </div>
           </div>
@@ -537,13 +596,13 @@
             <!-- User Dropdown -->
             <div class="relative" ref="userDropdownRef">
               <button @click="userDropdownOpen = !userDropdownOpen"
-                class="flex items-center gap-2.5 p-1.5 pr-3 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+                class="flex items-center gap-2.5 p-1.5 pr-3 rounded-xl hover:bg-gray-100 dark:bg-slate-800 dark:hover:bg-slate-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
                 <div class="relative h-9 w-9 flex-shrink-0">
                   <img v-if="user?.img_url" :src="user.img_url"
                     class="w-full h-full rounded-full object-cover border-2 border-blue-100 shadow-sm"
                     :alt="user?.name" />
                   <div v-else
-                    class="w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shadow-sm">
+                    class="w-full h-full rounded-full bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold shadow-sm">
                     {{ getInitials(user?.name) }}
                   </div>
                 </div>
@@ -577,7 +636,7 @@
                         <img v-if="user?.img_url" :src="user.img_url"
                           class="w-full h-full rounded-full object-cover border-2 border-blue-100" :alt="user?.name" />
                         <div v-else
-                          class="w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+                          class="w-full h-full rounded-full bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center text-white font-bold text-sm">
                           {{ getInitials(user?.name) }}
                         </div>
                       </div>
@@ -627,7 +686,7 @@
 
       <!-- Page Content -->
       <FloatingSupportButton />
-      <main class="flex-1 p-4 md:p-6 lg:p-8 bg-gray-50/50">
+      <main class="flex-1 p-4 md:p-6 lg:p-8 bg-page">
         <router-view v-slot="{ Component }">
           <Transition name="page" mode="out-in">
             <component :is="Component" :key="`${$route.fullPath}-${selectedBranchId}`" />
@@ -648,6 +707,7 @@ import BranchSelector from '@/views/BranchSelector.vue'
 import PropertySelector from '@/components/shared/PropertySelector.vue'
 import Footer from './Footer.vue'
 import { toggleDarkMode, isDarkMode } from '@/utils/darkMode'
+import myApprovalsApi from '@/api/myApprovals'
 
 export default {
   name: 'DefaultLayout',
@@ -661,6 +721,8 @@ export default {
       userDropdownOpen: false,
       isMobile: false,
       darkModeEnabled: false,
+      pendingApprovals: 0,
+      approvalsTimer: null,
     }
   },
   computed: {
@@ -687,6 +749,15 @@ export default {
       ]
       return items.filter((item) => this.hasPermission(item.perm))
     },
+    procurementNavItems() {
+      const items = [
+        { to: '/purchase-orders', label: 'procurement.nav.purchase_orders', perm: 'view_purchase_orders', icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12' },
+        { to: '/suppliers', label: 'procurement.nav.suppliers', perm: 'view_suppliers', icon: 'M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z' },
+        { to: '/approval-workflows', label: 'procurement.workflows.title', perm: 'view_approval_rules', icon: 'M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75' },
+        { to: '/departments', label: 'procurement.nav.departments', perm: 'manage_departments', icon: 'M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21' },
+      ]
+      return items.filter((item) => this.hasPermission(item.perm))
+    },
     pageTitle() {
       const path = this.$route.path
       const routeMap = {
@@ -699,6 +770,11 @@ export default {
         '/tenants': 'nav.tenants',
         '/ai-drafts': 'nav.ai_drafts',
         '/contracts': 'realty.contract.title',
+        '/suppliers': 'procurement.nav.suppliers',
+        '/purchase-orders': 'procurement.nav.purchase_orders',
+        '/my-approvals': 'procurement.my_approvals.title',
+        '/approval-workflows': 'procurement.workflows.title',
+        '/departments': 'procurement.nav.departments',
         '/reports': 'nav.reports',
         '/users': 'nav.users',
         '/permissions': 'nav.permissions',
@@ -712,6 +788,11 @@ export default {
       }
       const key = routeMap[path] || 'nav.dashboard'
       return this.t(key, path.replace('/', ''))
+    },
+  },
+  watch: {
+    '$route.path'() {
+      this.loadPendingApprovals()
     },
   },
   methods: {
@@ -749,6 +830,18 @@ export default {
     hasPermission(permission) {
       if (this.isAdmin) return true
       return this.permissions.includes(permission)
+    },
+    canSeeApprovals() {
+      return this.hasPermission('view_my_approvals') || this.hasPermission('approve_purchase_order')
+    },
+    async loadPendingApprovals() {
+      if (!this.canSeeApprovals()) return
+      try {
+        const res = await myApprovalsApi.count()
+        this.pendingApprovals = Number(res.data?.data?.count) || 0
+      } catch {
+        this.pendingApprovals = 0
+      }
     },
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen
@@ -803,11 +896,16 @@ export default {
 
     if (!this.user) this.$store.dispatch('auth/checkAuth')
     this.$store.dispatch('invoiceNotifications/startListening')
+    this.loadPendingApprovals()
+    this.approvalsTimer = setInterval(this.loadPendingApprovals, 120000)
+    window.addEventListener('approvals-changed', this.loadPendingApprovals)
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkMobile)
     document.removeEventListener('click', this.handleClickOutside)
     this.$store.dispatch('invoiceNotifications/stopListening')
+    clearInterval(this.approvalsTimer)
+    window.removeEventListener('approvals-changed', this.loadPendingApprovals)
     document.body.style.overflow = ''
   },
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen py-6 md:py-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+  <div class="min-h-screen py-6 md:py-8 bg-page dark:bg-gray-900 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
       <!-- Header with Glassmorphism -->
       <div class="mb-8">
@@ -230,10 +230,10 @@
                   <tr
                     class="bg-gradient-to-r from-gray-50 to-gray-100/30 dark:from-gray-800 dark:to-gray-800/50"
                   >
-                    <th class="table-header text-right text-gray-700 dark:text-gray-300">
+                    <th class="table-header text-start text-gray-700 dark:text-gray-300">
                       {{ $t('users.name') }}
                     </th>
-                    <th class="table-header text-right text-gray-700 dark:text-gray-300">
+                    <th class="table-header text-start text-gray-700 dark:text-gray-300">
                       {{ $t('users.email') }}
                     </th>
                     <th class="table-header text-center text-gray-700 dark:text-gray-300">
@@ -269,13 +269,11 @@
                           </div>
                         </div>
                         <div class="mr-4">
-                          <div class="text-base font-bold text-gray-900 dark:text-white">
+                          <div class="text-base font-bold text-gray-900 dark:text-white text-start" dir="auto">
                             {{ user.name }}
                           </div>
                           <div class="flex items-center gap-2 mt-1">
-                            <span class="text-xs text-gray-500 dark:text-gray-400"
-                              >ID: {{ user.id }}</span
-                            >
+                            <span class="text-xs text-gray-500 dark:text-gray-400" dir="ltr">ID: {{ user.id }}</span>
                             <span
                               v-if="user.id === currentUser?.id"
                               class="text-xs px-2 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-full font-medium"
@@ -290,9 +288,7 @@
                     <!-- Email -->
                     <td class="table-cell">
                       <div class="flex flex-col">
-                        <span class="text-sm text-gray-900 dark:text-gray-100 font-medium">{{
-                          user.email
-                        }}</span>
+                        <span class="text-sm text-gray-900 dark:text-gray-100 font-medium" dir="ltr" style="text-align: left;">{{ user.email }}</span>
                         <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{
                           $t('users.primary_email')
                         }}</span>
@@ -301,13 +297,13 @@
 
                     <!-- Group -->
                     <td class="table-cell text-center">
-                      <span
+                      <span dir="auto"
                         class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-100 to-blue-50 dark:from-blue-900/40 dark:to-blue-800/30 text-blue-800 dark:text-blue-300 border border-blue-200/50 dark:border-blue-700/50"
                       >
                         {{
-                          user.admin_group?.title_ar ||
-                          user.admin_group?.title_en ||
-                          $t('users.no_group')
+                          $i18n.locale === 'ar'
+                            ? (user.admin_group?.title_ar || user.admin_group?.title_en || $t('users.no_group'))
+                            : (user.admin_group?.title_en || user.admin_group?.title_ar || $t('users.no_group'))
                         }}
                       </span>
                     </td>
@@ -348,7 +344,7 @@
                       <div class="flex items-center justify-center gap-2">
                         <button
                           @click="editUser(user)"
-                          class="p-2.5 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-xl transition-all duration-200 transform hover:scale-110"
+                          class="ui-icon-btn"
                           :title="$t('buttons.edit')"
                         >
                           <svg
@@ -400,7 +396,7 @@
                         <button
                           v-if="user.id !== currentUser?.id"
                           @click="confirmDelete(user)"
-                          class="p-2.5 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl transition-all duration-200 transform hover:scale-110"
+                          class="ui-icon-btn"
                           :title="$t('buttons.delete')"
                         >
                           <svg
@@ -545,7 +541,7 @@ export default {
     formatDate(date) {
       if (!date) return '-'
       const dateObj = new Date(date)
-      return dateObj.toLocaleDateString('ar-SA', {
+      return dateObj.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -694,7 +690,7 @@ export default {
 
 <style scoped>
 .table-header {
-  @apply px-6 py-4 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
+  @apply px-6 py-4 text-start text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
 }
 .table-cell {
   @apply px-6 py-4;

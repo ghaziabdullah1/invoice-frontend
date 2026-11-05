@@ -27,6 +27,7 @@ import properties from './modules/properties'
 import floors from './modules/floors'
 import units from './modules/units'
 import tenants from './modules/tenants'
+import suppliers from './modules/suppliers'
 import aiDrafts from './modules/aiDrafts'
 import propertyScope from './modules/propertyScope'
 
@@ -121,6 +122,7 @@ export default createStore({
     floors,
     units,
     tenants,
+    suppliers,
     aiDrafts,
   }
 })

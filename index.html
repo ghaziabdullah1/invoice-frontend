@@ -15,7 +15,7 @@
   <!-- ✅ تطبيق تفضيل الوضع الداكن قبل رسم الصفحة، لتفادي الوميض -->
   <script>
     (function () {
-      var pref = localStorage.getItem('colorTheme') || 'system';
+      var pref = localStorage.getItem('theme') || 'system';
       var isDark = pref === 'dark' || (pref === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
       if (isDark) document.documentElement.classList.add('dark');
     })();

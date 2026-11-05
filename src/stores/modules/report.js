@@ -209,6 +209,10 @@ export default {
           { params, responseType: 'blob' }
         )
 
+        if (response.data && response.data.type && response.data.type.includes('json')) {
+          const body = JSON.parse(await response.data.text())
+          throw new Error(body.message || 'export failed')
+        }
         const blob = new Blob([response.data])
         const url = window.URL.createObjectURL(blob)
         const link = document.createElement('a')
@@ -225,7 +229,12 @@ export default {
         document.body.removeChild(link)
         window.URL.revokeObjectURL(url)
       } catch (error) {
-        commit('SET_ERROR', i18n.global.t('reports.export_failed'))
+        let detail = ''
+        try {
+          const d = error.response && error.response.data
+          detail = d instanceof Blob ? (JSON.parse(await d.text()).message || '') : (error.message || '')
+        } catch (e) { }
+        commit('SET_ERROR', i18n.global.t('reports.export_failed') + (detail ? ': ' + detail : ''))
         throw error
       } finally {
         commit('SET_EXPORT_LOADING', false)

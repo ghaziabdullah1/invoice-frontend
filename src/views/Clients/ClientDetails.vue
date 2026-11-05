@@ -8,7 +8,7 @@
         >
           <div>
             <div class="flex items-center gap-3 mb-2">
-              <div class="p-2 bg-white rounded-xl shadow-sm border border-gray-200">
+              <div class="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700">
                 <svg
                   class="w-6 h-6 text-blue-600"
                   fill="none"
@@ -24,10 +24,10 @@
                 </svg>
               </div>
               <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">
                   {{ $t('clients.clientDetails') }}
                 </h1>
-                <p class="text-gray-600 text-sm mt-1">{{ $t('clients.clientDetailsDescription') }}</p>
+                <p class="text-gray-600 dark:text-slate-400 text-sm mt-1">{{ $t('clients.clientDetailsDescription') }}</p>
               </div>
             </div>
 
@@ -37,7 +37,7 @@
                 <li>
                   <router-link
                     to="/clients"
-                    class="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                    class="text-sm text-gray-500 hover:text-gray-700 dark:text-slate-300 transition-colors"
                   >
                     {{ $t('clients.title') }}
                   </router-link>
@@ -61,7 +61,7 @@
           <div class="flex gap-3">
             <button
               @click="$router.push('/clients')"
-              class="px-4 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 flex items-center gap-2"
+              class="px-4 py-2.5 bg-white border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:bg-slate-900 transition-colors duration-200 flex items-center gap-2"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -88,7 +88,7 @@
       <!-- Loading State -->
       <div v-if="loading" class="flex flex-col items-center justify-center py-12">
         <LoadingSpinner size="lg" />
-        <p class="text-gray-600 text-lg mt-4">{{ $t('common.loading') }}</p>
+        <p class="text-gray-600 dark:text-slate-400 text-lg mt-4">{{ $t('common.loading') }}</p>
       </div>
 
       <!-- Error State -->
@@ -104,9 +104,9 @@
       <!-- Client Details -->
       <div v-else-if="client" class="space-y-6">
         <!-- Client Info Card -->
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
           <!-- Card Header with gradient -->
-          <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700 bg-gradient-to-r from-blue-50 to-white">
             <div class="flex items-center gap-3">
               <div class="p-2.5 bg-blue-100 rounded-lg">
                 <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,8 +119,8 @@
                 </svg>
               </div>
               <div>
-                <h2 class="text-lg font-semibold text-gray-800">{{ $t('clients.basicInfo') }}</h2>
-                <p class="text-sm text-gray-600">{{ $t('clients.basicInfoDescription') }}</p>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-slate-200">{{ $t('clients.basicInfo') }}</h2>
+                <p class="text-sm text-gray-600 dark:text-slate-400">{{ $t('clients.basicInfoDescription') }}</p>
               </div>
             </div>
           </div>
@@ -199,8 +199,8 @@
         </div>
 
         <!-- Client Invoices Card -->
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
+        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700 bg-gradient-to-r from-blue-50 to-white">
             <div class="flex items-center gap-3">
               <div class="p-2.5 bg-blue-100 rounded-lg">
                 <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,8 +213,8 @@
                 </svg>
               </div>
               <div>
-                <h2 class="text-lg font-semibold text-gray-800">{{ $t('clients.clientInvoices') }}</h2>
-                <p class="text-sm text-gray-600">{{ $t('clients.clientInvoicesDescription') }}</p>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-slate-200">{{ $t('clients.clientInvoices') }}</h2>
+                <p class="text-sm text-gray-600 dark:text-slate-400">{{ $t('clients.clientInvoicesDescription') }}</p>
               </div>
             </div>
           </div>
@@ -237,7 +237,7 @@
               class="mt-4"
             >
               <template #cell-invoice_number="{ row }">
-                <div class="font-medium text-gray-900">{{ row.invoice_number }}</div>
+                <div class="font-medium text-gray-900 dark:text-slate-100">{{ row.invoice_number }}</div>
                 <div class="text-sm text-gray-500">#{{ row.id }}</div>
               </template>
 
@@ -275,8 +275,8 @@
         <!-- Quick Actions & Notes -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Quick Actions Card -->
-          <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
+          <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700 bg-gradient-to-r from-blue-50 to-white">
               <div class="flex items-center gap-3">
                 <div class="p-2.5 bg-blue-100 rounded-lg">
                   <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -289,8 +289,8 @@
                   </svg>
                 </div>
                 <div>
-                  <h2 class="text-lg font-semibold text-gray-800">{{ $t('common.actions') }}</h2>
-                  <p class="text-sm text-gray-600">{{ $t('clients.quickActionsDescription') }}</p>
+                  <h2 class="text-lg font-semibold text-gray-800 dark:text-slate-200">{{ $t('common.actions') }}</h2>
+                  <p class="text-sm text-gray-600 dark:text-slate-400">{{ $t('clients.quickActionsDescription') }}</p>
                 </div>
               </div>
             </div>
@@ -331,8 +331,8 @@
           </div>
 
           <!-- Notes Card -->
-          <div v-if="client.notes" class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
+          <div v-if="client.notes" class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700 bg-gradient-to-r from-blue-50 to-white">
               <div class="flex items-center gap-3">
                 <div class="p-2.5 bg-blue-100 rounded-lg">
                   <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,13 +345,13 @@
                   </svg>
                 </div>
                 <div>
-                  <h2 class="text-lg font-semibold text-gray-800">{{ $t('common.notes') }}</h2>
-                  <p class="text-sm text-gray-600">{{ $t('clients.notesDescription') }}</p>
+                  <h2 class="text-lg font-semibold text-gray-800 dark:text-slate-200">{{ $t('common.notes') }}</h2>
+                  <p class="text-sm text-gray-600 dark:text-slate-400">{{ $t('clients.notesDescription') }}</p>
                 </div>
               </div>
             </div>
             <div class="p-6">
-              <p class="text-gray-700 whitespace-pre-line">{{ client.notes }}</p>
+              <p class="text-gray-700 dark:text-slate-300 whitespace-pre-line">{{ client.notes }}</p>
             </div>
           </div>
         </div>
@@ -437,7 +437,7 @@ export default {
           timeZone: 'UTC',
         }
         return new Date(dateString).toLocaleDateString(
-          this.$i18n.locale === 'ar' ? 'ar-SA' : 'en-US',
+          this.$i18n.locale === 'ar' ? 'en-US' : 'en-US',
           options,
         )
       } catch (error) {
@@ -448,7 +448,7 @@ export default {
     formatCurrency(amount) {
       if (!amount && amount !== 0) return this.$t('common.notAvailable')
       try {
-        const formatter = new Intl.NumberFormat(this.$i18n.locale === 'ar' ? 'ar-SA' : 'en-US', {
+        const formatter = new Intl.NumberFormat(this.$i18n.locale === 'ar' ? 'en-US' : 'en-US', {
           style: 'currency',
           currency: this.$i18n.locale === 'ar' ? 'SAR' : 'USD',
           minimumFractionDigits: 2,

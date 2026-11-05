@@ -2,11 +2,11 @@
   <div class="relative" ref="bellRef">
     <button
       @click="toggle"
-      class="relative p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none"
+      class="relative p-2 rounded-full hover:bg-gray-100 dark:bg-slate-800 transition-colors focus:outline-none"
       :class="{ 'animate-wiggle': hasNew }"
     >
       <svg
-        class="w-6 h-6 text-gray-600"
+        class="w-6 h-6 text-gray-600 dark:text-slate-400"
         fill="none"
         stroke="currentColor"
         stroke-width="1.8"
@@ -42,12 +42,12 @@
     >
       <div
         v-if="open"
-        class="absolute top-11 z-50 w-80 bg-white rounded-2xl shadow-xl ring-1 ring-black/5 border border-gray-100 overflow-hidden"
+        class="absolute top-11 z-50 w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-xl ring-1 ring-black/5 border border-gray-100 overflow-hidden"
         :class="isRtl ? 'right-0' : 'left-0'"
       >
         <!-- Header -->
         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-          <span class="text-sm font-semibold text-gray-800">
+          <span class="text-sm font-semibold text-gray-800 dark:text-slate-200">
             {{ $t('notifications.title', 'Notifications') }}
           </span>
           <span
@@ -61,7 +61,7 @@
         <!-- لا إشعارات -->
         <div v-if="totalCount === 0" class="flex items-center gap-3 px-4 py-5">
           <span
-            class="flex items-center justify-center w-9 h-9 rounded-lg bg-gray-50 text-gray-300 shrink-0"
+            class="flex items-center justify-center w-9 h-9 rounded-lg bg-gray-50 dark:bg-slate-900 text-gray-300 shrink-0"
           >
             <svg
               class="w-5 h-5"
@@ -74,7 +74,7 @@
             </svg>
           </span>
           <span class="flex-1 min-w-0">
-            <span class="block text-sm font-medium text-gray-600">
+            <span class="block text-sm font-medium text-gray-600 dark:text-slate-400">
               {{ $t('notifications.all_good', 'All is well') }}
             </span>
             <span class="block text-xs text-gray-400 mt-0.5">
@@ -84,12 +84,12 @@
         </div>
 
         <!-- الإشعارات -->
-        <div v-else class="divide-y divide-gray-100">
+        <div v-else class="divide-y divide-gray-100 dark:divide-slate-800">
           <!-- تذاكر مفتوحة -->
           <button
             v-if="openTicketsCount > 0"
             @click="$router.push({ path: '/support/tickets', query: { status: 'open' } })"
-            class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors group"
+            class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:bg-slate-900 transition-colors group"
           >
             <span class="flex items-center gap-3 min-w-0">
               <span
@@ -109,7 +109,7 @@
                   />
                 </svg>
               </span>
-              <span class="text-sm font-medium text-gray-800 truncate">
+              <span class="text-sm font-medium text-gray-800 dark:text-slate-200 truncate">
                 {{ $t('notifications.open_tickets', 'Open Support Tickets') }}
               </span>
             </span>
@@ -124,7 +124,7 @@
           <button
             v-if="unpaidCount > 0"
             @click="goTo('Invoices', { status: 'unpaid' })"
-            class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors group"
+            class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:bg-slate-900 transition-colors group"
           >
             <span class="flex items-center gap-3 min-w-0">
               <span
@@ -144,7 +144,7 @@
                   />
                 </svg>
               </span>
-              <span class="text-sm font-medium text-gray-800 truncate">
+              <span class="text-sm font-medium text-gray-800 dark:text-slate-200 truncate">
                 {{ $t('notifications.unpaid_invoices', 'Unpaid Invoices') }}
               </span>
             </span>
@@ -159,7 +159,7 @@
           <button
             v-if="overdueCount > 0"
             @click="goTo('Invoices', { status: 'overdue' })"
-            class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors group"
+            class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:bg-slate-900 transition-colors group"
           >
             <span class="flex items-center gap-3 min-w-0">
               <span
@@ -179,7 +179,7 @@
                   />
                 </svg>
               </span>
-              <span class="text-sm font-medium text-gray-800 truncate">
+              <span class="text-sm font-medium text-gray-800 dark:text-slate-200 truncate">
                 {{ $t('notifications.overdue_invoices', 'Overdue Invoices') }}
               </span>
             </span>
@@ -194,7 +194,7 @@
           <button
             v-if="dueSoonCount > 0"
             @click="goTo('Invoices', { status: 'sent' })"
-            class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors group"
+            class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:bg-slate-900 transition-colors group"
           >
             <span class="flex items-center gap-3 min-w-0">
               <span
@@ -214,7 +214,7 @@
                   />
                 </svg>
               </span>
-              <span class="text-sm font-medium text-gray-800 truncate">
+              <span class="text-sm font-medium text-gray-800 dark:text-slate-200 truncate">
                 {{ $t('notifications.due_soon_invoices', 'Due Soon') }}
               </span>
             </span>

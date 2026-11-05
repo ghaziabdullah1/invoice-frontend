@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg shadow-blue-100/30 p-6 mb-8"
+    class="bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-lg shadow-blue-100/30 p-6 mb-8"
   >
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
       <div class="flex items-center gap-3">
@@ -15,7 +15,7 @@
           </svg>
         </div>
         <div>
-          <h2 class="text-lg font-semibold text-gray-800">{{ $t('common.filters') }}</h2>
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-slate-200">{{ $t('common.filters') }}</h2>
           <p class="text-sm text-gray-500">{{ $t('users.filter_subtitle') }}</p>
         </div>
       </div>
@@ -37,7 +37,7 @@
         </button>
         <button
           @click="$emit('reset')"
-          class="px-5 py-2.5 bg-gradient-to-r from-gray-100 to-gray-50 hover:from-gray-200 hover:to-gray-100 text-gray-700 rounded-lg shadow-sm hover:shadow transition-all duration-200 flex items-center gap-2 border border-gray-200/50"
+          class="px-5 py-2.5 bg-gradient-to-r from-gray-100 to-gray-50 hover:from-gray-200 hover:to-gray-100 text-gray-700 dark:text-slate-300 rounded-lg shadow-sm hover:shadow transition-all duration-200 flex items-center gap-2 border border-gray-200 dark:border-slate-700/50"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -55,14 +55,14 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
       <!-- Search -->
       <div class="space-y-2">
-        <label class="block text-sm font-semibold text-gray-700">{{ $t('common.search') }}</label>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">{{ $t('common.search') }}</label>
         <div class="relative">
           <input
             type="text"
             :value="modelValue.search"
             @input="update('search', $event.target.value)"
             :placeholder="$t('users.search_placeholder')"
-            class="w-full px-4 py-3 pl-11 bg-white/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 placeholder:text-gray-400"
+            class="w-full px-4 py-3 pl-11 bg-white dark:bg-slate-800/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 placeholder:text-gray-400"
           />
           <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +78,7 @@
             v-if="modelValue.search"
             @click="update('search', '')"
             type="button"
-            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-slate-400 transition-colors"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -89,16 +89,16 @@
 
       <!-- Group -->
       <div class="space-y-2">
-        <label class="block text-sm font-semibold text-gray-700">{{ $t('users.group') }}</label>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">{{ $t('users.group') }}</label>
         <div class="relative">
           <select
             :value="modelValue.group_id"
             @change="update('group_id', $event.target.value)"
-            class="w-full px-4 py-3 bg-white/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 appearance-none pr-10"
+            class="w-full px-4 py-3 bg-white dark:bg-slate-800/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 appearance-none pr-10"
           >
             <option value="">{{ $t('common.all') }}</option>
             <option v-for="group in groups" :key="group.id" :value="group.id">
-              {{ group.title_ar || group.title_en }}
+              {{ $i18n.locale === 'ar' ? group.title_ar : group.title_en }}
             </option>
           </select>
           <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
@@ -111,12 +111,12 @@
 
       <!-- Status -->
       <div class="space-y-2">
-        <label class="block text-sm font-semibold text-gray-700">{{ $t('common.status') }}</label>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">{{ $t('common.status') }}</label>
         <div class="relative">
           <select
             :value="modelValue.status"
             @change="update('status', $event.target.value)"
-            class="w-full px-4 py-3 bg-white/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 appearance-none pr-10"
+            class="w-full px-4 py-3 bg-white dark:bg-slate-800/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200 appearance-none pr-10"
           >
             <option value="all">{{ $t('common.all') }}</option>
             <option value="active">{{ $t('users.status.active') }}</option>
@@ -132,13 +132,13 @@
 
       <!-- Date From -->
       <div class="space-y-2">
-        <label class="block text-sm font-semibold text-gray-700">{{ $t('common.date_from') }}</label>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">{{ $t('common.date_from') }}</label>
         <div class="relative">
           <input
             type="date"
             :value="modelValue.date_from"
             @input="update('date_from', $event.target.value)"
-            class="w-full px-4 py-3 bg-white/80 border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200"
+            class="w-full px-4 py-3 bg-white dark:bg-slate-800/80 border border-gray-300 dark:border-slate-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200"
           />
           <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

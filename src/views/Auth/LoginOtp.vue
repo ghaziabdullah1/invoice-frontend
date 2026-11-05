@@ -1,52 +1,45 @@
+```vue
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900 p-4">
     <div
-      class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-md dark:shadow-none border border-transparent dark:border-slate-700 w-full max-w-md"
-    >
+      class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-md dark:shadow-none border border-transparent dark:border-slate-700 w-full max-w-md">
       <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white mb-2">
-        الدخول برمز التحقق
+        {{ $t('otp.title') }}
       </h2>
+
       <p class="text-center text-gray-500 dark:text-slate-400 text-sm mb-8">
-        سيصلك رمز مكوّن من 6 أرقام على بريدك الإلكتروني
+        {{ $t('otp.subtitle') }}
       </p>
 
       <!-- خطأ عام -->
-      <div
-        v-if="error"
-        class="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-lg p-3 mb-4 text-center"
-      >
+      <div v-if="error"
+        class="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-lg p-3 mb-4 text-center">
         {{ error }}
       </div>
 
-      <!-- المرحلة 1: إدخال الإيميل (تظهر فقط لو دخل المستخدم هذي الصفحة
-           مباشرة بدون المرور بصفحة تسجيل الدخول، أي بدون OTP مُرسَل مسبقاً) -->
+      <!-- المرحلة 1: إدخال الإيميل -->
       <form v-if="step === 1" @submit.prevent="handleSendOtp">
         <div class="mb-4">
           <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
-            البريد الإلكتروني
+            {{ $t('otp.emailLabel') }}
           </label>
-          <input
-            v-model="email"
-            type="email"
-            placeholder="example@company.com"
+
+          <input v-model="email" type="email" :placeholder="$t('otp.emailPlaceholder')"
             class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2.5 text-sm bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            :disabled="loading"
-            required
-          />
+            :disabled="loading" required />
         </div>
 
-        <button
-          type="submit"
+        <button type="submit"
           class="w-full bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition disabled:opacity-50"
-          :disabled="loading"
-        >
-          {{ loading ? 'جاري الإرسال...' : 'إرسال رمز التحقق' }}
+          :disabled="loading">
+          {{ loading ? $t('otp.sending') : $t('otp.sendCode') }}
         </button>
 
         <p class="text-center mt-4 text-sm text-gray-500 dark:text-slate-400">
-          أو
+          {{ $t('otp.or') }}
+
           <router-link to="/login" class="text-blue-600 dark:text-blue-400 hover:underline">
-            الدخول بكلمة المرور
+            {{ $t('otp.loginWithPassword') }}
           </router-link>
         </p>
       </form>
@@ -54,55 +47,47 @@
       <!-- المرحلة 2: إدخال الرمز -->
       <form v-if="step === 2" @submit.prevent="handleVerifyOtp">
         <p class="text-center text-sm text-gray-600 dark:text-slate-400 mb-4">
-          تم إرسال الرمز إلى
-          <span class="font-semibold text-gray-800 dark:text-white">{{ email }}</span>
+          {{ $t('otp.codeSentTo') }}
+
+          <span class="font-semibold text-gray-800 dark:text-white">
+            {{ email }}
+          </span>
         </p>
 
         <div class="mb-4">
           <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
-            رمز التحقق
+            {{ $t('otp.codeLabel') }}
           </label>
-          <input
-            v-model="otp"
-            type="text"
-            inputmode="numeric"
-            autocomplete="one-time-code"
-            placeholder="000000"
+
+          <input v-model="otp" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="000000"
             maxlength="6"
             class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2.5 text-sm text-center tracking-widest text-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            :disabled="loading"
-            required
-          />
+            :disabled="loading" required />
         </div>
 
-        <button
-          type="submit"
+        <button type="submit"
           class="w-full bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition disabled:opacity-50"
-          :disabled="loading"
-        >
-          {{ loading ? 'جاري التحقق...' : 'تأكيد الرمز' }}
+          :disabled="loading">
+          {{ loading ? $t('otp.verifying') : $t('otp.verifyCode') }}
         </button>
 
         <!-- إعادة الإرسال -->
         <p class="text-center mt-4 text-sm text-gray-500 dark:text-slate-400">
-          لم يصلك الرمز؟
-          <button
-            type="button"
-            class="text-blue-600 dark:text-blue-400 hover:underline disabled:opacity-50"
-            :disabled="cooldown > 0 || loading"
-            @click="handleResend"
-          >
-            {{ cooldown > 0 ? `إعادة الإرسال بعد ${cooldown}s` : 'إعادة الإرسال' }}
+          {{ $t('otp.didntReceive') }}
+
+          <button type="button" class="text-blue-600 dark:text-blue-400 hover:underline disabled:opacity-50"
+            :disabled="cooldown > 0 || loading" @click="handleResend">
+            {{
+              cooldown > 0
+                ? $t('otp.resendAfter', { seconds: cooldown })
+                : $t('otp.resend')
+            }}
           </button>
         </p>
 
         <p class="text-center mt-2 text-sm text-gray-500 dark:text-slate-400">
-          <button
-            type="button"
-            class="text-gray-400 dark:text-slate-500 hover:underline"
-            @click="backToEmailStep"
-          >
-            تغيير البريد الإلكتروني
+          <button type="button" class="text-gray-400 dark:text-slate-500 hover:underline" @click="backToEmailStep">
+            {{ $t('otp.changeEmail') }}
           </button>
         </p>
       </form>
@@ -128,16 +113,15 @@ export default {
     loading() {
       return this.$store.getters['auth/isLoading']
     },
+
     error() {
       return this.$store.getters['auth/loginError']
     },
   },
 
-  // ✅ لو وصل المستخدم من صفحة تسجيل الدخول (login/login بالباك أرسل
-  // OTP تلقائياً بعد التحقق من كلمة المرور)، البريد يوصل عبر query param
-  // ونذهب مباشرة لخطوة إدخال الرمز بدون إعادة إرساله من جديد
   mounted() {
     const queryEmail = this.$route.query.email
+
     if (queryEmail && typeof queryEmail === 'string') {
       this.email = queryEmail
       this.step = 2
@@ -146,34 +130,37 @@ export default {
   },
 
   unmounted() {
-    if (this.cooldownTimer) clearInterval(this.cooldownTimer)
+    if (this.cooldownTimer) {
+      clearInterval(this.cooldownTimer)
+    }
   },
 
   methods: {
-    // إرسال OTP (المسار اليدوي فقط — دخول مباشر لهذي الصفحة بدون كلمة مرور)
     async handleSendOtp() {
       const result = await this.$store.dispatch('auth/sendOtp', this.email)
+
       if (result.success) {
         this.step = 2
         this.startCooldown()
       }
     },
 
-    // التحقق من OTP — بالبريد الإلكتروني بدل user_id
     async handleVerifyOtp() {
       const result = await this.$store.dispatch('auth/verifyOtp', {
         email: this.email,
         otp: this.otp,
       })
+
       if (result.success) {
         this.$router.push('/dashboard')
       }
     },
 
-    // إعادة الإرسال
     async handleResend() {
       this.otp = ''
+
       const result = await this.$store.dispatch('auth/sendOtp', this.email)
+
       if (result.success) {
         this.startCooldown()
       }
@@ -182,15 +169,24 @@ export default {
     backToEmailStep() {
       this.step = 1
       this.otp = ''
-      if (this.cooldownTimer) clearInterval(this.cooldownTimer)
+
+      if (this.cooldownTimer) {
+        clearInterval(this.cooldownTimer)
+      }
+
       this.cooldown = 0
     },
 
-    // عداد الانتظار (120 ثانية = دقيقتان، يطابق OTP_COOLDOWN_SECONDS بالباك)
     startCooldown() {
+      if (this.cooldownTimer) {
+        clearInterval(this.cooldownTimer)
+      }
+
       this.cooldown = 120
+
       this.cooldownTimer = setInterval(() => {
         this.cooldown--
+
         if (this.cooldown <= 0) {
           clearInterval(this.cooldownTimer)
         }
@@ -199,3 +195,4 @@ export default {
   },
 }
 </script>
+```

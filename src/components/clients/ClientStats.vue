@@ -1,11 +1,11 @@
 <template>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
     <!-- إجمالي العملاء -->
-    <div class="bg-white rounded-2xl shadow-lg border border-gray-200/60 p-6">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-gray-200 dark:border-slate-700/60 p-6">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">{{ $t('clients.stats.total') }}</p>
-          <p class="text-3xl font-bold text-gray-900 mt-2" v-if="!loading">
+          <p class="text-sm font-medium text-gray-600 dark:text-slate-400">{{ $t('clients.stats.total') }}</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-slate-100 mt-2" v-if="!loading">
             {{ clients.total || 0 }}
           </p>
           <div v-else class="h-8 bg-gray-200 rounded animate-pulse mt-2"></div>
@@ -24,11 +24,11 @@
     </div>
 
     <!-- عملاء جدد هذا الشهر -->
-    <div class="bg-white rounded-2xl shadow-lg border border-gray-200/60 p-6">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-gray-200 dark:border-slate-700/60 p-6">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">{{ $t('clients.stats.newThisMonth') }}</p>
-          <p class="text-3xl font-bold text-gray-900 mt-2">0</p>
+          <p class="text-sm font-medium text-gray-600 dark:text-slate-400">{{ $t('clients.stats.newThisMonth') }}</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-slate-100 mt-2">0</p>
         </div>
         <div class="p-3 bg-green-50 rounded-xl">
           <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,11 +44,11 @@
     </div>
 
     <!-- عملاء نشطين -->
-    <div class="bg-white rounded-2xl shadow-lg border border-gray-200/60 p-6">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-gray-200 dark:border-slate-700/60 p-6">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">{{ $t('clients.stats.active') }}</p>
-          <p class="text-3xl font-bold text-gray-900 mt-2">0</p>
+          <p class="text-sm font-medium text-gray-600 dark:text-slate-400">{{ $t('clients.stats.active') }}</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-slate-100 mt-2">0</p>
         </div>
         <div class="p-3 bg-purple-50 rounded-xl">
           <svg
@@ -69,11 +69,11 @@
     </div>
 
     <!-- متوسط الفواتير -->
-    <div class="bg-white rounded-2xl shadow-lg border border-gray-200/60 p-6">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-gray-200 dark:border-slate-700/60 p-6">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">{{ $t('clients.stats.avgInvoices') }}</p>
-          <p class="text-3xl font-bold text-gray-900 mt-2">0</p>
+          <p class="text-sm font-medium text-gray-600 dark:text-slate-400">{{ $t('clients.stats.avgInvoices') }}</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-slate-100 mt-2">0</p>
         </div>
         <div class="p-3 bg-orange-50 rounded-xl">
           <svg

@@ -2,7 +2,7 @@
   <div class="action-menu">
     <button
       @click="$emit('toggle')"
-      class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+      class="p-2 text-gray-400 hover:text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:bg-slate-800 rounded-lg transition-colors duration-200"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path

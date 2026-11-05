@@ -94,7 +94,6 @@
             <div class="perf-label">{{ $t('dashboard.today_performance') }}</div>
             <div class="perf-value">
               <span class="perf-num">{{ todayPerformance }}<span class="perf-unit">%</span></span>
-              <span class="perf-delta">+{{ todayPerformance - 85 }}%</span>
             </div>
             <div class="perf-bar">
               <div class="perf-fill" :style="{ width: todayPerformance + '%' }"></div>
@@ -385,7 +384,7 @@
             </div>
             <div class="chart-body">
               <div class="h-72">
-                <BarChart :chartData="performanceChartData" :options="enhancedBarChartOptions" />
+                <BarChart :chartData="performanceChartData" :options="performanceChartOptions" />
               </div>
             </div>
           </div>
@@ -402,7 +401,7 @@
                     />
                   </svg>
                 </button>
-                <button class="text-btn" @click="viewAllActivity">عرض الكل</button>
+                <button v-if="isAdmin" class="text-btn" @click="viewAllActivity">عرض الكل</button>
               </div>
             </div>
             <div class="activity-list">
@@ -726,6 +725,11 @@ export default {
       'formatDate',
       'getInitials',
     ]),
+    ...mapGetters('dashboard', {
+      monthlyRevenueData: 'monthlyRevenue',
+      activityFeed: 'recentActivity',
+      storeLastUpdated: 'lastUpdated',
+    }),
     ...mapGetters('auth', ['hasPermission']),
 
     totalInvoices() {
@@ -747,7 +751,7 @@ export default {
       return this.stats?.totalClients || 0
     },
     totalRevenue() {
-      return this.stats?.revenue || 0
+      return this.stats?.totalRevenue ?? this.stats?.revenue ?? 0
     },
     paidAmount() {
       return this.stats?.paidAmount || 0
@@ -780,20 +784,25 @@ export default {
       return this.is_admin || false
     },
 
+    // نسبة التحصيل = المدفوع ÷ (المدفوع + المرسل + المتأخر)، دون المسودات لأنها لم تُصدر بعد
     collectionRate() {
-      const total = this.totalRevenue || 0
-      const paid = this.paidAmount || 0
-      return total > 0 ? Math.round((paid / total) * 100) : 0
+      const paid = Number(this.paidAmount) || 0
+      const issued = paid + (Number(this.pendingAmount) || 0) + (Number(this.overdueAmount) || 0)
+      return issued > 0 ? Math.round((paid / issued) * 100) : 0
     },
 
     todayPerformance() {
       const todayPaid = this.stats?.todayPaidInvoices || 0
-      const todayTotal = this.stats?.todayTotalInvoices || 1
-      return Math.round((todayPaid / todayTotal) * 100)
+      const todayTotal = this.stats?.todayTotalInvoices || 0
+      return todayTotal > 0 ? Math.min(100, Math.round((todayPaid / todayTotal) * 100)) : 0
     },
 
     lastUpdated() {
-      return new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' })
+      const at = this.storeLastUpdated ? new Date(this.storeLastUpdated) : new Date()
+      return at.toLocaleTimeString(this.$i18n.locale === 'ar' ? 'en-US' : 'en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+      })
     },
 
     invoiceStatuses() {
@@ -849,22 +858,15 @@ export default {
     },
 
     revenueChartData() {
-      const periods =
-        this.revenuePeriod === '1m'
-          ? 1
-          : this.revenuePeriod === '3m'
-            ? 3
-            : this.revenuePeriod === '6m'
-              ? 6
-              : 12
-      const labels = this.generateMonthLabels(periods)
-      const data = this.generateRevenueData(periods)
+      const months = { '1m': 1, '3m': 3, '6m': 6, '1y': 12 }[this.revenuePeriod] || 6
+      const series = this.monthSeries(months)
+
       return {
-        labels,
+        labels: series.map((item) => item.label),
         datasets: [
           {
             label: this.$t('dashboard.revenue'),
-            data,
+            data: series.map((item) => item.revenue),
             borderColor: '#6366f1',
             backgroundColor: (ctx) => {
               const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 300)
@@ -880,57 +882,59 @@ export default {
       }
     },
 
-    performanceChartData() {
-      const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو']
+        performanceChartData() {
+      const series = this.monthSeries(6)
+
       return {
-        labels: months,
+        labels: series.map((item) => item.label),
         datasets: [
           {
             label: this.$t('dashboard.invoices'),
-            data: [120, 150, 180, 200, 220, 240],
+            data: series.map((item) => item.invoices),
             backgroundColor: 'rgba(99,102,241,0.75)',
+            yAxisID: 'y',
           },
           {
             label: this.$t('dashboard.revenue'),
-            data: [25000, 32000, 40000, 45000, 52000, 60000],
+            data: series.map((item) => item.revenue),
             backgroundColor: 'rgba(16,185,129,0.75)',
+            yAxisID: 'y1',
           },
         ],
       }
     },
 
-    recentActivity() {
-      return [
-        {
-          id: 1,
-          type: 'invoice_paid',
-          title: 'فاتورة مدفوعة',
-          description: 'فاتورة #INV-2024-001 تم دفعها بنجاح',
-          amount: 1250,
-          timestamp: new Date(Date.now() - 1000 * 60 * 30),
-          invoiceId: 'INV-2024-001',
+    // عدد الفواتير والإيراد بمقياسين مختلفين: محور لكل منهما
+    performanceChartOptions() {
+      const base = this.enhancedBarChartOptions
+
+      return {
+        ...base,
+        scales: {
+          ...base.scales,
+          y1: {
+            position: 'right',
+            beginAtZero: true,
+            grid: { drawOnChartArea: false },
+            ticks: {
+              color: '#94a3b8',
+              font: { size: 11 },
+              callback: (v) => (v >= 1000 ? (v / 1000).toFixed(0) + 'K' : v),
+            },
+          },
         },
-        {
-          id: 2,
-          type: 'client_added',
-          title: 'عميل جديد',
-          description: 'شركة التقنية المتطورة تمت إضافتها إلى النظام',
-          timestamp: new Date(Date.now() - 1000 * 60 * 120),
-          clientId: 123,
-        },
-        {
-          id: 3,
-          type: 'invoice_created',
-          title: 'فاتورة جديدة',
-          description: 'فاتورة #INV-2024-002 تم إنشاؤها',
-          amount: 850,
-          timestamp: new Date(Date.now() - 1000 * 60 * 240),
-          invoiceId: 'INV-2024-002',
-        },
-      ]
+      }
     },
 
-    topClients() {
+        recentActivity() {
+      return (this.activityFeed || []).map((item) => ({
+        ...item,
+        // الباك إند يرسل الوقت بالثواني (UNIX)، فلا يتأثر بفرق المنطقة الزمنية
+        timestamp: item.timestamp ? new Date(item.timestamp * 1000) : new Date(String(item.created_at).replace(' ', 'T') + 'Z'),
+      }))
+    },
+
+        topClients() {
       return (this.recentClients || [])
         .slice(0, 5)
         .map((c) => ({ ...c, total_spent: c.total_spent || 0, growth: c.growth || 0 }))
@@ -976,47 +980,39 @@ export default {
       this.$router.push('/invoices')
     },
     viewAllActivity() {
-      this.$router.push('/activity')
+      this.$router.push('/activitylog')
     },
     filterByStatus(status) {
       this.$router.push({ path: '/invoices', query: { status } })
     },
     handleActivityClick(act) {
-      if (act.invoiceId) this.$router.push(`/invoices/${act.invoiceId}`)
+      if (act.invoice_id) this.$router.push(`/invoices/${act.invoice_id}`)
       else if (act.clientId) this.$router.push(`/clients/${act.clientId}`)
     },
 
-    generateMonthLabels(months) {
-      const names = [
-        'يناير',
-        'فبراير',
-        'مارس',
-        'أبريل',
-        'مايو',
-        'يونيو',
-        'يوليو',
-        'أغسطس',
-        'سبتمبر',
-        'أكتوبر',
-        'نوفمبر',
-        'ديسمبر',
-      ]
+    monthSeries(count) {
+      const locale = this.$i18n.locale === 'ar' ? 'ar' : 'en-US'
+      const byMonth = {}
+      ;(this.monthlyRevenueData || []).forEach((row) => {
+        byMonth[`${row.year}-${row.month_number}`] = row
+      })
+
+      // آخر N أشهر (الأحدث أخيراً)، والأشهر بلا مدفوعات تظهر بصفر
       const now = new Date()
-      return Array.from({ length: months }, (_, i) => {
-        const d = new Date(now.getFullYear(), now.getMonth() - (months - 1 - i), 1)
-        return names[d.getMonth()]
+      return Array.from({ length: count }, (_, i) => {
+        const d = new Date(now.getFullYear(), now.getMonth() - (count - 1 - i), 1)
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+        const row = byMonth[key]
+
+        return {
+          label: d.toLocaleDateString(locale, count > 6 ? { month: 'short', year: '2-digit' } : { month: 'long' }),
+          revenue: row ? Number(row.revenue) || 0 : 0,
+          invoices: row ? Number(row.invoice_count) || 0 : 0,
+        }
       })
     },
 
-    generateRevenueData(months) {
-      let base = 10000
-      return Array.from({ length: months }, () => {
-        base *= 1 + Math.random() * 0.2 + 0.1
-        return Math.round(base)
-      })
-    },
-
-    getActivityIcon(type) {
+        getActivityIcon(type) {
       return (
         {
           invoice_paid: 'fa-check-circle',
@@ -1058,7 +1054,7 @@ export default {
 /* ─── Root ─────────────────────────────────────────────────────────────── */
 .dashboard-root {
   font-family: 'Cairo', sans-serif;
-  background: #f8fafc;
+  background: rgb(var(--color-bg-page));
   min-height: 100vh;
   direction: rtl;
 }
@@ -1222,7 +1218,7 @@ export default {
   transition: all 0.2s;
 }
 .btn-ghost:hover {
-  background: #f8fafc;
+  background: rgb(var(--color-bg-page));
   color: #334155;
 }
 
@@ -1244,13 +1240,7 @@ export default {
 }
 
 /* ─── Hero ──────────────────────────────────────────────────────────────── */
-.hero-header {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  background: #0f172a;
-  padding: 2.5rem;
-}
+
 
 @media (max-width: 640px) {
   .hero-header {
@@ -1259,76 +1249,21 @@ export default {
   }
 }
 
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
 
-.hero-mesh {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.35;
-}
 
-.mesh-1 {
-  width: 500px;
-  height: 500px;
-  top: -200px;
-  right: -100px;
-  background: rgb(var(--color-primary-500));
-  transition: background-color 700ms ease;
-}
-.mesh-2 {
-  width: 350px;
-  height: 350px;
-  bottom: -150px;
-  left: 200px;
-  background: #8b5cf6;
-}
-.mesh-3 {
-  width: 250px;
-  height: 250px;
-  top: 50px;
-  left: -50px;
-  background: #06b6d4;
-  opacity: 0.2;
-}
 
-.hero-inner {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
 
-.hero-greeting {
-  flex: 1;
-  min-width: 280px;
-}
 
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: 100px;
-  margin-bottom: 1rem;
-  color: #34d399;
-  font-size: 0.78rem;
-  font-weight: 600;
-}
 
-.hero-badge--warning {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.3);
-  color: #f87171;
-}
+
+
+
+
+
+
+
+
+
 
 .hero-badge--warning .badge-dot {
   background: #ef4444;
@@ -1375,48 +1310,15 @@ export default {
   }
 }
 
-.hero-title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #fff;
-  margin: 0 0 0.5rem;
-  line-height: 1.2;
-}
 
-.hero-name {
-  background: linear-gradient(135deg, #a5b4fc, #c4b5fd, #93c5fd);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
 
-.hero-subtitle {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.9rem;
-  margin: 0;
-}
 
-.admin-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 10px;
-  background: rgba(99, 102, 241, 0.2);
-  border: 1px solid rgba(99, 102, 241, 0.4);
-  border-radius: 6px;
-  color: #a5b4fc;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-right: 8px;
-}
 
-.hero-perf {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
-  padding: 1.5rem 2rem;
-  min-width: 220px;
-  backdrop-filter: blur(10px);
-}
+
+
+
+
+
 
 .perf-label {
   color: rgba(255, 255, 255, 0.5);
@@ -1711,7 +1613,7 @@ export default {
 
 .kpi-bar-track {
   height: 3px;
-  background: #f8fafc;
+  background: rgb(var(--color-bg-page));
   border-radius: 99px;
   overflow: hidden;
   margin: 0.75rem -1.5rem -1.5rem;
@@ -1805,7 +1707,7 @@ export default {
 /* Period Tabs */
 .period-tabs {
   display: flex;
-  background: #f8fafc;
+  background: rgb(var(--color-bg-page));
   border-radius: 10px;
   padding: 3px;
   border: 1px solid #f1f5f9;
@@ -1918,7 +1820,7 @@ export default {
 }
 
 .status-item:hover {
-  background: #f8fafc;
+  background: rgb(var(--color-bg-page));
   border-color: #f1f5f9;
 }
 
@@ -2025,7 +1927,7 @@ export default {
 .icon-btn {
   width: 34px;
   height: 34px;
-  background: #f8fafc;
+  background: rgb(var(--color-bg-page));
   border: 1px solid #f1f5f9;
   border-radius: 9px;
   cursor: pointer;
@@ -2081,7 +1983,7 @@ export default {
 }
 
 .activity-item:hover {
-  background: #f8fafc;
+  background: rgb(var(--color-bg-page));
 }
 
 .act-icon {
@@ -2117,7 +2019,7 @@ export default {
   color: #0d9488;
 }
 .act-gray {
-  background: #f8fafc;
+  background: rgb(var(--color-bg-page));
   color: #64748b;
 }
 
@@ -2300,7 +2202,7 @@ export default {
 }
 
 .client-item:hover {
-  background: #f8fafc;
+  background: rgb(var(--color-bg-page));
 }
 
 .client-rank-wrap {
@@ -2424,7 +2326,7 @@ export default {
    بباقي المشروع (slate-800/900/950) للتناسق البصري.
    ============================================================ */
 .dark .dashboard-root {
-  background: #0b0f19;
+  background: rgb(var(--color-bg-page));
 }
 
 .dark .loading-text {
@@ -2432,7 +2334,7 @@ export default {
 }
 
 .dark .error-card {
-  background: #1e293b;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
   border-color: rgba(239, 68, 68, 0.25);
 }
 .dark .error-icon-wrap {
@@ -2449,14 +2351,14 @@ export default {
   border-color: #334155;
 }
 .dark .btn-ghost:hover {
-  background: #0f172a;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
   color: #e2e8f0;
 }
 
 /* البطاقات الأساسية (KPI + Charts) */
 .dark .kpi-card,
 .dark .chart-card {
-  background: #1e293b;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
   border-color: #334155;
 }
 .dark .kpi-value,
@@ -2477,7 +2379,7 @@ export default {
   border-bottom-color: #334155;
 }
 .dark .chart-footer-stats {
-  background: #0f172a;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
   border-top-color: #334155;
 }
 .dark .chart-stat-divider,
@@ -2489,16 +2391,16 @@ export default {
 
 /* أشرطة التقدّم والفواصل الرفيعة أسفل بطاقات KPI */
 .dark .kpi-bar-track {
-  background: #0f172a;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
 }
 
 /* تبويبات الفترة الزمنية (1M/3M/6M/1Y) */
 .dark .period-tabs {
-  background: #0f172a;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
   border-color: #334155;
 }
 .dark .period-btn.active {
-  background: #1e293b;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
   color: #a5b4fc;
 }
 .dark .period-btn:not(.active):hover {
@@ -2507,11 +2409,11 @@ export default {
 
 /* حالات التمرير (hover) على العناصر القابلة للنقر */
 .dark .status-item:hover {
-  background: #0f172a;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
   border-color: #334155;
 }
 .dark .icon-btn {
-  background: #0f172a;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
   border-color: #334155;
   color: #94a3b8;
 }
@@ -2521,7 +2423,7 @@ export default {
 }
 .dark .activity-item:hover,
 .dark .client-item:hover {
-  background: #0f172a;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
 }
 
 /* روابط وأزرار بألوان تمييز فاتحة — نحوّلها لنسخة شفافة تناسب الخلفية الداكنة */
@@ -2578,7 +2480,7 @@ export default {
   background: rgba(13, 148, 136, 0.15);
 }
 .dark .act-gray {
-  background: #0f172a;
+  background: rgb(var(--color-bg-white dark:bg-slate-800));
   color: #94a3b8;
 }
 .dark .trend-up {
@@ -2595,4 +2497,93 @@ export default {
 .dark .status-amount {
   color: #64748b;
 }
-</style>
+
+    /* Hero Header (Rich Colors) */
+    .hero-header {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #0f172a !important; /* أزرق داكن جداً */
+      padding: 2.5rem !important;
+      color: #ffffff;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .hero-mesh {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.35;
+    }
+    .mesh-1 {
+      width: 500px; height: 500px;
+      top: -200px; right: -100px;
+      background: rgb(var(--color-primary-500)) !important; /* أزرق */
+    }
+    .mesh-2 {
+      width: 350px; height: 350px;
+      bottom: -150px; left: 200px;
+      background: #8b5cf6 !important; /* بنفسجي */
+    }
+    .mesh-3 {
+      width: 250px; height: 250px;
+      top: 50px; left: -50px;
+      background: #06b6d4 !important; /* تركوازي */
+      opacity: 0.2;
+    }
+    .hero-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 100px;
+      margin-bottom: 1rem;
+      color: #34d399;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .hero-badge--warning {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff !important;
+      margin: 0 0 0.5rem;
+      line-height: 1.2;
+    }
+    .hero-name {
+      background: linear-gradient(135deg, #a5b4fc, #c4b5fd, #93c5fd) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+    }
+    .hero-subtitle {
+      color: rgba(255, 255, 255, 0.55) !important;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    .hero-perf {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 1.5rem 2rem;
+      min-width: 220px;
+      backdrop-filter: blur(10px);
+    }
+    </style>

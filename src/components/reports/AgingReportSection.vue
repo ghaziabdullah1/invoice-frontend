@@ -90,7 +90,7 @@
           <thead class="bg-gray-50 dark:bg-gray-900">
             <tr>
               <th
-                class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                class="px-4 py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
                 {{ $t('clients.title') }}
               </th>
@@ -130,7 +130,7 @@
             <tr
               v-for="client in clients"
               :key="client.client_id"
-              class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150"
+              class="hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-gray-700/50 transition-colors duration-150"
             >
               <td class="px-4 py-3">
                 <div class="text-sm font-medium text-gray-900 dark:text-white">
@@ -182,7 +182,7 @@ export default {
   methods: {
     formatNumber(value) {
       const number = Number(value) || 0
-      return new Intl.NumberFormat('ar-SA', {
+      return new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       }).format(number)

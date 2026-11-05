@@ -1,16 +1,16 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-8 md:py-12"
+    class="min-h-screen bg-gray-50 dark:bg-slate-900 py-6 md:py-8"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div class="flex items-center gap-4">
           <div
-            class="p-3 bg-white dark:bg-slate-800 rounded-2xl shadow-lg shadow-emerald-100/50 dark:shadow-none border border-gray-100/80 dark:border-slate-700"
+            class="p-2.5 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700"
           >
             <svg
-              class="w-7 h-7 text-emerald-600 dark:text-emerald-400"
+              class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -34,9 +34,9 @@
         </div>
         <router-link
           to="/support"
-          class="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/40 hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 flex items-center gap-2.5 font-semibold text-sm transform hover:-translate-y-0.5"
+          class="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/40 hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 flex items-center gap-2.5 font-semibold text-sm transform hover:-translate-y-0.5"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -162,7 +162,7 @@
             @input="debouncedSearch"
             type="text"
             :placeholder="$t('support.search_placeholder') || 'ابحث برقم التذكرة أو الموضوع...'"
-            class="w-full pl-11 pr-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-white transition-all"
+            class="w-full pl-11 pr-4 py-2.5 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-white transition-all"
           />
         </div>
         <div class="flex gap-3 w-full md:w-auto">
@@ -191,7 +191,7 @@
             @click="clearAllFilters"
             class="px-4 py-2.5 text-gray-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 border border-gray-200 dark:border-slate-600 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-all text-sm font-medium flex items-center gap-1.5"
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -228,23 +228,19 @@
           />
         </svg>
         <h3 class="text-lg font-bold text-red-700 dark:text-red-400 mb-2">
-          {{ error === 'Unauthenticated.' ? 'يجب تسجيل الدخول أولاً' : 'خطأ في تحميل التذاكر' }}
+          {{ error === 'Unauthenticated.' ? $t('support.must_login') : $t('support.ticket_load_error') }}
         </h3>
         <p class="text-sm text-red-600 dark:text-red-300 mb-4">{{ error }}</p>
         <button
           v-if="error === 'Unauthenticated.'"
           @click="$router.push('/login')"
           class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-        >
-          تسجيل الدخول
-        </button>
+        >{{ $t('auth.login') }}</button>
         <button
           v-else
           @click="loadTickets(pagination.current_page)"
           class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-        >
-          إعادة المحاولة
-        </button>
+        >{{ $t('common.retry') }}</button>
       </div>
 
       <!-- Empty State -->
@@ -279,7 +275,7 @@
           to="/support"
           class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -301,12 +297,12 @@
             <thead class="bg-gray-50 dark:bg-slate-700/50">
               <tr>
                 <th
-                  class="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider"
+                  class="px-6 py-4 text-start text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider"
                 >
                   {{ $t('support.ticket_number') || 'رقم التذكرة' }}
                 </th>
                 <th
-                  class="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider"
+                  class="px-6 py-4 text-start text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider"
                 >
                   {{ $t('support.subject') || 'الموضوع' }}
                 </th>
@@ -326,7 +322,7 @@
                   {{ $t('support.replies') || 'الردود' }}
                 </th>
                 <th
-                  class="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider"
+                  class="px-6 py-4 text-start text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider"
                 >
                   {{ $t('support.date') || 'التاريخ' }}
                 </th>
@@ -343,7 +339,7 @@
               <tr
                 v-for="ticket in tickets"
                 :key="ticket.id"
-                class="hover:bg-gray-50/50 dark:hover:bg-slate-700/30 transition-colors group"
+                class="hover:bg-gray-50 dark:bg-slate-900/50 dark:hover:bg-slate-700/30 transition-colors group"
               >
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span
@@ -465,7 +461,7 @@
             <button
               @click="changePage(pagination.current_page - 1)"
               :disabled="pagination.current_page === 1"
-              class="px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg text-sm font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              class="px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg text-sm font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               {{ $t('common.previous') || 'السابق' }}
             </button>
@@ -477,7 +473,7 @@
             <button
               @click="changePage(pagination.current_page + 1)"
               :disabled="pagination.current_page === pagination.last_page"
-              class="px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg text-sm font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              class="px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg text-sm font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               {{ $t('common.next') || 'التالي' }}
             </button>
@@ -490,6 +486,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { listenStaff } from '@/utils/supportRealtime'
 
 export default {
   name: 'SupportTicketList',
@@ -515,10 +512,22 @@ export default {
 
   mounted() {
     this.loadTickets()
+    // أي رسالة أو تذكرة جديدة أو تغيّر حالة: نعيد تحميل الصفحة الحالية بصمت
+    this.unlisten = listenStaff({
+      onMessage: this.scheduleRefresh,
+      onTicketCreated: this.scheduleRefresh,
+      onTicketUpdated: this.scheduleRefresh,
+    })
+  },
+
+  beforeUnmount() {
+    clearTimeout(this.refreshTimeout)
+    clearTimeout(this.searchTimeout)
+    if (this.unlisten) this.unlisten()
   },
 
   methods: {
-    ...mapActions('support', ['fetchTickets', 'closeTicket']),
+    ...mapActions('support', ['fetchTickets', 'closeTicket', 'refreshTickets']),
 
     loadTickets(page = 1) {
       this.fetchTickets({
@@ -526,6 +535,18 @@ export default {
         per_page: this.pagination.per_page,
         ...this.filters,
       }).catch(() => {})
+    },
+
+    // تجميع الأحداث المتقاربة في طلب واحد
+    scheduleRefresh() {
+      clearTimeout(this.refreshTimeout)
+      this.refreshTimeout = setTimeout(() => {
+        this.refreshTickets({
+          page: this.pagination.current_page,
+          per_page: this.pagination.per_page,
+          ...this.filters,
+        })
+      }, 400)
     },
 
     async handleCloseTicket(id) {
@@ -574,7 +595,7 @@ export default {
     formatDate(dateString) {
       if (!dateString) return ''
       const date = new Date(dateString)
-      return new Intl.DateTimeFormat(this.$i18n.locale === 'ar' ? 'ar-SA' : 'en-US', {
+      return new Intl.DateTimeFormat(this.$i18n.locale === 'ar' ? 'en-US' : 'en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -593,8 +614,7 @@ export default {
     },
 
     statusLabel(status) {
-      const labels = { open: 'مفتوحة', in_progress: 'قيد المعالجة', closed: 'مغلقة' }
-      return labels[status] || status
+      return this.$t('support.' + status) || status
     },
 
     priorityBadgeClass(priority) {
@@ -607,8 +627,7 @@ export default {
     },
 
     priorityLabel(priority) {
-      const labels = { high: 'عالية', medium: 'متوسطة', low: 'منخفضة' }
-      return labels[priority] || priority
+      return this.$t('support.' + priority) || priority
     },
   },
 }

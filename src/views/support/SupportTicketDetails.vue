@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-8 md:py-12"
+    class="min-h-screen bg-gray-50 dark:bg-slate-900 py-6 md:py-8"
   >
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Back Link -->
@@ -43,7 +43,7 @@
           />
         </svg>
         <h3 class="text-lg font-bold text-red-700 dark:text-red-400 mb-2">
-          {{ error === 'Unauthenticated.' ? 'يجب تسجيل الدخول أولاً' : 'خطأ في تحميل التذكرة' }}
+          {{ error === 'Unauthenticated.' ? $t('support.must_login') : $t('support.ticket_load_error_desc') }}
         </h3>
         <p class="text-sm text-red-600 dark:text-red-300 mb-4">{{ error }}</p>
         <div class="flex justify-center gap-3">
@@ -51,16 +51,12 @@
             v-if="error === 'Unauthenticated.'"
             @click="$router.push('/login')"
             class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-          >
-            تسجيل الدخول
-          </button>
+          >{{ $t('auth.login') }}</button>
           <button
             v-else
             @click="fetchTicket(ticketId)"
             class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-          >
-            إعادة المحاولة
-          </button>
+          >{{ $t('common.retry') }}</button>
         </div>
       </div>
 
@@ -69,7 +65,7 @@
         v-else-if="!ticket"
         class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 p-12 text-center"
       >
-        <p class="text-gray-500 dark:text-slate-400">لا توجد بيانات للتذكرة</p>
+        <p class="text-gray-500 dark:text-slate-400">{{ $t('support.no_ticket_data') }}</p>
       </div>
 
       <!-- Ticket Content -->
@@ -268,6 +264,7 @@
                     >{{ $t('support.staff') || 'فريق الدعم' }}</span
                   >
                   <span class="text-xs text-gray-400">{{ formatDateTime(reply.created_at) }}</span>
+                  <span v-if="reply.is_internal" class="px-2 py-0.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-semibold rounded-full">{{ $t('support.internal_note_short') }}</span>
                 </div>
                 <p
                   class="text-gray-700 dark:text-slate-300 text-sm leading-relaxed whitespace-pre-wrap"
@@ -309,7 +306,13 @@
               class="w-full px-4 py-3.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-white transition-all resize-none"
             ></textarea>
             <div class="flex justify-between items-center mt-4">
-              <span class="text-xs text-gray-400">{{ replyMessage.length }}/2000</span>
+                            <div class="flex items-center gap-4">
+                <label class="flex items-center gap-2 text-sm text-gray-600 dark:text-slate-300 cursor-pointer select-none">
+                  <input type="checkbox" v-model="isInternal" class="rounded border-gray-300 dark:border-slate-600 text-amber-500 focus:ring-amber-500/30" />
+                  {{ $t('support.internal_note') }}
+                </label>
+                <span class="text-xs text-gray-400">{{ replyMessage.length }}/2000</span>
+              </div>
               <button
                 type="submit"
                 :disabled="submitting || !replyMessage.trim()"
@@ -375,6 +378,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { listenTicket, listenStaff } from '@/utils/supportRealtime'
 
 export default {
   name: 'SupportTicketDetails',
@@ -382,6 +386,7 @@ export default {
   data() {
     return {
       replyMessage: '',
+      isInternal: false,
       pendingStatus: '',
     }
   },
@@ -394,6 +399,10 @@ export default {
   },
 
   watch: {
+    // الحالة قد تتغير من البث دون استبدال كائن التذكرة كله
+    'ticket.status'(s) {
+      if (s) this.pendingStatus = s
+    },
     ticket: {
       immediate: true,
       handler(newTicket) {
@@ -406,15 +415,38 @@ export default {
 
   mounted() {
     this.fetchTicket(this.ticketId)
+    this.unsubs = [
+      listenTicket(this.ticketId, {
+        onMessage: this.onRealtimeMessage,
+        onTicketUpdated: this.onRealtimeTicket,
+      }),
+      // الملاحظات الداخلية تُبث لقناة الفريق فقط. غير الموظف يُرفض اشتراكه بصمت
+      listenStaff({ onMessage: this.onRealtimeMessage }),
+    ]
+  },
+
+  beforeUnmount() {
+    if (this.unsubs) this.unsubs.forEach((u) => u())
   },
 
   methods: {
     ...mapActions('support', ['fetchTicket', 'replyToTicket', 'closeTicket', 'updateTicketStatus']),
 
+    onRealtimeMessage(msg) {
+      if (msg.ticket_id !== this.ticketId) return
+      this.$store.commit('support/PUSH_REPLY', msg)
+    },
+
+    onRealtimeTicket(data) {
+      if (data.id !== this.ticketId) return
+      this.$store.commit('support/PATCH_TICKET', data)
+    },
+
     async handleReply() {
       if (!this.replyMessage.trim()) return
       try {
-        await this.replyToTicket({ id: this.ticketId, message: this.replyMessage })
+        await this.replyToTicket({ id: this.ticketId, message: this.replyMessage, is_internal: this.isInternal })
+        this.isInternal = false
         this.replyMessage = ''
       } catch (error) {
         if (error.response?.status === 401) {
@@ -459,7 +491,7 @@ export default {
     formatDateTime(dateString) {
       if (!dateString) return ''
       const date = new Date(dateString)
-      return new Intl.DateTimeFormat(this.$i18n.locale === 'ar' ? 'ar-SA' : 'en-US', {
+      return new Intl.DateTimeFormat(this.$i18n.locale === 'ar' ? 'en-US' : 'en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -480,8 +512,7 @@ export default {
     },
 
     statusLabel(status) {
-      const labels = { open: 'مفتوحة', in_progress: 'قيد المعالجة', closed: 'مغلقة' }
-      return labels[status] || status
+      return this.$t('support.' + status) || status
     },
 
     priorityBadgeClass(priority) {
@@ -494,8 +525,7 @@ export default {
     },
 
     priorityLabel(priority) {
-      const labels = { high: 'عالية', medium: 'متوسطة', low: 'منخفضة' }
-      return labels[priority] || priority
+      return this.$t('support.' + priority) || priority
     },
   },
 }

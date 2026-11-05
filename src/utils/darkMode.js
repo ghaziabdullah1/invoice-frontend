@@ -11,7 +11,7 @@
 // الخاطئ عند فتح الصفحة (Flash of Wrong Theme).
 // ============================================================
 
-const STORAGE_KEY = 'darkMode'
+const STORAGE_KEY = 'theme'
 
 function systemPrefersDark() {
   return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches

@@ -53,10 +53,10 @@
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead class="bg-gray-50 dark:bg-gray-900/50 transition-colors duration-300">
             <tr>
-              <th class="px-4 py-2 text-right text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th class="px-4 py-2 text-start text-sm font-medium text-gray-700 dark:text-gray-300">
                 {{ $t('installments.number_of_installments') }}
               </th>
-              <th class="px-4 py-2 text-right text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th class="px-4 py-2 text-start text-sm font-medium text-gray-700 dark:text-gray-300">
                 {{ $t('installments.interest_rate') }}
               </th>
               <th
@@ -72,7 +72,7 @@
             <tr
               v-for="tier in tiers"
               :key="tier.id"
-              class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150"
+              class="hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-gray-700/50 transition-colors duration-150"
             >
               <td class="px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
                 {{ tier.number_of_installments }}

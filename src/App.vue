@@ -5,7 +5,7 @@
     <!-- إذا لم يتم التحقق من المصادقة بعد، نعرض تحميل -->
     <div v-if="authLoading" class="flex items-center justify-center min-h-screen">
       <LoadingSpinner size="lg" />
-      <p class="mt-4 text-gray-600 font-medium">{{ $t('common.loading') }}</p>
+      <p class="mt-4 text-gray-600 dark:text-slate-400 font-medium">{{ $t('common.loading') }}</p>
     </div>
 
     <!-- عرض المحتوى بعد التحقق -->

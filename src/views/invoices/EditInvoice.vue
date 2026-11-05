@@ -1,541 +1,310 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 md:py-8">
-    <div class="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
-      <!-- Page Header -->
-      <div class="mb-8">
-        <div
-          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6"
+  <div class="min-h-screen bg-gray-50 py-6 md:py-8 dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
+      <!-- ============ Top bar ============ -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <nav class="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
+          <router-link to="/invoices" class="text-gray-500 hover:text-gray-800 transition-colors dark:text-slate-400 dark:hover:text-slate-100">
+            {{ $t('invoices.title') || 'الفواتير' }}
+          </router-link>
+          <span class="text-gray-300 dark:text-slate-600">/</span>
+          <span class="font-semibold text-gray-800 dark:text-slate-100">{{ invoice?.invoice_number || '...' }}</span>
+        </nav>
+        <button
+          type="button"
+          @click="$router.push(`/invoices/${invoice?.id}`)"
+          class="px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
         >
-          <div class="flex items-center gap-3">
-            <div class="p-2 bg-white rounded-xl shadow-sm border border-gray-200">
-              <svg
-                class="w-6 h-6 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          {{ $t('common.back') }}
+        </button>
+      </div>
+
+      <!-- ============ Hero ============ -->
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-6 dark:bg-slate-800 dark:border-slate-700">
+        <div class="h-1.5 bg-gradient-to-r from-blue-700 via-blue-500 to-indigo-500"></div>
+        <div class="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-4 min-w-0">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0 dark:bg-blue-900/30 dark:border-blue-800">
+              <svg class="w-7 h-7 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
             </div>
-            <div>
-              <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
-                {{ $t('invoices.edit') }}
-              </h1>
-              <p class="text-gray-600 text-sm mt-1">{{ $t('invoices.editDescription') }}</p>
+            <div class="min-w-0">
+              <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 truncate dark:text-slate-100">{{ $t('invoices.edit') }}</h1>
+              <p class="text-gray-500 text-sm mt-0.5 dark:text-slate-400">{{ $t('invoices.editDescription') }}</p>
             </div>
           </div>
-
-          <button
-            @click="$router.push(`/invoices/${invoice?.id}`)"
-            class="px-4 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200 flex items-center gap-2"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            {{ $t('common.back') }}
-          </button>
-        </div>
-
-        <!-- Invoice Info Card -->
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5 mb-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-              <div
-                class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center shadow-sm"
-              >
-                <span class="text-blue-700 font-bold text-lg">
-                  {{ getInitials(invoice?.client?.name) }}
-                </span>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-gray-900">
-                  {{ $t('invoices.editInvoice') }} #{{ invoice?.invoice_number }}
-                </h3>
-                <div class="flex items-center gap-2 mt-1">
-                  <span
-                    :class="getStatusBadgeClass(invoice?.status)"
-                    class="px-3 py-1 text-xs font-semibold rounded-full inline-flex items-center gap-1"
-                  >
-                    <span
-                      :class="getStatusDotClass(invoice?.status)"
-                      class="w-2 h-2 rounded-full"
-                    ></span>
-                    {{ getStatusText(invoice?.status) }}
-                  </span>
-                  <span class="text-xs text-gray-500">• {{ formatDate(invoice?.created_at) }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="text-right">
-              <div class="text-sm text-gray-500">{{ $t('invoices.total') }}</div>
-              <div class="text-2xl font-bold text-gray-900">
-                {{ formatCurrency(invoice?.total || 0) }}
-              </div>
-            </div>
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-bold text-gray-700 dark:text-slate-200"># {{ invoice?.invoice_number }}</span>
+            <span
+              :class="getStatusBadgeClass(invoice?.status)"
+              class="px-3 py-1 text-xs font-semibold rounded-full inline-flex items-center gap-1.5"
+            >
+              <span :class="getStatusDotClass(invoice?.status)" class="w-2 h-2 rounded-full"></span>
+              {{ getStatusText(invoice?.status) }}
+            </span>
           </div>
         </div>
       </div>
 
-      <!-- Loading State -->
-      <div v-if="loading" class="bg-white rounded-xl border border-gray-200 shadow-sm p-12 mb-6">
-        <div class="text-center">
-          <div
-            class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4"
-          ></div>
-          <p class="text-gray-700 font-medium">{{ $t('common.loading') }}</p>
-          <p class="text-sm text-gray-500 mt-2">{{ $t('invoices.loadingInvoice') }}</p>
-        </div>
+      <!-- ============ Loading ============ -->
+      <div v-if="loading" class="bg-white rounded-2xl border border-gray-200 shadow-sm py-16 flex flex-col items-center dark:bg-slate-800 dark:border-slate-700">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4 dark:border-blue-900"></div>
+        <p class="text-gray-700 font-medium dark:text-slate-200">{{ $t('common.loading') }}</p>
+        <p class="text-sm text-gray-500 mt-1 dark:text-slate-400">{{ $t('invoices.loadingInvoice') }}</p>
       </div>
 
-      <!-- Error State -->
-      <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
-        <div class="flex items-start">
-          <div class="flex-shrink-0 pt-0.5">
-            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+      <!-- ============ Error ============ -->
+      <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-2xl p-5 dark:bg-red-900/20 dark:border-red-800">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div class="flex-1">
+            <h3 class="text-sm font-semibold text-red-800 dark:text-red-300">{{ $t('common.error') }}</h3>
+            <p class="text-sm text-red-700 mt-1 dark:text-red-300">{{ error }}</p>
           </div>
-          <div class="mr-3 flex-1">
-            <h3 class="text-sm font-medium text-red-800">{{ $t('common.error') }}</h3>
-            <p class="text-sm text-red-700 mt-1">{{ error }}</p>
-          </div>
-          <button @click="clearError" class="p-1.5 text-red-700 hover:text-red-900">
+          <button type="button" @click="clearError" class="p-1.5 text-red-700 hover:text-red-900 dark:text-red-300">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
       </div>
 
-      <!-- Edit Invoice Form -->
-      <div v-else>
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <!-- Form Header -->
-          <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
-            <div class="flex items-center gap-3">
-              <div class="p-2 bg-blue-100 rounded-lg">
-                <svg
-                  class="w-5 h-5 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
+      <!-- ============ Form ============ -->
+      <form v-else @submit.prevent="submitInvoice">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- ---------- Main column ---------- -->
+          <div class="lg:col-span-2 space-y-6">
+            <!-- Basic info -->
+            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+              <div class="px-5 sm:px-6 py-4 border-b border-gray-100 dark:border-slate-700">
+                <h2 class="text-base font-bold text-gray-900 dark:text-slate-100">{{ $t('invoices.basicInfo') }}</h2>
+                <p class="text-sm text-gray-500 mt-0.5 dark:text-slate-400">{{ $t('invoices.updateDescription') }}</p>
               </div>
-              <div>
-                <h2 class="text-lg font-semibold text-gray-900">{{ $t('invoices.updateInfo') }}</h2>
-                <p class="text-sm text-gray-600">{{ $t('invoices.updateDescription') }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Form Content -->
-          <form @submit.prevent="submitInvoice" class="p-6 space-y-6">
-            <!-- Basic Information -->
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <svg
-                  class="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                {{ $t('invoices.basicInfo') }}
-              </h3>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div class="space-y-2">
-                  <label class="block text-sm font-medium text-gray-700">{{
-                    $t('invoices.invoiceNumber')
-                  }}</label>
+              <div class="p-5 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div class="space-y-1.5">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-200">{{ $t('invoices.invoiceNumber') }}</label>
                   <input
                     v-model="form.invoice_number"
                     type="text"
                     :placeholder="$t('invoices.invoiceNumberPlaceholder')"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                    class="w-full px-3.5 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500"
                     :class="{ 'border-red-300': errors.invoice_number }"
                     required
                   />
-                  <p v-if="errors.invoice_number" class="text-sm text-red-600">
-                    {{ errors.invoice_number }}
-                  </p>
+                  <p v-if="errors.invoice_number" class="text-sm text-red-600 dark:text-red-400">{{ errors.invoice_number }}</p>
                 </div>
 
-                <div class="space-y-2">
-                  <label class="block text-sm font-medium text-gray-700">{{
-                    $t('invoices.client')
-                  }}</label>
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200"
+                <div class="space-y-1.5">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-200">{{ $t('branch.title') || 'الفرع' }}</label>
+                  <select
+                    v-model="form.branch_id"
+                    class="w-full px-3.5 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500"
                   >
-                    <div
-                      class="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center"
-                    >
-                      <span class="text-blue-700 font-bold text-sm">
-                        {{ getInitials(invoice?.client?.name) }}
-                      </span>
-                    </div>
-                    <div class="flex-1">
-                      <p class="font-medium text-gray-900">
-                        {{ invoice?.client?.name || $t('common.notAvailable') }}
-                      </p>
-                      <p class="text-sm text-gray-500">
-                        {{ invoice?.client?.email || $t('common.notAvailable') }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-                <div class="space-y-2">
-                  <label class="block text-sm font-medium text-gray-700">{{
-                    $t('invoices.issueDate')
-                  }}</label>
-                  <div class="relative">
-                    <input
-                      v-model="form.invoice_date"
-                      type="date"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
-                      :class="{ 'border-red-300': errors.invoice_date }"
-                      required
-                    />
-                    <svg
-                      class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <p v-if="errors.invoice_date" class="text-sm text-red-600">
-                    {{ errors.invoice_date }}
-                  </p>
+                    <option class="dark:bg-slate-800 dark:text-slate-100" :value="null">{{ $t('branch.unassigned') || 'بدون فرع' }}</option>
+                    <option class="dark:bg-slate-800 dark:text-slate-100" v-for="branch in branches" :key="branch.id" :value="branch.id">
+                      {{ branch.name }}
+                    </option>
+                  </select>
                 </div>
 
-                <div class="space-y-2">
-                  <label class="block text-sm font-medium text-gray-700">{{
-                    $t('invoices.dueDate')
-                  }}</label>
-                  <div class="relative">
-                    <input
-                      v-model="form.due_date"
-                      type="date"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
-                      :class="{ 'border-red-300': errors.due_date }"
-                      required
-                    />
-                    <svg
-                      class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <p v-if="errors.due_date" class="text-sm text-red-600">{{ errors.due_date }}</p>
+                <div class="space-y-1.5">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-200">{{ $t('invoices.issueDate') }}</label>
+                  <input
+                    v-model="form.invoice_date"
+                    type="date"
+                    class="w-full px-3.5 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:[color-scheme:dark]"
+                    :class="{ 'border-red-300': errors.invoice_date }"
+                    required
+                  />
+                  <p v-if="errors.invoice_date" class="text-sm text-red-600 dark:text-red-400">{{ errors.invoice_date }}</p>
                 </div>
-              </div>
 
-              <!-- ✅ الفرع: يسمح بنقل الفاتورة لفرع آخر - القائمة مبنية من
-                   الفروع المسموح بها لهذا المستخدم فقط (branch/branches) -->
-              <div class="space-y-2 mt-5">
-                <label class="block text-sm font-medium text-gray-700">{{
-                  $t('branch.title') || 'الفرع'
-                }}</label>
-                <select
-                  v-model="form.branch_id"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
-                >
-                  <option :value="null">{{ $t('branch.unassigned') || 'بدون فرع' }}</option>
-                  <option v-for="branch in branches" :key="branch.id" :value="branch.id">
-                    {{ branch.name }}
-                  </option>
-                </select>
+                <div class="space-y-1.5">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-200">{{ $t('invoices.dueDate') }}</label>
+                  <input
+                    v-model="form.due_date"
+                    type="date"
+                    class="w-full px-3.5 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:[color-scheme:dark]"
+                    :class="{ 'border-red-300': errors.due_date }"
+                    required
+                  />
+                  <p v-if="errors.due_date" class="text-sm text-red-600 dark:text-red-400">{{ errors.due_date }}</p>
+                </div>
               </div>
             </div>
 
-            <!-- Invoice Items -->
-            <div
-              class="border border-gray-200 rounded-xl p-5 bg-gradient-to-b from-gray-50 to-white"
-            >
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <svg
-                    class="w-5 h-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                    />
-                  </svg>
-                  {{ $t('invoices.items') }}
-                </h3>
+            <!-- Items -->
+            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+              <div class="px-5 sm:px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-3 dark:border-slate-700">
+                <h2 class="text-base font-bold text-gray-900 dark:text-slate-100">{{ $t('invoices.items') }}</h2>
                 <button
                   type="button"
                   @click="addItem"
-                  class="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2"
+                  class="px-3.5 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
                 >
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 4v16m8-8H4"
-                    />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                   </svg>
                   {{ $t('invoices.addItem') }}
                 </button>
               </div>
 
-              <!-- Items List -->
-              <div class="space-y-4">
+              <div class="px-5 sm:px-6">
+                <!-- Column headers (desktop) -->
+                <div class="hidden md:grid md:grid-cols-12 gap-3 py-3 border-b border-gray-200 text-xs font-bold text-gray-500 uppercase tracking-wider dark:border-slate-700 dark:text-slate-400">
+                  <div class="md:col-span-5">{{ $t('common.description') }}</div>
+                  <div class="md:col-span-2">{{ $t('common.quantity') }}</div>
+                  <div class="md:col-span-2">{{ $t('common.unitPrice') }}</div>
+                  <div class="md:col-span-2">{{ $t('common.itemTotal') }}</div>
+                  <div class="md:col-span-1"></div>
+                </div>
+
+                <!-- Rows -->
                 <div
                   v-for="(item, index) in form.items"
                   :key="index"
-                  class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow duration-200"
+                  class="grid grid-cols-2 md:grid-cols-12 gap-3 py-4 border-b border-gray-100 last:border-b-0 items-start dark:border-slate-700"
                 >
-                  <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                    <!-- Description -->
-                    <div class="md:col-span-5">
-                      <label class="block text-sm font-medium text-gray-700 mb-2">
-                        {{ $t('common.description') }}
-                      </label>
-                      <input
-                        v-model="item.description"
-                        type="text"
-                        :placeholder="$t('invoices.itemDescription')"
-                        class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        required
-                      />
-                    </div>
-
-                    <!-- Quantity -->
-                    <div class="md:col-span-3">
-                      <label class="block text-sm font-medium text-gray-700 mb-2">
-                        {{ $t('common.quantity') }}
-                      </label>
-                      <input
-                        v-model="item.quantity"
-                        type="number"
-                        min="1"
-                        class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        @input="calculateTotals"
-                        required
-                      />
-                    </div>
-
-                    <!-- Unit Price -->
-                    <div class="md:col-span-3">
-                      <label class="block text-sm font-medium text-gray-700 mb-2">
-                        {{ $t('common.unitPrice') }}
-                      </label>
-                      <div class="relative">
-                        <input
-                          v-model="item.unit_price"
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10"
-                          @input="calculateTotals"
-                          required
-                        />
-                        <span
-                          class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 text-sm"
-                        >
-                          {{ $t('common.currency') }}
-                        </span>
-                      </div>
-                    </div>
-
-                    <!-- Remove Button -->
-                    <div class="md:col-span-1 flex items-end">
-                      <button
-                        type="button"
-                        @click="removeItem(index)"
-                        :disabled="form.items.length === 1"
-                        class="w-full h-10 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
-                        </svg>
-                      </button>
-                    </div>
+                  <div class="col-span-2 md:col-span-5">
+                    <label class="md:hidden block text-xs font-medium text-gray-500 mb-1 dark:text-slate-400">{{ $t('common.description') }}</label>
+                    <input
+                      v-model="item.description"
+                      type="text"
+                      :placeholder="$t('invoices.itemDescription')"
+                      class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500"
+                      required
+                    />
                   </div>
 
-                  <!-- Item Total -->
-                  <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
-                    <span class="text-sm text-gray-600">{{ $t('common.itemTotal') }}:</span>
-                    <span class="text-lg font-semibold text-gray-900">
-                      {{ formatCurrency(item.total || 0) }}
-                    </span>
+                  <div class="col-span-1 md:col-span-2">
+                    <label class="md:hidden block text-xs font-medium text-gray-500 mb-1 dark:text-slate-400">{{ $t('common.quantity') }}</label>
+                    <input
+                      v-model="item.quantity"
+                      type="number"
+                      min="1"
+                      class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500"
+                      @input="calculateTotals"
+                      required
+                    />
                   </div>
-                </div>
-              </div>
 
-              <!-- Invoice Summary -->
-              <div class="mt-8 pt-8 border-t border-gray-200">
-                <div class="max-w-md ml-auto space-y-3">
-                  <div class="flex justify-between items-center">
-                    <span class="text-gray-600">{{ $t('common.subtotal') }}:</span>
-                    <span class="font-semibold text-gray-900">{{
-                      formatCurrency(form.subtotal)
-                    }}</span>
+                  <div class="col-span-1 md:col-span-2">
+                    <label class="md:hidden block text-xs font-medium text-gray-500 mb-1 dark:text-slate-400">{{ $t('common.unitPrice') }}</label>
+                    <input
+                      v-model="item.unit_price"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500"
+                      @input="calculateTotals"
+                      required
+                    />
                   </div>
-                  <div class="flex justify-between items-center">
-                    <span class="text-gray-600">{{ $t('common.tax') }} (15%):</span>
-                    <span class="font-semibold text-gray-900">{{
-                      formatCurrency(form.tax_amount)
-                    }}</span>
+
+                  <div class="col-span-1 md:col-span-2 flex flex-col justify-center md:h-10">
+                    <span class="md:hidden block text-xs font-medium text-gray-500 mb-1 dark:text-slate-400">{{ $t('common.itemTotal') }}</span>
+                    <span class="text-sm font-bold text-gray-900 dark:text-slate-100">{{ formatCurrency(item.total || 0) }}</span>
                   </div>
-                  <div class="flex justify-between items-center pt-3 border-t border-gray-200">
-                    <span class="text-lg font-bold text-gray-900">{{ $t('common.total') }}:</span>
-                    <span class="text-2xl font-bold text-blue-600">{{
-                      formatCurrency(form.total)
-                    }}</span>
+
+                  <div class="col-span-1 md:col-span-1 flex items-center justify-end md:justify-center md:h-10">
+                    <button
+                      type="button"
+                      @click="removeItem(index)"
+                      :disabled="form.items.length === 1"
+                      class="w-10 h-10 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Notes -->
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <svg
-                  class="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-                  />
-                </svg>
-                {{ $t('common.notes') }}
-              </h3>
-              <textarea
-                v-model="form.notes"
-                :placeholder="$t('invoices.notesPlaceholder')"
-                rows="4"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
-              ></textarea>
+            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+              <div class="px-5 sm:px-6 py-4 border-b border-gray-100 dark:border-slate-700">
+                <h2 class="text-base font-bold text-gray-900 dark:text-slate-100">{{ $t('common.notes') }}</h2>
+              </div>
+              <div class="p-5 sm:p-6">
+                <textarea
+                  v-model="form.notes"
+                  :placeholder="$t('invoices.notesPlaceholder')"
+                  rows="4"
+                  class="w-full px-3.5 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500"
+                ></textarea>
+              </div>
             </div>
+          </div>
 
-            <!-- Form Actions -->
-            <div class="flex flex-col sm:flex-row justify-end gap-3 pt-6 border-t border-gray-200">
-              <button
-                type="button"
-                @click="$router.push(`/invoices/${invoice.id}`)"
-                :disabled="updating"
-                class="px-6 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-                {{ $t('common.cancel') }}
-              </button>
-              <button
-                type="submit"
-                :disabled="updating || !isFormValid"
-                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <svg
-                  v-if="!updating"
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <svg
-                  v-if="updating"
-                  class="w-4 h-4 animate-spin"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                  />
-                </svg>
-                {{ updating ? $t('common.updating') : $t('common.update') }}
-              </button>
+          <!-- ---------- Sidebar ---------- -->
+          <div class="lg:col-span-1">
+            <div class="lg:sticky lg:top-6 space-y-6">
+              <!-- Client -->
+              <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 dark:bg-slate-800 dark:border-slate-700">
+                <p class="text-xs font-bold tracking-wider text-gray-400 uppercase mb-3 dark:text-slate-500">{{ $t('invoices.client') }}</p>
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center text-blue-700 font-bold flex-shrink-0 dark:from-blue-900/50 dark:to-blue-800/50 dark:text-blue-400">
+                    {{ getInitials(invoice?.client?.name) }}
+                  </div>
+                  <div class="min-w-0">
+                    <p class="font-semibold text-gray-900 truncate dark:text-slate-100">{{ invoice?.client?.name || $t('common.notAvailable') }}</p>
+                    <p class="text-sm text-gray-500 truncate dark:text-slate-400">{{ invoice?.client?.email || $t('common.notAvailable') }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Summary + actions -->
+              <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+                <div class="p-5 bg-gradient-to-br from-blue-700 to-indigo-700 text-white">
+                  <p class="text-xs font-semibold tracking-wide uppercase text-blue-100">{{ $t('common.total') }}</p>
+                  <p class="text-3xl font-extrabold mt-1">{{ formatCurrency(form.total) }}</p>
+                </div>
+                <div class="p-5 space-y-3 text-sm">
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-slate-300">{{ $t('common.subtotal') }}</span>
+                    <span class="font-semibold text-gray-900 dark:text-slate-100">{{ formatCurrency(form.subtotal) }}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-slate-300">{{ $t('common.tax') }} (15%)</span>
+                    <span class="font-semibold text-gray-900 dark:text-slate-100">{{ formatCurrency(form.tax_amount) }}</span>
+                  </div>
+                </div>
+                <div class="p-5 pt-0 flex flex-col gap-2">
+                  <button
+                    type="submit"
+                    :disabled="updating || !isFormValid"
+                    class="w-full px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <svg v-if="!updating" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <svg v-else class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    {{ updating ? $t('common.updating') : $t('common.update') }}
+                  </button>
+                  <button
+                    type="button"
+                    @click="$router.push(`/invoices/${invoice?.id}`)"
+                    :disabled="updating"
+                    class="w-full px-5 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
+                  >
+                    {{ $t('common.cancel') }}
+                  </button>
+                </div>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -666,7 +435,7 @@ export default {
 
     formatCurrency(amount) {
       if (!amount && amount !== 0) return '0.00 ر.س'
-      const formatter = new Intl.NumberFormat('ar-SA', {
+      const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'SAR',
         minimumFractionDigits: 2,
@@ -677,7 +446,7 @@ export default {
     formatDate(dateString) {
       if (!dateString) return '-'
       const date = new Date(dateString)
-      return date.toLocaleDateString('ar-SA', {
+      return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',

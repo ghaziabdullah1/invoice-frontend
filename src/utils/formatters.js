@@ -3,10 +3,10 @@
  * تنسيق الأرقام إلى عملة
  * @param {number|string} amount - المبلغ
  * @param {string} [currency='ر.س'] - رمز العملة
- * @param {string} [locale='ar-SA'] - اللغة المطلوبة
+ * @param {string} [locale='en-US'] - اللغة المطلوبة
  * @returns {string} المبلغ المنسق مع العملة
  */
-export const formatCurrency = (amount, currency = 'ر.س', locale = 'ar-SA') => {
+export const formatCurrency = (amount, currency = 'ر.س', locale = 'en-US') => {
   if (amount === null || amount === undefined || amount === '') return `0.00 ${currency}`
   const num = parseFloat(amount)
   if (isNaN(num)) return `0.00 ${currency}`
@@ -19,10 +19,10 @@ export const formatCurrency = (amount, currency = 'ر.س', locale = 'ar-SA') => 
 /**
  * تنسيق التاريخ الكامل
  * @param {string} dateString - التاريخ بصيغة ISO أو قابلة للتحويل
- * @param {string} [locale='ar-SA'] - اللغة
+ * @param {string} [locale='en-US'] - اللغة
  * @returns {string} التاريخ المنسق
  */
-export const formatDate = (dateString, locale = 'ar-SA') => {
+export const formatDate = (dateString, locale = 'en-US') => {
   if (!dateString) return 'غير محدد'
   try {
     const date = new Date(dateString)
@@ -40,10 +40,10 @@ export const formatDate = (dateString, locale = 'ar-SA') => {
 /**
  * تنسيق التاريخ بصيغة مختصرة (يوم وشهر فقط)
  * @param {string} dateString - التاريخ
- * @param {string} [locale='ar-SA'] - اللغة
+ * @param {string} [locale='en-US'] - اللغة
  * @returns {string} التاريخ المختصر
  */
-export const formatShortDate = (dateString, locale = 'ar-SA') => {
+export const formatShortDate = (dateString, locale = 'en-US') => {
   if (!dateString) return 'غير محدد'
   try {
     const date = new Date(dateString)
@@ -60,10 +60,10 @@ export const formatShortDate = (dateString, locale = 'ar-SA') => {
 /**
  * تنسيق التاريخ مع الوقت
  * @param {string} dateString - التاريخ
- * @param {string} [locale='ar-SA'] - اللغة
+ * @param {string} [locale='en-US'] - اللغة
  * @returns {string} التاريخ مع الوقت
  */
-export const formatDateTime = (dateString, locale = 'ar-SA') => {
+export const formatDateTime = (dateString, locale = 'en-US') => {
   if (!dateString) return 'غير محدد'
   try {
     const date = new Date(dateString)
@@ -113,10 +113,10 @@ export const formatTimeAgo = (dateString, locale = 'ar') => {
 /**
  * تنسيق الأرقام (بدون عملة)
  * @param {number|string} number - الرقم
- * @param {string} [locale='ar-SA'] - اللغة
+ * @param {string} [locale='en-US'] - اللغة
  * @returns {string} الرقم المنسق
  */
-export const formatNumber = (number, locale = 'ar-SA') => {
+export const formatNumber = (number, locale = 'en-US') => {
   if (number === null || number === undefined || number === '') return '0'
   const num = parseFloat(number)
   if (isNaN(num)) return '0'

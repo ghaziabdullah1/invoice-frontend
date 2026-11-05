@@ -131,7 +131,7 @@
       </div>
 
       <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">>
           <thead>
             <tr>
               <th class="table-header text-center">{{ $t('reports.invoice_number') }}</th>
@@ -177,7 +177,7 @@
                   {{ formatDate(invoice.due_date) }}
                 </div>
               </td>
-              <td class="table-cell text-right">
+              <td class="table-cell text-center">
                 <div class="amount-cell">{{ formatCurrency(invoice.total_amount) }}</div>
                 <div
                   v-if="invoice.paid_amount"
@@ -186,7 +186,7 @@
                   {{ $t('reports.paid') }}: {{ formatCurrency(invoice.paid_amount) }}
                 </div>
               </td>
-              <td class="table-cell text-right">
+              <td class="table-cell text-center">
                 <div class="text-xl font-bold text-red-600 dark:text-red-400">
                   {{ formatCurrency(invoice.due_amount) }}
                 </div>
@@ -328,7 +328,7 @@ export default {
     },
     formatCurrency(amount) {
       if (!amount && amount !== 0) return '0.00 ' + this.$t('common.currency')
-      const formatter = new Intl.NumberFormat('ar-SA', {
+      const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'SAR',
         minimumFractionDigits: 2,
@@ -338,7 +338,7 @@ export default {
     formatDate(dateString) {
       if (!dateString) return '-'
       const date = new Date(dateString)
-      return date.toLocaleDateString('ar-SA', {
+      return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -392,7 +392,7 @@ export default {
   @apply text-2xl font-bold text-gray-900 dark:text-white;
 }
 .table-header {
-  @apply px-6 py-3 text-right text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
+  @apply px-6 py-3 text-start text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider;
 }
 .table-cell {
   @apply px-6 py-4;

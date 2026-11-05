@@ -2,13 +2,13 @@
   <div class="container mx-auto px-4 py-8">
     <!-- العنوان -->
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">{{ $t('profile.title') }}</h1>
-      <p class="text-gray-600 mt-2">{{ $t('profile.subtitle') }}</p>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-slate-100">{{ $t('profile.title') }}</h1>
+      <p class="text-gray-600 dark:text-slate-400 mt-2">{{ $t('profile.subtitle') }}</p>
     </div>
 
     <!-- حالة التحميل (Skeleton Loading) -->
     <div v-if="loading" class="space-y-4">
-      <div class="bg-white rounded-xl shadow-lg p-6 animate-pulse">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 animate-pulse">
         <div class="flex items-center space-x-4 rtl:space-x-reverse">
           <div class="rounded-full bg-gray-300 h-20 w-20"></div>
           <div class="flex-1 space-y-3">
@@ -38,7 +38,7 @@
     <div v-else-if="user" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- ========== العمود الأيسر: بطاقة المستخدم (ثابتة) ========== -->
       <div class="lg:col-span-1">
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden sticky top-4">
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden sticky top-4">
           <!-- الغلاف الملون -->
           <div class="h-32 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
 
@@ -79,8 +79,8 @@
 
             <!-- الاسم والحالة -->
             <div class="text-center mt-4">
-              <h2 class="text-xl font-bold text-gray-900">{{ user.name }}</h2>
-              <p class="text-gray-600 mt-1">{{ user.email }}</p>
+              <h2 class="text-xl font-bold text-gray-900 dark:text-slate-100">{{ user.name }}</h2>
+              <p class="text-gray-600 dark:text-slate-400 mt-1">{{ user.email }}</p>
               <div class="mt-3">
                 <span
                   class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
@@ -101,19 +101,19 @@
 
             <!-- معلومات إضافية -->
             <div class="mt-6 space-y-3 border-t border-gray-100 pt-4">
-              <div class="flex items-center text-gray-700">
+              <div class="flex items-center text-gray-700 dark:text-slate-300">
                 <i class="fas fa-phone-alt w-6 text-blue-500"></i>
                 <span class="mr-2">{{ user.phone || $t('profile.not_provided') }}</span>
               </div>
-              <div class="flex items-center text-gray-700">
+              <div class="flex items-center text-gray-700 dark:text-slate-300">
                 <i class="fas fa-building w-6 text-blue-500"></i>
                 <span class="mr-2">{{ user.company_name || $t('profile.not_provided') }}</span>
               </div>
-              <div class="flex items-center text-gray-700">
+              <div class="flex items-center text-gray-700 dark:text-slate-300">
                 <i class="fas fa-layer-group w-6 text-blue-500"></i>
                 <span class="mr-2">{{ user.adminGroup?.title_ar || $t('profile.no_group') }}</span>
               </div>
-              <div class="flex items-center text-gray-700">
+              <div class="flex items-center text-gray-700 dark:text-slate-300">
                 <i class="fas fa-id-badge w-6 text-blue-500"></i>
                 <span class="mr-2">{{
                   user.is_admin ? $t('profile.administrator') : $t('profile.user')
@@ -127,8 +127,8 @@
       <!-- ========== العمود الأيمن: محتوى قابل للتبديل ========== -->
       <div class="lg:col-span-2 space-y-6">
         <!-- تبويبات (Tabs) -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div class="border-b border-gray-200">
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden">
+          <div class="border-b border-gray-200 dark:border-slate-700">
             <nav class="flex space-x-8 rtl:space-x-reverse px-6" aria-label="Tabs">
               <button
                 @click="activeTab = 'account'"
@@ -136,7 +136,7 @@
                 :class="
                   activeTab === 'account'
                     ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-slate-300 hover:border-gray-300 dark:border-slate-600'
                 "
               >
                 <i class="fas fa-user-circle ml-2"></i>
@@ -148,7 +148,7 @@
                 :class="
                   activeTab === 'security'
                     ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-slate-300 hover:border-gray-300 dark:border-slate-600'
                 "
               >
                 <i class="fas fa-lock ml-2"></i>
@@ -162,7 +162,7 @@
             <div v-if="activeTab === 'account'">
               <!-- رأس التبويب مع زر التعديل -->
               <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-semibold text-gray-900">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-slate-100">
                   {{ $t('profile.personal_details') }}
                 </h3>
                 <button
@@ -180,19 +180,19 @@
                   <label class="block text-sm font-medium text-gray-500 mb-1">{{
                     $t('profile.full_name')
                   }}</label>
-                  <p class="text-gray-900 bg-gray-50 rounded-lg px-4 py-2">{{ user.name }}</p>
+                  <p class="text-gray-900 dark:text-slate-100 bg-gray-50 dark:bg-slate-900 rounded-lg px-4 py-2">{{ user.name }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">{{
                     $t('profile.email')
                   }}</label>
-                  <p class="text-gray-900 bg-gray-50 rounded-lg px-4 py-2">{{ user.email }}</p>
+                  <p class="text-gray-900 dark:text-slate-100 bg-gray-50 dark:bg-slate-900 rounded-lg px-4 py-2">{{ user.email }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">{{
                     $t('profile.phone')
                   }}</label>
-                  <p class="text-gray-900 bg-gray-50 rounded-lg px-4 py-2">
+                  <p class="text-gray-900 dark:text-slate-100 bg-gray-50 dark:bg-slate-900 rounded-lg px-4 py-2">
                     {{ user.phone || $t('profile.not_provided') }}
                   </p>
                 </div>
@@ -200,7 +200,7 @@
                   <label class="block text-sm font-medium text-gray-500 mb-1">{{
                     $t('profile.company')
                   }}</label>
-                  <p class="text-gray-900 bg-gray-50 rounded-lg px-4 py-2">
+                  <p class="text-gray-900 dark:text-slate-100 bg-gray-50 dark:bg-slate-900 rounded-lg px-4 py-2">
                     {{ user.company_name || $t('profile.not_provided') }}
                   </p>
                 </div>
@@ -212,7 +212,7 @@
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- صورة المستخدم (معاينة) -->
                     <div class="col-span-1 md:col-span-2">
-                      <label class="block text-sm font-medium text-gray-700 mb-1">{{
+                      <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">{{
                         $t('profile.profile_image')
                       }}</label>
                       <div class="flex items-center space-x-4 rtl:space-x-reverse">
@@ -233,7 +233,7 @@
                           <button
                             type="button"
                             @click="triggerFileInput"
-                            class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm"
+                            class="px-4 py-2 bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-200 transition text-sm"
                           >
                             <i class="fas fa-upload ml-1"></i>
                             {{ $t('profile.change_image') }}
@@ -245,24 +245,24 @@
 
                     <!-- حقول النموذج -->
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         {{ $t('profile.full_name') }} <span class="text-red-500">*</span>
                       </label>
                       <input
                         v-model="editForm.name"
                         type="text"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                        class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                         required
                       />
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         {{ $t('profile.email') }} <span class="text-red-500">*</span>
                       </label>
                       <input
                         v-model="editForm.email"
                         type="email"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                        class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                         :class="{ 'border-red-500': emailError }"
                         required
                         @input="validateEmail"
@@ -270,23 +270,23 @@
                       <p v-if="emailError" class="text-red-500 text-xs mt-1">{{ emailError }}</p>
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         {{ $t('profile.phone') }}
                       </label>
                       <input
                         v-model="editForm.phone"
                         type="text"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                        class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                       />
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         {{ $t('profile.company') }}
                       </label>
                       <input
                         v-model="editForm.company_name"
                         type="text"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                        class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                       />
                     </div>
                   </div>
@@ -296,7 +296,7 @@
                     <button
                       type="button"
                       @click="cancelEdit"
-                      class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition"
+                      class="px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:bg-slate-900 transition"
                     >
                       {{ $t('common.cancel') }}
                     </button>
@@ -317,12 +317,12 @@
             <div v-else-if="activeTab === 'security'">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-lg font-semibold text-gray-900">{{ $t('profile.password') }}</h3>
-                  <p class="text-gray-600 text-sm mt-1">{{ $t('profile.password_info') }}</p>
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-slate-100">{{ $t('profile.password') }}</h3>
+                  <p class="text-gray-600 dark:text-slate-400 text-sm mt-1">{{ $t('profile.password_info') }}</p>
                 </div>
                 <button
                   @click="openPasswordModal"
-                  class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition inline-flex items-center"
+                  class="px-4 py-2 bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-200 transition inline-flex items-center"
                 >
                   <i class="fas fa-key ml-2"></i>
                   {{ $t('profile.change_password') }}
@@ -341,9 +341,9 @@
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
         @click.self="closePasswordModal"
       >
-        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 transform transition-all">
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-md w-full mx-4 transform transition-all">
           <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-slate-100 mb-4 flex items-center">
               <i class="fas fa-lock text-blue-500 ml-2"></i>
               {{ $t('profile.change_password') }}
             </h3>
@@ -351,26 +351,26 @@
               <div class="space-y-4">
                 <!-- كلمة المرور الحالية -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                     {{ $t('profile.current_password') }} <span class="text-red-500">*</span>
                   </label>
                   <input
                     v-model="passwordForm.current_password"
                     type="password"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     required
                   />
                 </div>
 
                 <!-- كلمة المرور الجديدة -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                     {{ $t('profile.new_password') }} <span class="text-red-500">*</span>
                   </label>
                   <input
                     v-model="passwordForm.new_password"
                     type="password"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     required
                     @input="checkPasswordStrength"
                   />
@@ -398,13 +398,13 @@
 
                 <!-- تأكيد كلمة المرور الجديدة -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                  <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                     {{ $t('profile.confirm_password') }} <span class="text-red-500">*</span>
                   </label>
                   <input
                     v-model="passwordForm.new_password_confirmation"
                     type="password"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     :class="{
                       'border-red-500':
                         passwordForm.new_password_confirmation &&
@@ -435,7 +435,7 @@
                 <button
                   type="button"
                   @click="closePasswordModal"
-                  class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition"
+                  class="px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:bg-slate-900 transition"
                 >
                   {{ $t('common.cancel') }}
                 </button>

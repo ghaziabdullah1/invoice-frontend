@@ -38,7 +38,7 @@
       <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
         <button
           @click="$router.go(-1)"
-          class="px-6 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 transition-colors"
+          class="px-6 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:bg-slate-900 transition-colors"
         >
           <font-awesome-icon :icon="['fas', 'arrow-left']" class="mr-2" />
           {{ $t('common.back') }}
